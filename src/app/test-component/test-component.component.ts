@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GoogleSpreadsheetServiceService } from '../google-spreadsheet-service.service';
+import { MappingProfileService } from '../mapping-profile.service';
 
 @Component({
   selector: 'app-test-component',
@@ -8,7 +9,8 @@ import { GoogleSpreadsheetServiceService } from '../google-spreadsheet-service.s
 })
 export class TestComponentComponent implements OnInit {
 
-  constructor(private sourceData: GoogleSpreadsheetServiceService) { }
+  constructor(private sourceData: GoogleSpreadsheetServiceService,
+              private mappingProfile: MappingProfileService) { }
 
   ngOnInit(): void {
     this.sourceData.GetData();
