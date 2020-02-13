@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import appSettings  from '../assets/appsettings.json';
+import appSettings from '../assets/appsettings.json';
 import { AppSettingsModel } from './Models/AppSettingsModel.js';
 
 @Injectable({
@@ -7,11 +7,12 @@ import { AppSettingsModel } from './Models/AppSettingsModel.js';
 })
 export class MappingProfileService {
 
+  private settings: AppSettingsModel;
 
+  public ApiKey = this.settings.ApiKey;
+  
 
   constructor() {
-
-    const settings = appSettings as AppSettingsModel;
-
+    this.settings = appSettings as AppSettingsModel;
   }
 }
