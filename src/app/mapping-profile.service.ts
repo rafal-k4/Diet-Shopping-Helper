@@ -17,9 +17,9 @@ export class MappingProfileService {
     return this.settings.Sheets;
   }
 
-
-
   constructor() {
     this.settings = appSettings as AppSettingsModel;
   }
+
+  
 }
