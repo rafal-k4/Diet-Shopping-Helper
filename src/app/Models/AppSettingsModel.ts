@@ -3,7 +3,7 @@ export interface AppSettingsModel {
   ApiKey: string;
 }
 
-interface Sheets {
+export interface Sheets {
   Dictionary: Dictionary;
 
 }
