@@ -12,4 +12,5 @@ interface Dictionary {
   Id: string;
   SheetsCount: number;
   SheetsNames: [string];
+  HeadersRowsCount: number;
 }
