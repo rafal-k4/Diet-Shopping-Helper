@@ -13,13 +13,13 @@ export class MappingProfileService {
     return this.settings.ApiKey;
   }
 
-  public get Sheets(): Sheets {
-    return this.settings.Sheets;
+  public get SpreadSheets(): Sheets {
+    return this.settings.SpreadSheets;
   }
 
   constructor() {
     this.settings = appSettings as AppSettingsModel;
   }
 
-  
+
 }

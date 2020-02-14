@@ -1,9 +1,9 @@
 export interface AppSettingsModel {
-  Sheets: Sheets;
+  SpreadSheets: SpreadSheet;
   ApiKey: string;
 }
 
-export interface Sheets {
+export interface SpreadSheet {
   Dictionary: Dictionary;
 
 }
