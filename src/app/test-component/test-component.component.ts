@@ -11,7 +11,7 @@ import { DictionaryProductService } from '../dictionary-product.service';
 export class TestComponentComponent implements OnInit {
 
   constructor(private dietHarmonogramService: DietHarmonogramService,
-    private productDictionary: DictionaryProductService) { }
+              private productDictionary: DictionaryProductService) { }
 
   ngOnInit(): void {
     this.dietHarmonogramService.GetDietHarmonogramData();
