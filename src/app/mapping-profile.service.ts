@@ -7,19 +7,7 @@ import { AppSettingsModel, SpreadSheet } from './Models/AppSettingsModel.js';
 })
 export class MappingProfileService {
 
-  private settings: AppSettingsModel;
 
-  public get ApiKey(): string {
-    return this.settings.ApiKey;
-  }
-
-  public get SpreadSheets(): SpreadSheet {
-    return this.settings.SpreadSheets;
-  }
-
-  constructor() {
-    this.settings = appSettings as AppSettingsModel;
-  }
 
 
 }
