@@ -51,6 +51,7 @@ export class Mapper<TResult> {
 
 
   Test() {
+
     console.log(Object.getOwnPropertyNames(new Sasss()));
   }
 }
@@ -58,8 +59,9 @@ export class Mapper<TResult> {
 
 class Sasss {
 
-  dda: string;
-  constructor(dda: string = '') {
+  public dda: string;
 
+  constructor(dda: string) {
+    this.dda = dda;
   }
 }
