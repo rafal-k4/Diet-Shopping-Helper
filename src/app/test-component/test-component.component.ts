@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GoogleSpreadsheetServiceService } from '../google-spreadsheet-service.service';
+import { DietHarmonogramService } from '../diet-harmonogram.service';
 
 
 @Component({
@@ -9,10 +9,10 @@ import { GoogleSpreadsheetServiceService } from '../google-spreadsheet-service.s
 })
 export class TestComponentComponent implements OnInit {
 
-  constructor(private sourceData: GoogleSpreadsheetServiceService) { }
+  constructor(private dietHarmonogramService: DietHarmonogramService) { }
 
   ngOnInit(): void {
-    this.sourceData.GetData();
+    this.dietHarmonogramService.GetDietHarmonogramData();
   }
 
 }
