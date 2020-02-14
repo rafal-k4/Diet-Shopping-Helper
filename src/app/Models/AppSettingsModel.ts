@@ -4,11 +4,11 @@ export interface AppSettingsModel {
 }
 
 export interface SpreadSheet {
-  Dictionary: Dictionary;
-
+  Dictionary: Sheet;
+  DietHarmonogram: Sheet;
 }
 
-interface Dictionary {
+interface Sheet {
   Id: string;
   SheetsCount: number;
   SheetsNames: [string];

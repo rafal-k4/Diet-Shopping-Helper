@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import appSettings from '../assets/appsettings.json';
-import { AppSettingsModel, Sheets } from './Models/AppSettingsModel.js';
+import { AppSettingsModel, SpreadSheet } from './Models/AppSettingsModel.js';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class MappingProfileService {
     return this.settings.ApiKey;
   }
 
-  public get SpreadSheets(): Sheets {
+  public get SpreadSheets(): SpreadSheet {
     return this.settings.SpreadSheets;
   }
 
