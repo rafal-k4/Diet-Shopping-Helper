@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppSettingsModel, SpreadSheet } from './Models/AppSettingsModel';
-import appSettings from '../assets/appsettings.json'
+import appSettings from '../assets/appsettings.json';
 
 
 @Injectable({
