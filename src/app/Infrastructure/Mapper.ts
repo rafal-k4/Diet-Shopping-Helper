@@ -1,3 +1,4 @@
+import { ProductModel } from '../Models/ProductModel';
 
 
 
@@ -8,10 +9,13 @@ export class Mapper<TResult> {
 
     let result: Array<TResult> = [];
 
-    let asd = new {} as TResult;
+    let asd = {} as TResult;
 
-    var something = Reflect.getPrototypeOf(asd);
-    console.log(something);
+
+
+
+    // var something = Reflect.getPrototypeOf(asd);
+    // console.log(something);
 
     input.forEach(tableRow => {
       tableRow.forEach(tableRecord => {
@@ -20,5 +24,42 @@ export class Mapper<TResult> {
     });
 
     return result;
+  }
+
+  Create<TResult>(input: {new (): TResult;}): TResult {
+    return new input();
+  }
+
+  Create2<T>(input: new () => T): T {
+
+    let something = new input();
+
+    let asd = Object.getOwnPropertyNames(something);
+    console.log(asd);
+
+    //let asd = Reflect.getPrototypeOf(something);
+
+    // const objectKeys = Object.keys(something) as Array<keyof T>;
+    // for (let key of objectKeys)
+    // {
+    //    console.log('key:' + key);
+    // }
+
+
+    return something;
+  }
+
+
+  Test() {
+    console.log(Object.getOwnPropertyNames(new Sasss()));
+  }
+}
+
+
+class Sasss {
+
+  dda: string;
+  constructor(dda: string = '') {
+
   }
 }
