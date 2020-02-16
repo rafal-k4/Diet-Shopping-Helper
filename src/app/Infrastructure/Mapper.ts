@@ -1,29 +1,24 @@
-import { ProductModel } from '../Models/ProductModel';
-
 
 
 export class Mapper<TResult> {
 
+  private type: new () => TResult;
+
+  constructor(inputType: new () => TResult) {
+    this.type = inputType;
+  }
 
   ToModel(input: Array<Array<string>>): Array<TResult> {
 
-    let result: Array<TResult> = [];
-
-    let asd = {} as TResult;
-
-
-
-
-    // var something = Reflect.getPrototypeOf(asd);
-    // console.log(something);
+    let asd = new this.type();
 
     input.forEach(tableRow => {
       tableRow.forEach(tableRecord => {
-        console.log(tableRecord);
+        //console.log(tableRecord);
       });
     });
 
-    return result;
+    return null;
   }
 
   Create<TResult>(input: {new (): TResult;}): TResult {
@@ -35,7 +30,7 @@ export class Mapper<TResult> {
     let something = new input();
 
     let asd = Object.getOwnPropertyNames(something);
-    console.log(asd);
+    // console.log(asd);
 
     //let asd = Reflect.getPrototypeOf(something);
 
@@ -52,7 +47,7 @@ export class Mapper<TResult> {
 
   Test() {
 
-    console.log(Object.getOwnPropertyNames(new Sasss()));
+    //console.log(Object.getOwnPropertyNames(new Sasss()));
   }
 }
 

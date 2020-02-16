@@ -17,21 +17,11 @@ export class DictionaryProductService {
 
 //    var test = new Mapper<ProductModel>().ToModel(null);
 
-    var test = new Mapper<ProductModel>();
-    test.Test();
-    var asdasda = test.Create2(ProductModel);
-    //console.log(asdasda);\
+    var test = new Mapper<ProductModel>(ProductModel);
+    //test.Test();
+    //var asdasda = test.Create2(ProductModel);
 
-    console.log(Object.getOwnPropertyNames(asdasda));
-
-    // const objectKeys = Object.keys(asdasda) as Array<keyof ProductModel>;
-    // for (let key of objectKeys)
-    // {
-    //    console.log('key:' + key.toString());
-    // }
-
-
-
+    test.ToModel(null);
 
     result.subscribe(x => console.log(x));
   }
