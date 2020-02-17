@@ -4,6 +4,7 @@ import { ConfigService } from './config.service';
 import { Mapper } from './Infrastructure/Mapper';
 import { ProductDictionaryModel } from './Models/ProductDictionaryModel';
 import { ProductModel } from './Models/ProductModel';
+import { ColumnNameProvider } from './Infrastructure/Decorators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +20,5 @@ export class DictionaryProductService {
     this.mapper.ToModel(ProductDictionaryModel, null);
 
     result.subscribe(x => console.log(x));
-
-
-    var dddd = new ProductModel();
-    dddd.ProductDictionaryId = 3;
   }
 }

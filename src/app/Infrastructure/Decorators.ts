@@ -29,6 +29,6 @@ export class ColumnNameProvider {
   }
 
   private static getKeyName(target: any, property: string) {
-    return `${target.constructor.name}.${property}`;
+    return `${(target.constructor.name as string).toLowerCase()}.${property.toLowerCase()}`;
   }
 }
