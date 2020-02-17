@@ -1,4 +1,3 @@
-import { timingSafeEqual } from 'crypto';
 
 export class ProductDictionaryModel {
   Id: number;
@@ -7,7 +6,7 @@ export class ProductDictionaryModel {
   Unit: string;
   IsQuantityCountable: boolean;
 
-  constructor(id: number, productName: string, weightPerItem: number, unit: string, isQuantityCountable: boolean){
+  constructor(id: number = 0, productName: string = '', weightPerItem: number = 0, unit: string = '', isQuantityCountable: boolean = false){
     this.Id = id;
     this.ProductName = productName;
     this.WeightPerItem = weightPerItem;
