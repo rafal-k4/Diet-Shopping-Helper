@@ -18,5 +18,6 @@ export class DictionaryProductService {
     this.mapper.ToModel(ProductDictionaryModel, null);
 
     result.subscribe(x => console.log(x));
+
   }
 }
