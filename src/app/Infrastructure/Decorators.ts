@@ -1,10 +1,8 @@
 
 
-export function ColumnName(name: string) {
+export function columnName(name: string) {
   return (target: any, propertyKey: string) => {
-    console.log(target, propertyKey, name);
-    console.log(target.constructor.name);
-    console.log(ColumnNameProvider.getKeyName(target,propertyKey));
+      ColumnNameProvider.registerColumnName(target, propertyKey, name);
   };
 }
 
@@ -12,15 +10,25 @@ export class ColumnNameProvider {
 
   private static propertyToColumnName: Map<string, string>  = new Map();
 
-  static RegisterColumnName(target: any, property: string, name: string) {
-    let keyName = this.getKeyName(target, property);
-    let keys: string[] = this.propertyToColumnName.get(keyName);
-    if(!keys) {
-      
+  static registerColumnName(target: any, property: string, name: string): void {
+    const keyName = this.getKeyName(target, property);
+    const keys: string = this.propertyToColumnName.get(keyName);
+
+    if (!keys) {
+      this.propertyToColumnName.set(keyName, name);
     }
   }
 
-  static getKeyName(target: any, property: string) {
+  static getColumnNameDecoratorValue(target: any, property: string): string {
+    const keyName = this.getKeyName(target, property);
+    const key: string = this.propertyToColumnName.get(keyName);
+
+    console.log(key);
+
+    return (!key) ? key : '';
+  }
+
+  private static getKeyName(target: any, property: string) {
     return `${target.constructor.name}.${property}`;
   }
 }
