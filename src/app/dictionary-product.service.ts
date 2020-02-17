@@ -15,12 +15,6 @@ export class DictionaryProductService {
     const result = this.client.get(`https://sheets.googleapis.com/v4/spreadsheets/${this.config.SpreadSheets.Dictionary.Id}/values/`
     + `${this.config.SpreadSheets.Dictionary.SheetsNames[0]}?key=${this.config.ApiKey}`);
 
-//    var test = new Mapper<ProductModel>().ToModel(null);
-
-    //var test = new Mapper<ProductModel>(ProductModel);
-    //test.Test();
-    //var asdasda = test.Create2(ProductModel);
-
     this.mapper.ToModel(ProductModel, null);
 
     result.subscribe(x => console.log(x));

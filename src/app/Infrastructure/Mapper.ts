@@ -17,7 +17,7 @@ export class Mapper<TResult> {
     console.log(Object.getOwnPropertyNames(asd));
     console.log(Reflect.getPrototypeOf(asd));
     console.log("----------------PROPERTIES---------------");
-    
+
     // input.forEach(tableRow => {
     //   tableRow.forEach(tableRecord => {
     //     //console.log(tableRecord);
