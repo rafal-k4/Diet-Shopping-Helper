@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
 import { Mapper } from './Infrastructure/Mapper';
 import { ProductDictionaryModel } from './Models/ProductDictionaryModel';
+import { ProductModel } from './Models/ProductModel';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +20,8 @@ export class DictionaryProductService {
 
     result.subscribe(x => console.log(x));
 
+
+    var dddd = new ProductModel();
+    dddd.ProductDictionaryId = 3;
   }
 }
