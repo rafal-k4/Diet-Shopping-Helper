@@ -9,7 +9,7 @@ import { ProductModel } from './Models/ProductModel';
 })
 export class DictionaryProductService {
 
-  constructor(private client: HttpClient, private config: ConfigService) { }
+  constructor(private client: HttpClient, private config: ConfigService, private mapper: Mapper<ProductModel>) { }
 
   GetProductDictionaryData() {
     const result = this.client.get(`https://sheets.googleapis.com/v4/spreadsheets/${this.config.SpreadSheets.Dictionary.Id}/values/`
@@ -17,11 +17,11 @@ export class DictionaryProductService {
 
 //    var test = new Mapper<ProductModel>().ToModel(null);
 
-    var test = new Mapper<ProductModel>(ProductModel);
+    //var test = new Mapper<ProductModel>(ProductModel);
     //test.Test();
     //var asdasda = test.Create2(ProductModel);
 
-    test.ToModel(null);
+    this.mapper.ToModel(ProductModel, null);
 
     result.subscribe(x => console.log(x));
   }
