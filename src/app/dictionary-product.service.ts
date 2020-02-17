@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
 import { Mapper } from './Infrastructure/Mapper';
 import { ProductDictionaryModel } from './Models/ProductDictionaryModel';
+import { ProductModel } from './Models/ProductModel';
+import { ColumnNameProvider } from './Infrastructure/Decorators';
 
 @Injectable({
   providedIn: 'root'
