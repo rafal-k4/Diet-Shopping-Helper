@@ -1,6 +1,7 @@
 import { ProductModel } from './ProductModel';
+import { DayOfWeek } from '../Infrastructure/DayOfWeek';
 
-export interface DietHarmonogramModel {
-  Day: string;
-  Products: [ProductModel];
+export class DietHarmonogramModel {
+  Day: DayOfWeek;
+  Products: ProductModel[];
 }

@@ -14,8 +14,8 @@ export class TestComponentComponent implements OnInit {
               private productDictionary: DictionaryProductService) { }
 
   ngOnInit(): void {
-    this.dietHarmonogramService.GetDietHarmonogramData();
-    this.productDictionary.GetProductDictionaryData();
+    this.dietHarmonogramService.getDietHarmonogramData().subscribe(x => console.log(x));
+    this.productDictionary.getProductDictionaryData().subscribe(x => console.log(x));
   }
 
 }

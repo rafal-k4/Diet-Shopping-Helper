@@ -3,14 +3,10 @@ import { columnName } from '../Infrastructure/Decorators';
 export class ProductDictionaryModel {
   @columnName('ID')
   Id: number;
-  @columnName('ProductName')
   ProductName: string;
-  @columnName('WeightPerItem')
   WeightPerItem: number;
-  @columnName('Unit')
-  Unit: string;
-  @columnName('IsQuantityCountable')
   IsQuantityCountable: boolean;
+  Unit: string;
 
   constructor(id: number = 0,
               productName: string = '',

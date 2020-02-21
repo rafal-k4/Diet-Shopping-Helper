@@ -1,6 +1,7 @@
 export interface AppSettingsModel {
   SpreadSheets: SpreadSheet;
-  ApiKey: string;
+  sheetId: string;
+  dictionaryId: string;
 }
 
 export interface SpreadSheet {

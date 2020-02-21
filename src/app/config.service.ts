@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import { AppSettingsModel, SpreadSheet } from './Models/AppSettingsModel';
-import appSettings from '../assets/appsettings.json';
+import { AppSettingsModel } from './Models/AppSettingsModel';
+
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
+  useValue: ''
 })
 export class ConfigService {
 
+  constructor(private appConfigModel: AppSettingsModel, private spreadsheetBaseUrl: string) {
+  }
+
   private settings: AppSettingsModel;
 
-  public get ApiKey(): string {
-    return this.settings.ApiKey;
+  public get baseSpreadsheetUrl(): string {
+    return this.spreadsheetBaseUrl;
   }
 
-  public get SpreadSheets(): SpreadSheet {
-    return this.settings.SpreadSheets;
-  }
-
-  constructor() {
-    this.settings = appSettings as AppSettingsModel;
+  public get appConfig(): AppSettingsModel {
+    return this.appConfigModel;
   }
 }

@@ -21,11 +21,9 @@ export class ColumnNameProvider {
 
   static getColumnNameDecoratorValue(target: any, property: string): string {
     const keyName = this.getKeyName(target, property);
-    const key: string = this.propertyToColumnName.get(keyName);
+    const decoratorValue: string = this.propertyToColumnName.get(keyName);
 
-    console.log(key);
-
-    return (!key) ? key : '';
+    return decoratorValue ? decoratorValue : property;
   }
 
   private static getKeyName(target: any, property: string) {
