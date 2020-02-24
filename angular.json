@@ -24,9 +24,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/foundation-sites/dist/css/foundation.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/foundation-sites/dist/js/foundation.min.js"
+            ]
           },
           "configurations": {
             "production": {
