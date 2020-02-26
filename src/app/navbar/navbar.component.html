@@ -2,9 +2,9 @@
 <div class="ui inverted segment">
   <div class="ui inverted secondary pointing menu">
     <div class="ui container">
-      <div class="item">
+      <a class="item" routerLink="">
         <i class="home icon"></i>
-      </div>
+      </a>
       <div class="right item">
 
         <div *ngIf="screenWidth < mobileScreenSize; else NonMobileNavbarOptions">
@@ -15,8 +15,8 @@
         </div>
 
         <ng-template #NonMobileNavbarOptions>
-          <a class="item active"> Home </a>
-          <a class="item">Create Shop List</a>
+          <a class="item active" routerLink=""> Home </a>
+          <a class="item" routerLink="/shoppinglist">Create Shop List</a>
         </ng-template>
 
       </div>
