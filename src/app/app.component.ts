@@ -11,12 +11,11 @@ export class AppComponent implements OnInit {
   screenWidth: number;
 
   @HostListener('window:resize', ['$event.target'])
-  onResize(e) {
+  private onResize(e) {
     this.screenWidth = e.innerWidth;
   }
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
-    console.log(window.screen.width, window.innerWidth);
   }
 }

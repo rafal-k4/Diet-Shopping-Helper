@@ -7,11 +7,20 @@
         <img src="assets/images/logo.png">
       </div>
       <div class="right item">
-        <a class="item active"> Home </a>
-        <a class="item">Create Shop List</a>
-      </div>
-      
+        
+        <div *ngIf="screenWidth < 700;else NonMobileNavbarOptions">
+          <a class="item">
+            Menu &nbsp;
+            <i class="sidebar icon"></i>
+          </a>
+        </div>
 
+        <ng-template #NonMobileNavbarOptions>
+          <a class="item active"> Home </a>
+          <a class="item">Create Shop List</a>
+        </ng-template>
+
+      </div>
     </div>
   </div>
 </div>
