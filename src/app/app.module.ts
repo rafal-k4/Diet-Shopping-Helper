@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TestComponentComponent } from './test-component/test-component.component';
 import { HttpClientModule } from '@angular/common/http';
 import {
   DICTIONARY_PRODUCT_MAPPER_TOKEN,
@@ -20,7 +19,6 @@ import { NavbarComponent } from './navbar/navbar.component';
 @NgModule({
   declarations: [
     AppComponent,
-    TestComponentComponent,
     NavbarComponent
   ],
   imports: [
