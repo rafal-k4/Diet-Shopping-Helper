@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { MobileScreenSize } from '../Infrastructure/Consts';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  screenWidth: number;
+  mobileScreenSize: number;
+
   constructor() { }
 
+  @HostListener('window:resize', ['$event.target'])
+  private onResize(e) {
+    this.screenWidth = e.innerWidth;
+  }
+
   ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
+    this.mobileScreenSize = MobileScreenSize;
   }
 
 }
