@@ -1,36 +1,31 @@
-
 <div class="ui inverted segment">
   <div class="ui inverted secondary pointing menu">
     <div class="ui container">
       <a class="item" routerLink="">
         <i class="home icon"></i>
       </a>
-      <div class="right item">
+      <div class="right item" [style.display]="isMobileScreenSize == false ? 'none': ''">
 
-        <div [hidden]="isMobileScreenSize == false">
-
-          <div class="ui pointing dropdown link item inverted">
-            <span class=""> Menu &nbsp; </span>
-            <i class="sidebar icon"></i>
-            <div class="menu">
-              <div class="divider"></div>
-              <a class="item wider" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Home </a>
-              <a class="item wider" routerLink="/shoppinglist" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Create Shop List</a>
-            </div>
+        <div class="ui pointing dropdown link item inverted">
+          <span class=""> Menu &nbsp; </span>
+          <i class="sidebar icon"></i>
+          <div class="menu">
+            <div class="divider"></div>
+            <a class="item wider" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Home </a>
+            <a class="item wider" routerLink="/shoppinglist" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Create Shop List</a>
           </div>
-
-        </div>
-
-        <div [style.display]="isMobileScreenSize ? 'none': ''" class="item">
-
-            <a class="item" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Home </a>
-            <a class="item" routerLink="/shoppinglist" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Create Shop List</a>
-
         </div>
 
       </div>
+
+      <div class="right item" [style.display]="isMobileScreenSize ? 'none': ''">
+
+        <a class="item" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Home </a>
+        <a class="item" routerLink="/shoppinglist" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Create Shop List</a>
+
+
+      </div>
+
     </div>
   </div>
 </div>
-
-
