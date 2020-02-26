@@ -14,6 +14,7 @@ import {
 import { ConfigService } from './config.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
+import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 
 
 
@@ -21,7 +22,8 @@ import { HomeComponent } from './home/home.component';
   declarations: [
     AppComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    ShoppingListComponent
   ],
   imports: [
     BrowserModule,
