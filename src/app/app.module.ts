@@ -13,13 +13,15 @@ import {
    } from './Infrastructure/InjectionTokens';
 import { ConfigService } from './config.service';
 import { NavbarComponent } from './navbar/navbar.component';
+import { HomeComponent } from './home/home.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
