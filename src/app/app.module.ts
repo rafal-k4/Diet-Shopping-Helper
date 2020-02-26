@@ -13,12 +13,14 @@ import {
   CONFIG_SERVICE_VALUE
    } from './Infrastructure/InjectionTokens';
 import { ConfigService } from './config.service';
+import { ResponsiveNavbarComponent } from './responsive-navbar/responsive-navbar.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestComponentComponent
+    TestComponentComponent,
+    ResponsiveNavbarComponent
   ],
   imports: [
     BrowserModule,
