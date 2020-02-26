@@ -15,8 +15,8 @@
         </div>
 
         <ng-template #NonMobileNavbarOptions>
-          <a class="item active" routerLink=""> Home </a>
-          <a class="item" routerLink="/shoppinglist">Create Shop List</a>
+          <a class="item" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Home </a>
+          <a class="item" routerLink="/shoppinglist" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Create Shop List</a>
         </ng-template>
 
       </div>
