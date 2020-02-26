@@ -8,6 +8,8 @@ import { MobileScreenSize } from '../Infrastructure/Consts';
 })
 export class NavbarComponent implements OnInit {
 
+  logoUrl = '/assets/logo.png';
+
   screenWidth: number;
   mobileScreenSize: number;
 
