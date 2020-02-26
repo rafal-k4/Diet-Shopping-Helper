@@ -4,3 +4,7 @@
 .home.icon {
   font-size: 2rem;
 }
+
+a.item.wider {
+  width: 100%;
+}

@@ -8,19 +8,28 @@ import { MobileScreenSize } from '../Infrastructure/Consts';
 })
 export class NavbarComponent implements OnInit {
 
-  screenWidth: number;
   mobileScreenSize: number;
+
+  isMobileScreenSize: boolean;
 
   constructor() { }
 
+  ngOnInit(): void {
+    this.mobileScreenSize = MobileScreenSize;
+    this.isMobileScreenSize =  this.checkIfIsMobileSizeScreen(window.innerWidth);
+
+  }
   @HostListener('window:resize', ['$event.target'])
   private onResize(e) {
-    this.screenWidth = e.innerWidth;
+    this.isMobileScreenSize = this.checkIfIsMobileSizeScreen(e.innerWidth);
+    console.log(e.innerWidth, this.isMobileScreenSize);
   }
 
-  ngOnInit(): void {
-    this.screenWidth = window.innerWidth;
-    this.mobileScreenSize = MobileScreenSize;
+  private checkIfIsMobileSizeScreen(innerWidth: any): boolean {
+    console.log(innerWidth, this.mobileScreenSize)
+    return innerWidth < this.mobileScreenSize;
   }
+
+
 
 }

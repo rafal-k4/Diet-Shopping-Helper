@@ -7,19 +7,30 @@
       </a>
       <div class="right item">
 
-        <div *ngIf="screenWidth < mobileScreenSize; else NonMobileNavbarOptions">
-          <a class="item">
-            Menu &nbsp;
+        <div [hidden]="isMobileScreenSize == false">
+
+          <div class="ui pointing dropdown link item inverted">
+            <span class=""> Menu &nbsp; </span>
             <i class="sidebar icon"></i>
-          </a>
+            <div class="menu">
+              <div class="divider"></div>
+              <a class="item wider" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Home </a>
+              <a class="item wider" routerLink="/shoppinglist" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Create Shop List</a>
+            </div>
+          </div>
+
         </div>
 
-        <ng-template #NonMobileNavbarOptions>
-          <a class="item" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Home </a>
-          <a class="item" routerLink="/shoppinglist" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Create Shop List</a>
-        </ng-template>
+        <div [style.display]="isMobileScreenSize ? 'none': ''" class="item">
+
+            <a class="item" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Home </a>
+            <a class="item" routerLink="/shoppinglist" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Create Shop List</a>
+
+        </div>
 
       </div>
     </div>
   </div>
 </div>
+
+
