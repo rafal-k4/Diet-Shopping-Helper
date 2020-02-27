@@ -86,19 +86,19 @@ export class DietHarmonogramService {
     return result;
   }
   private mapProductDictionary(dietDays: DietHarmonogramModel[]) {
-
+    console.log('before');
     this.dicionaryProductService.getProductDictionaryData().subscribe({
       next: (x) => {
-
+        console.log('before for');
         for (const dietDay of dietDays) {
           for (const product of dietDay.Products) {
             product.ProductDictionary = x.find(y => y.Id === product.ProductDictionaryId);
           }
         }
-
+        console.log('after for');
       }
     });
-
+    console.log('after');
   }
 
   private getDietModel(choppedTable: string[][], dayOfWeek: string): DietHarmonogramModel {
