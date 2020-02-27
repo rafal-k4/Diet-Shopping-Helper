@@ -16,6 +16,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { DropdownInitDirective } from './infrastructure/dropdown-init.directive';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -25,7 +26,8 @@ import { DropdownInitDirective } from './infrastructure/dropdown-init.directive'
     NavbarComponent,
     HomeComponent,
     ShoppingListComponent,
-    DropdownInitDirective
+    DropdownInitDirective,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

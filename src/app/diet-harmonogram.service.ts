@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ProductModel } from './Models/ProductModel';
 import { Mapper } from './Infrastructure/Mapper';
@@ -18,14 +18,20 @@ import { DietHarmonogramModel } from './Models/DietHarmonogramModel';
 })
 export class DietHarmonogramService {
 
+  private cache$: Observable<DietHarmonogramModel[]>;
+
   constructor(
     private client: HttpClient,
     private config: ConfigService,
     @Inject(DIET_HARMONOGRAM_MAPPER_TOKEN) private mapper: Mapper<ProductModel>,
-    private reflection: Reflection) { }
+    private reflection: Reflection) {
+
+     }
 
   getDietHarmonogramData(): Observable<DietHarmonogramModel[]> {
-    return this.client.get(
+
+    if (!this.cache$) {
+      this.cache$ = this.client.get(
         `${this.config.baseSpreadsheetUrl}`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.SheetsNames[0]}`
@@ -36,9 +42,12 @@ export class DietHarmonogramService {
           const rows = (x as SpreadsheetApiModel).values;
 
           return this.getChoppedModelByWeekDays(rows);
-        })
+        }),
+        shareReplay(1)
       );
+    }
 
+    return this.cache$;
   }
 
   private getChoppedModelByWeekDays(rows: string[][]): DietHarmonogramModel[] {
