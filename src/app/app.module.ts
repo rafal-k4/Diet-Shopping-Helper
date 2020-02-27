@@ -15,6 +15,7 @@ import { ConfigService } from './config.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { DropdownInitDirective } from './infrastructure/dropdown-init.directive';
 
 
 
@@ -23,7 +24,8 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component';
     AppComponent,
     NavbarComponent,
     HomeComponent,
-    ShoppingListComponent
+    ShoppingListComponent,
+    DropdownInitDirective
   ],
   imports: [
     BrowserModule,
