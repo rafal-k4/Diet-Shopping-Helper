@@ -14,6 +14,15 @@
   </div>
 </div>
 
-<div *ngFor="let item of dietHarmonogram">
-{{days[item.Day]}}
+
+
+
+<div class="ui four column doubling stackable grid centered">
+  <div class="column" *ngFor="let item of dietHarmonogram">
+    <div class="ui segment">
+      <p>{{days[item.Day]}}</p>
+    </div>
+  </div>
 </div>
+
+
