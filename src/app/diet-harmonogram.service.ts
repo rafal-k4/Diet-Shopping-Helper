@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ProductModel } from './Models/ProductModel';
 import { Mapper } from './Infrastructure/Mapper';
@@ -18,11 +18,15 @@ import { DietHarmonogramModel } from './Models/DietHarmonogramModel';
 })
 export class DietHarmonogramService {
 
+  counter = 0;
+
   constructor(
     private client: HttpClient,
     private config: ConfigService,
     @Inject(DIET_HARMONOGRAM_MAPPER_TOKEN) private mapper: Mapper<ProductModel>,
-    private reflection: Reflection) { }
+    private reflection: Reflection) {
+
+     }
 
   getDietHarmonogramData(): Observable<DietHarmonogramModel[]> {
     return this.client.get(
@@ -32,6 +36,7 @@ export class DietHarmonogramService {
       + `?key=${this.config.appConfig.sheetId}`
       + `${this.config.appConfig.dictionaryId}`)
       .pipe(
+        tap(() => {console.log(this.counter); this.counter++;}),
         map(x => {
           const rows = (x as SpreadsheetApiModel).values;
 
