@@ -17,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { DropdownInitDirective } from './infrastructure/dropdown-init.directive';
 import { FooterComponent } from './footer/footer.component';
+import { ProductdataPipe } from './infrastructure/productdata.pipe';
 
 
 
@@ -27,7 +28,8 @@ import { FooterComponent } from './footer/footer.component';
     HomeComponent,
     ShoppingListComponent,
     DropdownInitDirective,
-    FooterComponent
+    FooterComponent,
+    ProductdataPipe
   ],
   imports: [
     BrowserModule,
