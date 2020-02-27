@@ -3,6 +3,7 @@ import { AppSettingsModel } from '../Models/AppSettingsModel';
 
 export const SpreadsheetBaseUrl = 'https://sheets.googleapis.com/v4/spreadsheets/';
 
+export const MobileScreenSize = 700;
 
 export const APP_CONFIG: AppSettingsModel = {
 

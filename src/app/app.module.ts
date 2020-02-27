@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TestComponentComponent } from './test-component/test-component.component';
 import { HttpClientModule } from '@angular/common/http';
 import {
   DICTIONARY_PRODUCT_MAPPER_TOKEN,
@@ -13,12 +12,20 @@ import {
   CONFIG_SERVICE_VALUE
    } from './Infrastructure/InjectionTokens';
 import { ConfigService } from './config.service';
+import { NavbarComponent } from './navbar/navbar.component';
+import { HomeComponent } from './home/home.component';
+import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { DropdownInitDirective } from './infrastructure/dropdown-init.directive';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestComponentComponent
+    NavbarComponent,
+    HomeComponent,
+    ShoppingListComponent,
+    DropdownInitDirective
   ],
   imports: [
     BrowserModule,
