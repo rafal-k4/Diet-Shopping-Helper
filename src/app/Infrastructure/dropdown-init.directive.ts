@@ -1,6 +1,6 @@
 import { Directive, ElementRef, OnInit, AfterViewInit } from '@angular/core';
-//declare var $: any;
-import * as $ from 'jquery/dist/jquery';
+declare var $: any;
+
 
 @Directive({
   selector: '[appDropdownInit]'
