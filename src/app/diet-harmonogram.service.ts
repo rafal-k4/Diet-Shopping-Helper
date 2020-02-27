@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, shareReplay } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ProductModel } from './Models/ProductModel';
 import { Mapper } from './Infrastructure/Mapper';
@@ -20,6 +20,8 @@ export class DietHarmonogramService {
 
   counter = 0;
 
+  private records$: Observable<DietHarmonogramModel[]>;
+
   constructor(
     private client: HttpClient,
     private config: ConfigService,
@@ -29,7 +31,9 @@ export class DietHarmonogramService {
      }
 
   getDietHarmonogramData(): Observable<DietHarmonogramModel[]> {
-    return this.client.get(
+
+    if (!this.records$) {
+      this.records$ = this.client.get(
         `${this.config.baseSpreadsheetUrl}`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.SheetsNames[0]}`
@@ -41,9 +45,12 @@ export class DietHarmonogramService {
           const rows = (x as SpreadsheetApiModel).values;
 
           return this.getChoppedModelByWeekDays(rows);
-        })
+        }),
+        shareReplay(1)
       );
+    }
 
+    return this.records$;
   }
 
   private getChoppedModelByWeekDays(rows: string[][]): DietHarmonogramModel[] {
