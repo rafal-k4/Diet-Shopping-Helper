@@ -41,7 +41,7 @@ export class DietHarmonogramService {
 
   }
 
-  getChoppedModelByWeekDays(rows: string[][]): DietHarmonogramModel[] {
+  private getChoppedModelByWeekDays(rows: string[][]): DietHarmonogramModel[] {
 
     const result: DietHarmonogramModel[] = [];
     const chopSize = this.reflection.getPropertyCount(ProductModel);
@@ -67,7 +67,7 @@ export class DietHarmonogramService {
     return result;
   }
 
-  getDietModel(choppedTable: string[][], dayOfWeek: string): DietHarmonogramModel {
+  private getDietModel(choppedTable: string[][], dayOfWeek: string): DietHarmonogramModel {
     return {
       Day: DayOfWeek[dayOfWeek],
       Products: this.mapper.toModel(choppedTable[1], choppedTable.slice(2, choppedTable.length))

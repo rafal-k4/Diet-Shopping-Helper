@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DietHarmonogramService } from '../diet-harmonogram.service';
+import { DietHarmonogramModel } from '../Models/DietHarmonogramModel';
+import { DayOfWeek } from '../Infrastructure/DayOfWeek';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  days = DayOfWeek;
+
+  dietHarmonogram: DietHarmonogramModel[];
+
+  constructor(private dietHarmonogramService: DietHarmonogramService) { }
 
   ngOnInit(): void {
+    this.dietHarmonogramService.getDietHarmonogramData().subscribe(
+      x => {
+        this.dietHarmonogram = x;
+      }
+    );
   }
 
 }
