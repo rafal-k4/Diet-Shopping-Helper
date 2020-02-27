@@ -13,6 +13,9 @@ import { DietHarmonogramModel } from './Models/DietHarmonogramModel';
 import { DictionaryProductService } from './dictionary-product.service';
 import { ProductDictionaryModel } from './Models/ProductDictionaryModel';
 
+interface FillRelatedObjects {
+  fillRelatedObjects: boolean;
+}
 
 
 @Injectable({
@@ -31,7 +34,7 @@ export class DietHarmonogramService {
 
      }
 
-  getDietHarmonogramData(fillRelatedObjects: boolean): Observable<DietHarmonogramModel[]> {
+  getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects): Observable<DietHarmonogramModel[]> {
 
     if (!this.cache$) {
       this.cache$ = this.client.get(
@@ -44,7 +47,7 @@ export class DietHarmonogramService {
         map(x => {
           const rows = (x as SpreadsheetApiModel).values;
 
-          return this.getChoppedModelByWeekDays(rows, fillRelatedObjects);
+          return this.getChoppedModelByWeekDays(rows, relatedObjectsSetting.fillRelatedObjects);
         }),
         shareReplay(1)
       );
