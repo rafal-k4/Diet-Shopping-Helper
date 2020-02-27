@@ -82,17 +82,20 @@ export class DietHarmonogramService {
     if(fillRelatedObjects) {
       this.mapProductDictionary(result);
     }
-    console.log(result)
+    console.log(result);
     return result;
   }
-  private mapProductDictionary(result: DietHarmonogramModel[]) {
+  private mapProductDictionary(dietDays: DietHarmonogramModel[]) {
 
     this.dicionaryProductService.getProductDictionaryData().subscribe({
       next: (x) => {
 
-        for (const item of result) {
-          item.Products[0].ProductDictionary = x[0];
+        for (const dietDay of dietDays) {
+          for (const product of dietDay.Products) {
+            product.ProductDictionary = x.find(y => y.Id === product.ProductDictionaryId);
+          }
         }
+
       }
     });
 
