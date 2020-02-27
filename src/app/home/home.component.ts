@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   constructor(private dietHarmonogramService: DietHarmonogramService) { }
 
   ngOnInit(): void {
-    this.dietHarmonogramService.getDietHarmonogramData().subscribe(
+    this.dietHarmonogramService.getDietHarmonogramData(true).subscribe(
       x => {
         this.dietHarmonogram = x;
       }

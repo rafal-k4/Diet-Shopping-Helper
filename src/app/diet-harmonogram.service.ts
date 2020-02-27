@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, timestamp } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ProductModel } from './Models/ProductModel';
 import { Mapper } from './Infrastructure/Mapper';
@@ -11,6 +11,7 @@ import { Reflection } from './Infrastructure/Reflection';
 import { DayOfWeek } from './Infrastructure/DayOfWeek';
 import { DietHarmonogramModel } from './Models/DietHarmonogramModel';
 import { DictionaryProductService } from './dictionary-product.service';
+import { ProductDictionaryModel } from './Models/ProductDictionaryModel';
 
 
 
@@ -78,16 +79,19 @@ export class DietHarmonogramService {
     if(fillRelatedObjects) {
       this.mapProductDictionary(result);
     }
-
+    console.log(result)
     return result;
   }
   private mapProductDictionary(result: DietHarmonogramModel[]) {
 
-    this.dicionaryProductService.getProductDictionaryData().subscribe(x => {
-      console.log(x);
+    this.dicionaryProductService.getProductDictionaryData().subscribe({
+      next: (x) => {
+
+        for (const item of result) {
+          item.Products[0].ProductDictionary = x[0];
+        }
+      }
     });
-
-
 
   }
 
