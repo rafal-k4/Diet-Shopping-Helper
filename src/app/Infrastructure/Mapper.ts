@@ -49,7 +49,7 @@ export class Mapper<TResult> {
 
 
   private RemapValueIfIncomingTypeIsBoolean(value: string): string | boolean {
-    return (value === 'TRUE') ? true : (value === 'false') ? false : value;
+    return (value === 'TRUE') ? true : (value === 'FALSE') ? false : value;
   }
 }
 
