@@ -10,6 +10,7 @@ import { SpreadsheetApiModel } from './Models/SpreadsheetApiModel';
 import { Reflection } from './Infrastructure/Reflection';
 import { DayOfWeek } from './Infrastructure/DayOfWeek';
 import { DietHarmonogramModel } from './Models/DietHarmonogramModel';
+import { DictionaryProductService } from './dictionary-product.service';
 
 
 
@@ -24,11 +25,12 @@ export class DietHarmonogramService {
     private client: HttpClient,
     private config: ConfigService,
     @Inject(DIET_HARMONOGRAM_MAPPER_TOKEN) private mapper: Mapper<ProductModel>,
-    private reflection: Reflection) {
+    private reflection: Reflection,
+    private dicionaryProductService: DictionaryProductService) {
 
      }
 
-  getDietHarmonogramData(): Observable<DietHarmonogramModel[]> {
+  getDietHarmonogramData(fillRelatedObjects: boolean): Observable<DietHarmonogramModel[]> {
 
     if (!this.cache$) {
       this.cache$ = this.client.get(
@@ -41,7 +43,7 @@ export class DietHarmonogramService {
         map(x => {
           const rows = (x as SpreadsheetApiModel).values;
 
-          return this.getChoppedModelByWeekDays(rows);
+          return this.getChoppedModelByWeekDays(rows, fillRelatedObjects);
         }),
         shareReplay(1)
       );
@@ -50,7 +52,7 @@ export class DietHarmonogramService {
     return this.cache$;
   }
 
-  private getChoppedModelByWeekDays(rows: string[][]): DietHarmonogramModel[] {
+  private getChoppedModelByWeekDays(rows: string[][], fillRelatedObjects: boolean): DietHarmonogramModel[] {
 
     const result: DietHarmonogramModel[] = [];
     const chopSize = this.reflection.getPropertyCount(ProductModel);
@@ -73,7 +75,20 @@ export class DietHarmonogramService {
       result.push(this.getDietModel(choppedTable, day));
     }
 
+    if(fillRelatedObjects) {
+      this.mapProductDictionary(result);
+    }
+
     return result;
+  }
+  private mapProductDictionary(result: DietHarmonogramModel[]) {
+
+    this.dicionaryProductService.getProductDictionaryData().subscribe(x => {
+      console.log(x);
+    });
+
+
+
   }
 
   private getDietModel(choppedTable: string[][], dayOfWeek: string): DietHarmonogramModel {
