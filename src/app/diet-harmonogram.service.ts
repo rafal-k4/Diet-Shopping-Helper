@@ -18,9 +18,7 @@ import { DietHarmonogramModel } from './Models/DietHarmonogramModel';
 })
 export class DietHarmonogramService {
 
-  counter = 0;
-
-  private records$: Observable<DietHarmonogramModel[]>;
+  private cache$: Observable<DietHarmonogramModel[]>;
 
   constructor(
     private client: HttpClient,
@@ -32,15 +30,14 @@ export class DietHarmonogramService {
 
   getDietHarmonogramData(): Observable<DietHarmonogramModel[]> {
 
-    if (!this.records$) {
-      this.records$ = this.client.get(
+    if (!this.cache$) {
+      this.cache$ = this.client.get(
         `${this.config.baseSpreadsheetUrl}`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.SheetsNames[0]}`
       + `?key=${this.config.appConfig.sheetId}`
       + `${this.config.appConfig.dictionaryId}`)
       .pipe(
-        tap(() => {console.log(this.counter); this.counter++;}),
         map(x => {
           const rows = (x as SpreadsheetApiModel).values;
 
@@ -50,7 +47,7 @@ export class DietHarmonogramService {
       );
     }
 
-    return this.records$;
+    return this.cache$;
   }
 
   private getChoppedModelByWeekDays(rows: string[][]): DietHarmonogramModel[] {
