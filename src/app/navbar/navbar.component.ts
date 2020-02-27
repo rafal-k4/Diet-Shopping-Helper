@@ -22,11 +22,9 @@ export class NavbarComponent implements OnInit {
   @HostListener('window:resize', ['$event.target'])
   private onResize(e) {
     this.isMobileScreenSize = this.checkIfIsMobileSizeScreen(e.innerWidth);
-    console.log(e.innerWidth, this.isMobileScreenSize);
   }
 
   private checkIfIsMobileSizeScreen(innerWidth: any): boolean {
-    console.log(innerWidth, this.mobileScreenSize)
     return innerWidth < this.mobileScreenSize;
   }
 
