@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
-import { map, tap, shareReplay } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ProductModel } from './Models/ProductModel';
 import { Mapper } from './Infrastructure/Mapper';

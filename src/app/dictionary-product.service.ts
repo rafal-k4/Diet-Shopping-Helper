@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
 import { Mapper } from './Infrastructure/Mapper';
 import { ProductDictionaryModel } from './Models/ProductDictionaryModel';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { SpreadsheetApiModel } from './Models/SpreadsheetApiModel';
 import { Observable } from 'rxjs';
 import { DICTIONARY_PRODUCT_MAPPER_TOKEN } from './Infrastructure/InjectionTokens';
@@ -14,6 +14,8 @@ import { DICTIONARY_PRODUCT_MAPPER_TOKEN } from './Infrastructure/InjectionToken
 })
 export class DictionaryProductService {
 
+  private cache$: Observable<ProductDictionaryModel[]>;
+
   constructor(
     private client: HttpClient,
     private config: ConfigService,
@@ -21,9 +23,8 @@ export class DictionaryProductService {
 
   getProductDictionaryData(): Observable<ProductDictionaryModel[]> {
 
-
-
-    return this.client.get(
+    if (!this.cache$) {
+      this.cache$ = this.client.get(
         `${this.config.baseSpreadsheetUrl}`
       + `${this.config.appConfig.SpreadSheets.Dictionary.Id}/values/`
       + `${this.config.appConfig.SpreadSheets.Dictionary.SheetsNames[0]}`
@@ -35,7 +36,11 @@ export class DictionaryProductService {
             const headers = rows.shift();
 
             return this.mapper.toModel(headers, rows);
-          })
-    );
+          }),
+          shareReplay(1)
+      );
+    }
+
+    return this.cache$;
   }
 }
