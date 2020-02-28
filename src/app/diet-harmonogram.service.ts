@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
 import { map, shareReplay, timestamp } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { ProductModel } from './Models/ProductModel';
 import { Mapper } from './Infrastructure/Mapper';
 import { DIET_HARMONOGRAM_MAPPER_TOKEN } from './Infrastructure/InjectionTokens';
@@ -36,7 +36,9 @@ export class DietHarmonogramService {
 
   getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects): Observable<DietHarmonogramModel[]> {
 
-    return  this.client.get(
+    console.log('before DietDays')
+
+    let dietDays = this.client.get(
         `${this.config.baseSpreadsheetUrl}`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.SheetsNames[0]}`
@@ -49,29 +51,59 @@ export class DietHarmonogramService {
           return this.getChoppedModelByWeekDays(rows, relatedObjectsSetting.fillRelatedObjects);
         })
 
-      ).pipe(
-        map(x => {
+      ).toPromise().then(x => {
 
-          x.forEach(y => {
-            y.Products[0].ProductDictionary = new ProductDictionaryModel(2,'adsad', 222222, 'unit');
-          });
-          // console.log('before');
-          // this.dicionaryProductService.getProductDictionaryData().subscribe({
-          //   next: (z) => {
-          //     console.log('before for');
-          //     for (const dietDay of x) {
-          //       for (const product of dietDay.Products) {
-          //         product.ProductDictionary = z.find(y => y.Id === product.ProductDictionaryId);
-          //       }
-          //     }
-          //     console.log('after for');
-          //   }
-          // });
-          // console.log('after');
+        this.dicionaryProductService.getProductDictionaryData().toPromise().then(y => {
 
-          return x
+          for (const dietDay of x) {
+            for (const product of dietDay.Products) {
+              product.ProductDictionary = y.find(z => z.Id === product.ProductDictionaryId);
+            }
+          }
+          return y;
         })
-      )
+
+        return x;
+      });
+
+      console.log('before prodDict')
+
+    //let prodDict = this.dicionaryProductService.getProductDictionaryData().toPromise();
+
+    // for (const dietDay of dietDays) {
+    //   for (const product of dietDay.Products) {
+    //     product.ProductDictionary = prodDict.find(y => y.Id === product.ProductDictionaryId);
+    //   }
+    // }
+
+    //console.log('after mapping proddict');
+
+    //return null;
+    return from(dietDays);
+
+      // .pipe(
+      //   map(x => {
+
+      //     x.forEach(y => {
+      //       y.Products[0].ProductDictionary = new ProductDictionaryModel(2,'adsad', 222222, 'unit');
+      //     });
+      //     // console.log('before');
+      //     // this.dicionaryProductService.getProductDictionaryData().subscribe({
+      //     //   next: (z) => {
+      //     //     console.log('before for');
+      //     //     for (const dietDay of x) {
+      //     //       for (const product of dietDay.Products) {
+      //     //         product.ProductDictionary = z.find(y => y.Id === product.ProductDictionaryId);
+      //     //       }
+      //     //     }
+      //     //     console.log('after for');
+      //     //   }
+      //     // });
+      //     // console.log('after');
+
+      //     return x
+      //   })
+      // )
     // }
 
     // return this.cache$;
