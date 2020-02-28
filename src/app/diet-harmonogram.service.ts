@@ -34,11 +34,11 @@ export class DietHarmonogramService {
 
      }
 
-  getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects): Observable<DietHarmonogramModel[]> {
+  async getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects): Promise<DietHarmonogramModel[]> {
 
     console.log('before DietDays')
 
-    let dietDays = this.client.get(
+    let dietDays = await this.client.get(
         `${this.config.baseSpreadsheetUrl}`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.SheetsNames[0]}`
@@ -51,10 +51,11 @@ export class DietHarmonogramService {
           return this.getChoppedModelByWeekDays(rows, relatedObjectsSetting.fillRelatedObjects);
         })
 
-      ).toPromise().then(x => {
+      ).toPromise().then(async x => {
 
-        this.dicionaryProductService.getProductDictionaryData().toPromise().then(y => {
-
+        console.log('indside DietDays')
+        await this.dicionaryProductService.getProductDictionaryData().toPromise().then(y => {
+          console.log('indside prodDict')
           for (const dietDay of x) {
             for (const product of dietDay.Products) {
               product.ProductDictionary = y.find(z => z.Id === product.ProductDictionaryId);
@@ -62,11 +63,11 @@ export class DietHarmonogramService {
           }
           return y;
         })
-
+        console.log('after prodDict')
         return x;
       });
+      console.log('after DietDays')
 
-      console.log('before prodDict')
 
     //let prodDict = this.dicionaryProductService.getProductDictionaryData().toPromise();
 
@@ -79,7 +80,7 @@ export class DietHarmonogramService {
     //console.log('after mapping proddict');
 
     //return null;
-    return from(dietDays);
+    return dietDays;
 
       // .pipe(
       //   map(x => {
@@ -135,7 +136,7 @@ export class DietHarmonogramService {
     if(fillRelatedObjects) {
       this.mapProductDictionary(result);
     }
-    console.log(result);
+    //console.log(result);
     return result;
   }
   private mapProductDictionary(dietDays: DietHarmonogramModel[]) {
