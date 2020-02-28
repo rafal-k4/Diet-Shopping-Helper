@@ -11,7 +11,7 @@ export class ProductdataPipe implements PipeTransform {
     let result = `${value.Item} - ${value.Weight} `;
 
     return (value.ProductDictionary && value.ProductDictionary.IsQuantityCountable)
-      ? result += ` (${(value.Weight / value.ProductDictionary.WeightPerItem).toFixed(1)} x ${value.ProductDictionary.Unit})`
+      ? result += ` (${+(value.Weight / value.ProductDictionary.WeightPerItem).toFixed(1)} x ${value.ProductDictionary.Unit})`
       : result;
   }
 
