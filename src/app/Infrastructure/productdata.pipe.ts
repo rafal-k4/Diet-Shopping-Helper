@@ -7,15 +7,12 @@ import { ProductModel } from '../Models/ProductModel';
 export class ProductdataPipe implements PipeTransform {
 
   transform(value: ProductModel, ...args: unknown[]): string {
-    console.log(value.ProductDictionary);
-    let result = `${value.Item} - `;
 
-    result += `${value.ProductDictionary.WeightPerItem} x ${value.ProductDictionary.Unit} `
-     + `"${value.ProductDictionary.IsQuantityCountable}" `;
+    let result = `${value.Item} - ${value.Weight} `;
 
-
-    
-    return result;
+    return (value.ProductDictionary && value.ProductDictionary.IsQuantityCountable)
+      ? result += ` (${(value.Weight / value.ProductDictionary.WeightPerItem).toFixed(1)} x ${value.ProductDictionary.Unit})`
+      : result;
   }
 
 }
