@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
-import { map, shareReplay, timestamp } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, shareReplay, timestamp, tap } from 'rxjs/operators';
+import { Observable, from, forkJoin } from 'rxjs';
 import { ProductModel } from './Models/ProductModel';
 import { Mapper } from './Infrastructure/Mapper';
 import { DIET_HARMONOGRAM_MAPPER_TOKEN } from './Infrastructure/InjectionTokens';
@@ -36,24 +36,29 @@ export class DietHarmonogramService {
 
   getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects): Observable<DietHarmonogramModel[]> {
 
-    if (!this.cache$) {
-      this.cache$ = this.client.get(
-        `${this.config.baseSpreadsheetUrl}`
-      + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
-      + `${this.config.appConfig.SpreadSheets.DietHarmonogram.SheetsNames[0]}`
-      + `?key=${this.config.appConfig.sheetId}`
-      + `${this.config.appConfig.dictionaryId}`)
-      .pipe(
+    const first$ = this.client.get(
+      `${this.config.baseSpreadsheetUrl}`
+    + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
+    + `${this.config.appConfig.SpreadSheets.DietHarmonogram.SheetsNames[0]}`
+    + `?key=${this.config.appConfig.sheetId}`
+    + `${this.config.appConfig.dictionaryId}`)
+    .pipe(
+      map(x => {
+        const rows = (x as SpreadsheetApiModel).values;
+
+        return this.getChoppedModelByWeekDays(rows, relatedObjectsSetting.fillRelatedObjects);
+      })
+    );
+
+    return relatedObjectsSetting.fillRelatedObjects === false
+      ? first$
+      : forkJoin([first$, this.dicionaryProductService.getProductDictionaryData()]).pipe(
         map(x => {
-          const rows = (x as SpreadsheetApiModel).values;
 
-          return this.getChoppedModelByWeekDays(rows, relatedObjectsSetting.fillRelatedObjects);
-        }),
-        shareReplay(1)
+          return this.mapProductDictionary(x[0], x[1]);
+        })
       );
-    }
 
-    return this.cache$;
   }
 
   private getChoppedModelByWeekDays(rows: string[][], fillRelatedObjects: boolean): DietHarmonogramModel[] {
@@ -79,26 +84,19 @@ export class DietHarmonogramService {
       result.push(this.getDietModel(choppedTable, day));
     }
 
-    if(fillRelatedObjects) {
-      this.mapProductDictionary(result);
-    }
-    console.log(result);
     return result;
   }
-  private mapProductDictionary(dietDays: DietHarmonogramModel[]) {
-    console.log('before');
-    this.dicionaryProductService.getProductDictionaryData().subscribe({
-      next: (x) => {
-        console.log('before for');
-        for (const dietDay of dietDays) {
-          for (const product of dietDay.Products) {
-            product.ProductDictionary = x.find(y => y.Id === product.ProductDictionaryId);
-          }
-        }
-        console.log('after for');
+  private mapProductDictionary(
+    dietDays: DietHarmonogramModel[],
+    productDictionary: ProductDictionaryModel[]): DietHarmonogramModel[] {
+
+    for (const dietDay of dietDays) {
+      for (const product of dietDay.Products) {
+        product.ProductDictionary = productDictionary.find(z => z.Id === product.ProductDictionaryId);
       }
-    });
-    console.log('after');
+    }
+
+    return dietDays;
   }
 
   private getDietModel(choppedTable: string[][], dayOfWeek: string): DietHarmonogramModel {
