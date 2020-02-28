@@ -36,8 +36,7 @@ export class DietHarmonogramService {
 
   getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects): Observable<DietHarmonogramModel[]> {
 
-    if (!this.cache$) {
-      this.cache$ = this.client.get(
+    return  this.client.get(
         `${this.config.baseSpreadsheetUrl}`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.SheetsNames[0]}`
@@ -48,12 +47,34 @@ export class DietHarmonogramService {
           const rows = (x as SpreadsheetApiModel).values;
 
           return this.getChoppedModelByWeekDays(rows, relatedObjectsSetting.fillRelatedObjects);
-        }),
-        shareReplay(1)
-      );
-    }
+        })
 
-    return this.cache$;
+      ).pipe(
+        map(x => {
+
+          x.forEach(y => {
+            y.Products[0].ProductDictionary = new ProductDictionaryModel(2,'adsad', 222222, 'unit');
+          });
+          // console.log('before');
+          // this.dicionaryProductService.getProductDictionaryData().subscribe({
+          //   next: (z) => {
+          //     console.log('before for');
+          //     for (const dietDay of x) {
+          //       for (const product of dietDay.Products) {
+          //         product.ProductDictionary = z.find(y => y.Id === product.ProductDictionaryId);
+          //       }
+          //     }
+          //     console.log('after for');
+          //   }
+          // });
+          // console.log('after');
+
+          return x
+        })
+      )
+    // }
+
+    // return this.cache$;
   }
 
   private getChoppedModelByWeekDays(rows: string[][], fillRelatedObjects: boolean): DietHarmonogramModel[] {
@@ -86,19 +107,7 @@ export class DietHarmonogramService {
     return result;
   }
   private mapProductDictionary(dietDays: DietHarmonogramModel[]) {
-    console.log('before');
-    this.dicionaryProductService.getProductDictionaryData().subscribe({
-      next: (x) => {
-        console.log('before for');
-        for (const dietDay of dietDays) {
-          for (const product of dietDay.Products) {
-            product.ProductDictionary = x.find(y => y.Id === product.ProductDictionaryId);
-          }
-        }
-        console.log('after for');
-      }
-    });
-    console.log('after');
+
   }
 
   private getDietModel(choppedTable: string[][], dayOfWeek: string): DietHarmonogramModel {
