@@ -36,28 +36,33 @@ export class DietHarmonogramService {
 
   getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects): Observable<DietHarmonogramModel[]> {
 
-    const first$ = this.client.get(
-      `${this.config.baseSpreadsheetUrl}`
-    + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
-    + `${this.config.appConfig.SpreadSheets.DietHarmonogram.SheetsNames[0]}`
-    + `?key=${this.config.appConfig.sheetId}`
-    + `${this.config.appConfig.dictionaryId}`)
-    .pipe(
-      map(x => {
-        const rows = (x as SpreadsheetApiModel).values;
-
-        return this.getChoppedModelByWeekDays(rows, relatedObjectsSetting.fillRelatedObjects);
-      })
-    );
-
-    return relatedObjectsSetting.fillRelatedObjects === false
-      ? first$
-      : forkJoin([first$, this.dicionaryProductService.getProductDictionaryData()]).pipe(
+    if (!this.cache$) {
+      const first$ = this.client.get(
+        `${this.config.baseSpreadsheetUrl}`
+      + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
+      + `${this.config.appConfig.SpreadSheets.DietHarmonogram.SheetsNames[0]}`
+      + `?key=${this.config.appConfig.sheetId}`
+      + `${this.config.appConfig.dictionaryId}`)
+      .pipe(
         map(x => {
+          const rows = (x as SpreadsheetApiModel).values;
 
-          return this.mapProductDictionary(x[0], x[1]);
-        })
+          return this.getChoppedModelByWeekDays(rows, relatedObjectsSetting.fillRelatedObjects);
+        }),
+        shareReplay(1)
       );
+
+      this.cache$ = relatedObjectsSetting.fillRelatedObjects === false
+        ? first$
+        : forkJoin([first$, this.dicionaryProductService.getProductDictionaryData()]).pipe(
+          map(x => {
+
+            return this.mapProductDictionary(x[0], x[1]);
+          })
+        );
+    }
+
+    return this.cache$;
 
   }
 
