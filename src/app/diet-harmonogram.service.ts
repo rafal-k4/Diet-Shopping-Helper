@@ -36,9 +36,9 @@ export class DietHarmonogramService {
 
   async getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects): Promise<DietHarmonogramModel[]> {
 
-    console.log('before DietDays')
+    console.log('before DietDays');
 
-    let dietDays = await this.client.get(
+    const dietDays = await this.client.get(
         `${this.config.baseSpreadsheetUrl}`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.SheetsNames[0]}`
