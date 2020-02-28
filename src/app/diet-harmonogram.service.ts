@@ -54,12 +54,8 @@ export class DietHarmonogramService {
       ? first$
       : forkJoin([first$, this.dicionaryProductService.getProductDictionaryData()]).pipe(
         map(x => {
-          for (const dietDay of x[0]) {
-            for (const product of dietDay.Products) {
-              product.ProductDictionary = x[1].find(z => z.Id === product.ProductDictionaryId);
-            }
-          }
-          return x[0];
+
+          return this.mapProductDictionary(x[0], x[1]);
         })
       );
 
@@ -88,14 +84,19 @@ export class DietHarmonogramService {
       result.push(this.getDietModel(choppedTable, day));
     }
 
-    if(fillRelatedObjects) {
-      this.mapProductDictionary(result);
-    }
-    //console.log(result);
     return result;
   }
-  private mapProductDictionary(dietDays: DietHarmonogramModel[]) {
+  private mapProductDictionary(
+    dietDays: DietHarmonogramModel[],
+    productDictionary: ProductDictionaryModel[]): DietHarmonogramModel[] {
 
+    for (const dietDay of dietDays) {
+      for (const product of dietDay.Products) {
+        product.ProductDictionary = productDictionary.find(z => z.Id === product.ProductDictionaryId);
+      }
+    }
+
+    return dietDays;
   }
 
   private getDietModel(choppedTable: string[][], dayOfWeek: string): DietHarmonogramModel {
