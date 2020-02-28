@@ -10,11 +10,11 @@ export class ProductdataPipe implements PipeTransform {
     console.log(value.ProductDictionary);
     let result = `${value.Item} - `;
 
-    result += `${value.ProductDictionary.WeightPerItem} x ${value.ProductDictionary.Unit}`
-     + `${value.ProductDictionary.IsQuantityCountable} ${value.ProductDictionary.IsQuantityCountable} `;
+    result += `${value.ProductDictionary.WeightPerItem} x ${value.ProductDictionary.Unit} `
+     + `"${value.ProductDictionary.IsQuantityCountable}" `;
 
 
-
+    
     return result;
   }
 
