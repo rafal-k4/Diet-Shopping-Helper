@@ -20,4 +20,8 @@ export class Reflection {
   getEnumSize(enumType: any): number {
     return this.getValuesOfEnum(enumType).length;
   }
+
+  deepClone<T>(obj: T): T {
+    return JSON.parse(JSON.stringify(obj));
+  }
 }
