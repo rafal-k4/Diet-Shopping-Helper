@@ -30,9 +30,11 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // console.log(this.form.valueChanges);
+
     this.selectedDays$ = this.form.valueChanges.pipe(
-      delay(1),
+      delay(1), // delay(1) is neccessary because The valueChanges event fires
+                // immediately after the new value is updated but before the change is bubbled up to its parent
+                // without delay(1), dietDays is holding previous value
       map(x => this.dietDays),
       map(x => x.filter(y => y.isSelected))
     );
