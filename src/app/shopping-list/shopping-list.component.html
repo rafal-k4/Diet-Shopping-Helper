@@ -11,3 +11,9 @@
 
 </form>
 
+<div *ngIf="selectedDays$">
+  <div *ngFor="let item of selectedDays$">
+    {{item}}
+   </div>
+</div>
+

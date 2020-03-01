@@ -33,13 +33,13 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
     //   console.log(x);
     //   console.log(this.dietDays)
     // })
-    this.selectedDays$ = this.form.valueChanges.pipe(
-      tap(x => console.log('before switchMap', x)),
+    this.form.valueChanges.pipe(
       switchMap(x => from(this.dietDays)),
-      tap(x => console.log('after switchMap', x)),
-      filter(x => x.isSelected)
-
-    );
+      filter(x => x.isSelected),
+      tap(x => console.log('after filter', x)),
+    ).subscribe(x => {
+      this.selectedDays$ = x;
+    })
   }
 
 }
