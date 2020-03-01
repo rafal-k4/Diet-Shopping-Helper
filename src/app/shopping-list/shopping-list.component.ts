@@ -54,10 +54,11 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
       for (const product of dietDay.Products) {
 
         const existingElement = result.find(x => x.ProductDictionaryId === product.ProductDictionaryId);
-        console.log(input, existingElement?.ProductDictionaryId, existingElement?.Item);
+
         if (existingElement) {
-          result[result.indexOf(existingElement)].Weight += product.Weight;
+          result[result.indexOf(existingElement)].Weight = Number(result[result.indexOf(existingElement)].Weight) + Number(product.Weight);
         } else {
+
           result.push(this.reflectionHelper.deepClone(product));
         }
       }
