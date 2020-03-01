@@ -1,5 +1,5 @@
 
-<form #form="ngForm">
+<form #dietDaysForm="ngForm">
   <div *ngFor="let item of dietDays">
 
     <input type="checkbox" [id]="days[item.Day]" [name]="days[item.Day]" [(ngModel)]="item.isSelected"/>

@@ -14,11 +14,9 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
 
   public days = DayOfWeek;
   public dietDays: DietHarmonogramModel[];
-  @ViewChild('form')
-  form: NgForm;
+  @ViewChild('dietDaysForm') form: NgForm;
 
-  oneCheckbox: any;
-
+ 
   constructor(private dietHarmonogramService: DietHarmonogramService) { }
 
   ngOnInit(): void {
