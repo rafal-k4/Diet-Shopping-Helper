@@ -3,9 +3,9 @@ import { DietHarmonogramService } from '../diet-harmonogram.service';
 import { DietHarmonogramModel } from '../Models/DietHarmonogramModel';
 import { DayOfWeek } from '../Infrastructure/DayOfWeek';
 import { NgForm } from '@angular/forms';
-import { filter, switchMap, tap, map, flatMap, pairwise, delay } from 'rxjs/operators';
-import { Observable, from, of } from 'rxjs';
-import { fileURLToPath } from 'url';
+import { map, delay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { ProductModel } from '../Models/ProductModel';
 
 @Component({
   selector: 'app-shopping-list',
@@ -15,6 +15,7 @@ import { fileURLToPath } from 'url';
 export class ShoppingListComponent implements OnInit, AfterViewInit {
 
   public selectedDays$: Observable<DietHarmonogramModel[]>;
+  public combinedProducts$: Observable<ProductModel[]>;
   public days = DayOfWeek;
   public dietDays: DietHarmonogramModel[];
   @ViewChild('dietDaysForm') form: NgForm;
@@ -38,6 +39,16 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
       map(x => this.dietDays),
       map(x => x.filter(y => y.isSelected))
     );
+
+    this.combinedProducts$ = this.selectedDays$.pipe(
+      map(x => {
+
+
+
+        return [new ProductModel()];
+      })
+    )
+
   }
 
 }
