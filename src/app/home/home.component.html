@@ -13,8 +13,10 @@
         <div class="extra content">
           <div class="center aligned">
             <ul>
-              <li *ngFor="let product of item.Products.slice(0,3)">
-                {{product.Item}} / {{product.Weight}}
+              <li *ngFor="let product of item.Products">
+
+                {{product | productdata}}
+
               </li>
               <li>
                 ...
