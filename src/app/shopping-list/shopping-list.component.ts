@@ -41,14 +41,31 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
     );
 
     this.combinedProducts$ = this.selectedDays$.pipe(
-      map(x => {
+      map(x => this.MergeAllProductIntoOneList(x)
+      )
+    );
 
+    // TODO: delete later
+    this.combinedProducts$.subscribe();
+  }
 
+  private MergeAllProductIntoOneList(input: DietHarmonogramModel[]): ProductModel[] {
+    const result: ProductModel[] = [];
 
-        return [new ProductModel()];
-      })
-    )
+    for (const dietDay of input) {
+      for (const product of dietDay.Products) {
 
+        const existingElement = result.find(x => x.ProductDictionaryId === product.ProductDictionaryId)
+
+        if (existingElement) {
+          result[result.indexOf(existingElement)].Weight += product.Weight;
+        } else {
+          result.push(product);
+        }
+      }
+    }
+
+    return result;
   }
 
 }
