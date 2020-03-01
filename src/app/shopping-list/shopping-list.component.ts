@@ -37,7 +37,7 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
       map(x => {
 
         console.log(this.MapObject(x))
-        return x[1]
+        return x
       })
     )
 
