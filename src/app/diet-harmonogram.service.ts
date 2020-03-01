@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
-import { map, shareReplay, timestamp, tap } from 'rxjs/operators';
+import { map, shareReplay, timestamp, tap, switchMap, first } from 'rxjs/operators';
 import { Observable, from, forkJoin } from 'rxjs';
 import { ProductModel } from './Models/ProductModel';
 import { Mapper } from './Infrastructure/Mapper';
@@ -54,12 +54,24 @@ export class DietHarmonogramService {
 
       this.cache$ = relatedObjectsSetting.fillRelatedObjects === false
         ? first$
-        : forkJoin([first$, this.dicionaryProductService.getProductDictionaryData()]).pipe(
-          map(x => {
+        : this.dicionaryProductService.getProductDictionaryData().pipe(
+            switchMap(x => {
+              return first$.pipe(
+                map(y => {
+                  return this.mapProductDictionary(y, x);
+                })
+              );
+            })
+          );
 
-            return this.mapProductDictionary(x[0], x[1]);
-          })
-        );
+      // this.cache$ = relatedObjectsSetting.fillRelatedObjects === false
+      //   ? first$
+      //   : forkJoin([first$, this.dicionaryProductService.getProductDictionaryData()]).pipe(
+      //     map(x => {
+
+      //       return this.mapProductDictionary(x[0], x[1]);
+      //     })
+      //   );
     }
 
     return this.cache$;
