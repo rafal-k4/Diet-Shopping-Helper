@@ -3,9 +3,10 @@ import { DietHarmonogramService } from '../diet-harmonogram.service';
 import { DietHarmonogramModel } from '../Models/DietHarmonogramModel';
 import { DayOfWeek } from '../Infrastructure/DayOfWeek';
 import { NgForm } from '@angular/forms';
-import { map, delay } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, delay, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { ProductModel } from '../Models/ProductModel';
+import { Reflection } from '../Infrastructure/Reflection';
 
 @Component({
   selector: 'app-shopping-list',
@@ -20,7 +21,9 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
   @ViewChild('dietDaysForm') form: NgForm;
 
 
-  constructor(private dietHarmonogramService: DietHarmonogramService) { }
+  constructor(
+    private dietHarmonogramService: DietHarmonogramService,
+    private reflectionHelper: Reflection) { }
 
   ngOnInit(): void {
     this.dietHarmonogramService.getDietHarmonogramData({ fillRelatedObjects: true }).subscribe(x => {
@@ -40,27 +43,26 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
     );
 
     this.combinedProducts$ = selectedDays$.pipe(
-      map(x => this.MergeAllProductIntoOneList(x)
-      )
+      switchMap(x => of(this.MergeAllProductIntoOneList(x)))
     );
   }
 
   private MergeAllProductIntoOneList(input: DietHarmonogramModel[]): ProductModel[] {
     const result: ProductModel[] = [];
-    console.log(result);
+
     for (const dietDay of input) {
       for (const product of dietDay.Products) {
 
         const existingElement = result.find(x => x.ProductDictionaryId === product.ProductDictionaryId);
-
+        console.log(input, existingElement?.ProductDictionaryId, existingElement?.Item);
         if (existingElement) {
           result[result.indexOf(existingElement)].Weight += product.Weight;
         } else {
-          result.push(product);
+          result.push(this.reflectionHelper.deepClone(product));
         }
       }
     }
-    console.log(result);
+
     return result;
   }
 
