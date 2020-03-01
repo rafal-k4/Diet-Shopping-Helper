@@ -13,6 +13,8 @@ export class ShoppingListComponent implements OnInit {
   public days = DayOfWeek;
   public dietDays: DietHarmonogramModel[];
 
+  oneCheckbox: any;
+
   constructor(private dietHarmonogramService: DietHarmonogramService) { }
 
   ngOnInit(): void {
