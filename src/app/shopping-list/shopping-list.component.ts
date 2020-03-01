@@ -47,11 +47,11 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
 
   private MergeAllProductIntoOneList(input: DietHarmonogramModel[]): ProductModel[] {
     const result: ProductModel[] = [];
-
+    console.log(result);
     for (const dietDay of input) {
       for (const product of dietDay.Products) {
 
-        const existingElement = result.find(x => x.ProductDictionaryId === product.ProductDictionaryId)
+        const existingElement = result.find(x => x.ProductDictionaryId === product.ProductDictionaryId);
 
         if (existingElement) {
           result[result.indexOf(existingElement)].Weight += product.Weight;
@@ -60,7 +60,7 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
         }
       }
     }
-
+    console.log(result);
     return result;
   }
 
