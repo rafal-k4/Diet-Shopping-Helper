@@ -1,1 +1,19 @@
-<p>shopping-list works!</p>
+
+<form #dietDaysForm="ngForm">
+  <div *ngFor="let item of dietDays">
+
+    <input type="checkbox" [id]="days[item.Day]" [name]="days[item.Day]" [(ngModel)]="item.isSelected"/>
+    <label [for]="days[item.Day]">
+      {{ days[item.Day] }}
+    </label>
+
+  </div>
+
+</form>
+
+
+  <div *ngFor="let item of combinedProducts$ | async">
+    {{ item | productdata }}
+   </div>
+
+
