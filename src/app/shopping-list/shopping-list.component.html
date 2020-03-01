@@ -11,9 +11,9 @@
 
 </form>
 
-<div *ngIf="selectedDays$">
-  <div *ngFor="let item of selectedDays$">
-    {{item}}
+
+  <div *ngFor="let item of selectedDays$ | async">
+    asd
    </div>
-</div>
+
 
