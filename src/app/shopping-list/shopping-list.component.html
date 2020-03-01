@@ -12,8 +12,8 @@
 </form>
 
 
-  <div *ngFor="let item of selectedDays$ | async">
-    {{days[item.Day]}}
+  <div *ngFor="let item of combinedProducts$ | async">
+    {{ item | productdata }}
    </div>
 
 

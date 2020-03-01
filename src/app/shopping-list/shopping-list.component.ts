@@ -14,7 +14,6 @@ import { ProductModel } from '../Models/ProductModel';
 })
 export class ShoppingListComponent implements OnInit, AfterViewInit {
 
-  public selectedDays$: Observable<DietHarmonogramModel[]>;
   public combinedProducts$: Observable<ProductModel[]>;
   public days = DayOfWeek;
   public dietDays: DietHarmonogramModel[];
@@ -32,7 +31,7 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    this.selectedDays$ = this.form.valueChanges.pipe(
+    const selectedDays$ = this.form.valueChanges.pipe(
       delay(1), // delay(1) is neccessary because The valueChanges event fires
                 // immediately after the new value is updated but before the change is bubbled up to its parent
                 // without delay(1), dietDays is holding previous value
@@ -40,13 +39,10 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
       map(x => x.filter(y => y.isSelected))
     );
 
-    this.combinedProducts$ = this.selectedDays$.pipe(
+    this.combinedProducts$ = selectedDays$.pipe(
       map(x => this.MergeAllProductIntoOneList(x)
       )
     );
-
-    // TODO: delete later
-    this.combinedProducts$.subscribe();
   }
 
   private MergeAllProductIntoOneList(input: DietHarmonogramModel[]): ProductModel[] {
