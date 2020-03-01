@@ -1,11 +1,13 @@
 
+<form #form="ngForm">
+  <div *ngFor="let item of dietDays">
 
-<div *ngFor="let item of dietDays">
+    <input type="checkbox" [id]="days[item.Day]" [name]="days[item.Day]" [(ngModel)]="item.isSelected"/>
+    <label [for]="days[item.Day]">
+      {{ days[item.Day] }}
+    </label>
 
-  <input type="checkbox" [id]="days[item.Day]" [(ngModel)]="item.isSelected"/>
-  <label [for]="days[item.Day]">
-    {{ days[item.Day] }}
-  </label>
+  </div>
 
-</div>
+</form>
 
