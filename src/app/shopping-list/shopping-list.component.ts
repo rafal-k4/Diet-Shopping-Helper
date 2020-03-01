@@ -32,38 +32,10 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     // console.log(this.form.valueChanges);
     this.selectedDays$ = this.form.valueChanges.pipe(
-      delay(100),
+      delay(1),
       map(x => this.dietDays),
-      map(x => {
-
-        console.log(this.MapObject(x))
-        return x
-      })
-    )
-
-
-
-    // this.form.valueChanges.pipe(
-    //   switchMap(x => from(this.dietDays)),
-    //   filter(x => x.isSelected),
-    //   tap(x => console.log('after filter', x)),
-    // ).subscribe(x => {
-    //   this.selectedDays$ = x;
-    // })
-  }
-
-  test(): void {
-    console.log(this.dietDays);
-  }
-
-  private MapObject(input: DietHarmonogramModel[]): {day: string, isSelected: boolean}[] {
-    const result = [];
-    for (const iterator of input) {
-      result.push({ day: DayOfWeek[iterator.Day], isSelected: iterator.isSelected })
-    }
-    //const result = { day: DayOfWeek[input.Day], isSelected: input.isSelected };
-    //console.log(result);
-    return result;
+      map(x => x.filter(y => y.isSelected))
+    );
   }
 
 }
