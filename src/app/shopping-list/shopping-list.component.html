@@ -1,1 +1,9 @@
-<p>shopping-list works!</p>
+
+
+<div *ngFor="let item of dietDays">
+
+  <input type="checkbox" [id]="days[item.Day]"/>
+  <label [for]="days[item.Day]">
+    {{ days[item.Day] }}
+  </label>
+</div>
