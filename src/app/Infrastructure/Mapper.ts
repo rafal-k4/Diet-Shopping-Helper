@@ -21,7 +21,7 @@ export class Mapper<TResult> {
     for (const row of inputValues) {
       const genericObj = this.getConvertedRow(row, headers);
 
-      if (this.isObjectEmptyOrDefault(genericObj) === false) {
+      if (this.hasObjectAnyValues(genericObj) === false) {
 
       }
 
@@ -31,7 +31,9 @@ export class Mapper<TResult> {
     return resultTable;
   }
 
-  private isObjectEmptyOrDefault(genericObj: TResult): boolean {
+  private hasObjectAnyValues(genericObj: TResult): boolean {
+
+    var properties
 
     console.log(this.reflection.getStringifiedObject(genericObj), this.reflection.getStringifiedObject(new this.inputType()));
 
@@ -41,7 +43,7 @@ export class Mapper<TResult> {
 
   private getConvertedRow(row: string[], headers: string[]): TResult {
 
-    const propertyNames = Object.getOwnPropertyNames(new this.inputType());
+    const propertyNames = this.reflection.getProperties<TResult>(this.inputType);
     const inputTypeObj = new this.inputType();
 
     for (const [index, value] of row.entries()) {
