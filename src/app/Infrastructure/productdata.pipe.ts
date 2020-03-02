@@ -8,7 +8,7 @@ export class ProductdataPipe implements PipeTransform {
 
   transform(value: ProductModel, ...args: unknown[]): string {
 
-    let result = `${value.Item} - ${value.Weight} `;
+    let result = `${value.ProductDictionary.ProductName} - ${value.Weight}g `;
 
     return (value.ProductDictionary && value.ProductDictionary.IsQuantityCountable)
       ? result += ` (${+(value.Weight / value.ProductDictionary.WeightPerItem).toFixed(1)} x ${value.ProductDictionary.Unit})`
