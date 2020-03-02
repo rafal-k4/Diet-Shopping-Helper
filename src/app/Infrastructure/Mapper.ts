@@ -29,7 +29,6 @@ export class Mapper<TResult> {
   }
 
   private isRowEmptyOrEmptyValues(row: string[]): boolean {
-    console.log(row, row.length, this.hasArrayAnyValues(row));
     return (!row || row.length === 0 || this.hasArrayAnyValues(row) === false)
       ? true
       : false;
