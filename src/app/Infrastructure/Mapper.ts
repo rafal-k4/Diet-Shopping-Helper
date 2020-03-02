@@ -19,23 +19,26 @@ export class Mapper<TResult> {
     const resultTable: Array<TResult> = [];
 
     for (const row of inputValues) {
-      const genericObj = this.getConvertedRow(row, headers);
-
-      if (this.hasObjectAnyValues(genericObj)) {
+      if (this.isRowEmptyOrEmptyValues(row) === false) {
+        const genericObj = this.getConvertedRow(row, headers);
         resultTable.push(genericObj);
       }
-
     }
 
     return resultTable;
   }
 
-  private hasObjectAnyValues(genericObj: TResult): boolean {
+  private isRowEmptyOrEmptyValues(row: string[]): boolean {
+    console.log(row, row.length, this.hasArrayAnyValues(row));
+    return (!row || row.length === 0 || this.hasArrayAnyValues(row) === false)
+      ? true
+      : false;
+  }
 
-    const propertyNames = this.reflection.getPropertiesOfObject(genericObj);
+  private hasArrayAnyValues(array: string[]): boolean {
 
-    for (const prop of propertyNames) {
-      if (genericObj[prop] !== '') {
+    for (const record of array) {
+      if (record !== '') {
         return true;
       }
     }
