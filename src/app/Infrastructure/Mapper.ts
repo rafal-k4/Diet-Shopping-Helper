@@ -12,7 +12,7 @@ export class Mapper<TResult> {
 
   constructor(
     @Inject(EMPTY_TOKEN) private inputType: new () => TResult,
-    reflection: Reflection) {
+    private reflection: Reflection) {
   }
 
   toModel(headers: string[], inputValues: string[][]): Array<TResult> {
@@ -21,10 +21,22 @@ export class Mapper<TResult> {
 
     for (const row of inputValues) {
       const genericObj = this.getConvertedRow(row, headers);
+
+      if(this.isObjectEmptyOrDefault(genericObj) === false) {
+
+      }
+
       resultTable.push(genericObj);
     }
 
     return resultTable;
+  }
+
+  private isObjectEmptyOrDefault(genericObj: TResult): boolean {
+
+    console.log(this.reflection.getStringifiedObject(genericObj), this.reflection.getStringifiedObject(new this.inputType()));
+
+    return true;
   }
 
 

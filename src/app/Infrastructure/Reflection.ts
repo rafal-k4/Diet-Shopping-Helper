@@ -24,4 +24,8 @@ export class Reflection {
   deepClone<T>(obj: T): T {
     return JSON.parse(JSON.stringify(obj));
   }
+
+  getStringifiedObject<T>(obj: T): string {
+    return JSON.stringify(obj);
+  }
 }
