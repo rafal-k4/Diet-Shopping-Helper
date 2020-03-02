@@ -13,6 +13,10 @@ export class Reflection {
     return Object.getOwnPropertyNames(new type());
   }
 
+  getPropertiesOfObject<T>(obj: T): string[] {
+    return Object.getOwnPropertyNames(obj);
+  }
+
   getValuesOfEnum(enumType: any): string[] {
     return Object.keys(enumType).filter((type) => isNaN(type as any));
   }

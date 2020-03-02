@@ -22,10 +22,9 @@ export class Mapper<TResult> {
       const genericObj = this.getConvertedRow(row, headers);
 
       if (this.hasObjectAnyValues(genericObj) === false) {
-
+        resultTable.push(genericObj);
       }
 
-      resultTable.push(genericObj);
     }
 
     return resultTable;
@@ -33,11 +32,15 @@ export class Mapper<TResult> {
 
   private hasObjectAnyValues(genericObj: TResult): boolean {
 
-    var properties
+    const propertyNames = this.reflection.getPropertiesOfObject(genericObj);
 
-    console.log(this.reflection.getStringifiedObject(genericObj), this.reflection.getStringifiedObject(new this.inputType()));
+    for (const prop of propertyNames) {
+      if (genericObj[prop] !== '') {
+        return true;
+      }
+    }
 
-    return true;
+    return false;
   }
 
 
