@@ -1,6 +1,5 @@
 import { Injectable, InjectionToken, Inject } from '@angular/core';
 import { ColumnNameProvider } from './Decorators';
-import { TokenizeResult } from '@angular/compiler/src/ml_parser/lexer';
 import { Reflection } from './Reflection';
 
 const EMPTY_TOKEN = new InjectionToken('empty_token');
@@ -22,7 +21,7 @@ export class Mapper<TResult> {
     for (const row of inputValues) {
       const genericObj = this.getConvertedRow(row, headers);
 
-      if(this.isObjectEmptyOrDefault(genericObj) === false) {
+      if (this.isObjectEmptyOrDefault(genericObj) === false) {
 
       }
 
