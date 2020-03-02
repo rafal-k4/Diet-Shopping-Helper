@@ -21,7 +21,7 @@ export class Mapper<TResult> {
     for (const row of inputValues) {
       const genericObj = this.getConvertedRow(row, headers);
 
-      if (this.hasObjectAnyValues(genericObj) === false) {
+      if (this.hasObjectAnyValues(genericObj)) {
         resultTable.push(genericObj);
       }
 
