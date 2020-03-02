@@ -1,6 +1,5 @@
 import { Injectable, InjectionToken, Inject } from '@angular/core';
 import { ColumnNameProvider } from './Decorators';
-import { TokenizeResult } from '@angular/compiler/src/ml_parser/lexer';
 import { Reflection } from './Reflection';
 
 const EMPTY_TOKEN = new InjectionToken('empty_token');
@@ -12,7 +11,7 @@ export class Mapper<TResult> {
 
   constructor(
     @Inject(EMPTY_TOKEN) private inputType: new () => TResult,
-    reflection: Reflection) {
+    private reflection: Reflection) {
   }
 
   toModel(headers: string[], inputValues: string[][]): Array<TResult> {
@@ -20,17 +19,36 @@ export class Mapper<TResult> {
     const resultTable: Array<TResult> = [];
 
     for (const row of inputValues) {
-      const genericObj = this.getConvertedRow(row, headers);
-      resultTable.push(genericObj);
+      if (this.isRowEmptyOrEmptyValues(row) === false) {
+        const genericObj = this.getConvertedRow(row, headers);
+        resultTable.push(genericObj);
+      }
     }
 
     return resultTable;
   }
 
+  private isRowEmptyOrEmptyValues(row: string[]): boolean {
+    return (!row || row.length === 0 || this.hasArrayAnyValues(row) === false)
+      ? true
+      : false;
+  }
+
+  private hasArrayAnyValues(array: string[]): boolean {
+
+    for (const record of array) {
+      if (record !== '') {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
 
   private getConvertedRow(row: string[], headers: string[]): TResult {
 
-    const propertyNames = Object.getOwnPropertyNames(new this.inputType());
+    const propertyNames = this.reflection.getProperties<TResult>(this.inputType);
     const inputTypeObj = new this.inputType();
 
     for (const [index, value] of row.entries()) {

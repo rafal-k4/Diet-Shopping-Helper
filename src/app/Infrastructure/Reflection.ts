@@ -13,6 +13,10 @@ export class Reflection {
     return Object.getOwnPropertyNames(new type());
   }
 
+  getPropertiesOfObject<T>(obj: T): string[] {
+    return Object.getOwnPropertyNames(obj);
+  }
+
   getValuesOfEnum(enumType: any): string[] {
     return Object.keys(enumType).filter((type) => isNaN(type as any));
   }
@@ -23,5 +27,9 @@ export class Reflection {
 
   deepClone<T>(obj: T): T {
     return JSON.parse(JSON.stringify(obj));
+  }
+
+  getStringifiedObject<T>(obj: T): string {
+    return JSON.stringify(obj);
   }
 }

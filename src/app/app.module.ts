@@ -19,6 +19,7 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { DropdownInitDirective } from './infrastructure/dropdown-init.directive';
 import { FooterComponent } from './footer/footer.component';
 import { ProductdataPipe } from './infrastructure/productdata.pipe';
+import { Reflection } from './Infrastructure/Reflection';
 
 
 
@@ -41,11 +42,13 @@ import { ProductdataPipe } from './infrastructure/productdata.pipe';
   providers: [
     {
       provide: DICTIONARY_PRODUCT_MAPPER_TOKEN,
-      useFactory: DICTIONARY_PRODUCT_MAPPER_FACTORY
+      useFactory: DICTIONARY_PRODUCT_MAPPER_FACTORY,
+      deps: [Reflection]
     },
     {
       provide: DIET_HARMONOGRAM_MAPPER_TOKEN,
-      useFactory: DIET_HARMONOGRAM_MAPPER_FACTORY
+      useFactory: DIET_HARMONOGRAM_MAPPER_FACTORY,
+      deps: [Reflection]
     },
     {
       provide: ConfigService,
