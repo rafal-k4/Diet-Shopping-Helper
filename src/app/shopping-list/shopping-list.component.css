@@ -1,0 +1,14 @@
+.containerDiv {
+  display: flex;
+  align-items: center;
+}
+
+.myInput {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.myLabel {
+  margin-right: auto;
+  margin-left: auto;
+}
