@@ -3,8 +3,8 @@ import { DietHarmonogramService } from '../diet-harmonogram.service';
 import { DietHarmonogramModel } from '../Models/DietHarmonogramModel';
 import { DayOfWeek } from '../Infrastructure/DayOfWeek';
 import { NgForm } from '@angular/forms';
-import { map, delay, switchMap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { map, delay, switchMap, flatMap, filter } from 'rxjs/operators';
+import { Observable, of, from } from 'rxjs';
 import { ProductModel } from '../Models/ProductModel';
 import { Reflection } from '../Infrastructure/Reflection';
 
@@ -15,7 +15,9 @@ import { Reflection } from '../Infrastructure/Reflection';
 })
 export class ShoppingListComponent implements OnInit, AfterViewInit {
 
-  public combinedProducts$: Observable<ProductModel[]>;
+  public longLastingProducts$: Observable<ProductModel[]>;
+  public shortExpirationDateProducts$: Observable<ProductModel[]>;
+
   public days = DayOfWeek;
   public dietDays: DietHarmonogramModel[];
   @ViewChild('dietDaysForm') form: NgForm;
@@ -42,9 +44,22 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
       map(x => x.filter(y => y.isSelected))
     );
 
-    this.combinedProducts$ = selectedDays$.pipe(
-      switchMap(x => of(this.MergeAllProductIntoOneList(x)))
+    const combinedProducts$ = selectedDays$.pipe(
+      flatMap(x => of(this.MergeAllProductIntoOneList(x)))
     );
+
+    this.longLastingProducts$ = combinedProducts$.pipe(
+      map(x => {
+        return x.filter(y => y.ProductDictionary.IsLongLastingProduct === true);
+      })
+    );
+
+    this.shortExpirationDateProducts$ = combinedProducts$.pipe(
+      map(x => {
+        return x.filter(y => y.ProductDictionary.IsLongLastingProduct === false);
+      })
+    )
+
   }
 
   private MergeAllProductIntoOneList(input: DietHarmonogramModel[]): ProductModel[] {

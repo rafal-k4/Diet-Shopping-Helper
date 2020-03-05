@@ -12,8 +12,23 @@
 </form>
 
 
-  <div *ngFor="let item of combinedProducts$ | async">
-    {{ item | productdata }}
-   </div>
+<div *ngFor="let item of shortExpirationDateProducts$ | async">
+  {{ item | productdata }}
+</div>
+
+<br>
+
+
+
+<div *ngIf="(longLastingProducts$ | async)?.length > 0">
+  Produkty o dłuższym terminie przydatności
+</div>
+
+<br>
+
+<div *ngFor="let item of longLastingProducts$ | async">
+  {{ item | productdata }}
+</div>
+
 
 
