@@ -1,16 +1,22 @@
 
 <form #dietDaysForm="ngForm">
-  <div *ngFor="let item of dietDays">
 
-    <div class="ui checkbox">
-      <input type="checkbox" [id]="days[item.Day]" [name]="days[item.Day]" [(ngModel)]="item.isSelected"/>
-      <label [for]="days[item.Day]">
-        {{ days[item.Day] }}
-      </label>
+
+    <div class="ui four cards doubling stackable centered">
+      <div class="card"  *ngFor="let item of dietDays">
+
+        <div class="content">
+          <div class="ui checkbox">
+            <input type="checkbox" [id]="days[item.Day]" [name]="days[item.Day]" [(ngModel)]="item.isSelected"/>
+            <label [for]="days[item.Day]">
+              {{ days[item.Day] }}
+            </label>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-
-  </div>
 
 </form>
 
