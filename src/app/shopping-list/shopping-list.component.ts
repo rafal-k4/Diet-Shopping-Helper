@@ -58,7 +58,7 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
       map(x => {
         return x.filter(y => y.ProductDictionary.IsLongLastingProduct === false);
       })
-    )
+    );
 
   }
 
