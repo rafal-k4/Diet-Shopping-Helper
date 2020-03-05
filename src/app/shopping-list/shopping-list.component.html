@@ -2,10 +2,13 @@
 <form #dietDaysForm="ngForm">
   <div *ngFor="let item of dietDays">
 
-    <input type="checkbox" [id]="days[item.Day]" [name]="days[item.Day]" [(ngModel)]="item.isSelected"/>
-    <label [for]="days[item.Day]">
-      {{ days[item.Day] }}
-    </label>
+    <div class="ui checkbox">
+      <input type="checkbox" [id]="days[item.Day]" [name]="days[item.Day]" [(ngModel)]="item.isSelected"/>
+      <label [for]="days[item.Day]">
+        {{ days[item.Day] }}
+      </label>
+    </div>
+
 
   </div>
 
@@ -17,8 +20,6 @@
 </div>
 
 <br>
-
-
 
 <div *ngIf="(longLastingProducts$ | async)?.length > 0">
   Produkty o dłuższym terminie przydatności
