@@ -2,7 +2,7 @@
 
 In order to deploy for github static page, run this command:
 
-> ng build --prod --output-path docs --base-href /Diet-Shopping-Helper/
+> ng build --prod --output-path docs --base-href /Diet-Shopping-Helper
 
 
 Next, make a copy of `docs/index.html` and name it `docs/404.html` 
