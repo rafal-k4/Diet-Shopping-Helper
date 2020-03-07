@@ -1,3 +1,16 @@
+# Github Page Deploy:
+
+In order to deploy for github static page, run this command:
+
+> ng build --prod --output-path docs --base-href /Diet-Shopping-Helper/
+
+
+Next, make a copy of `docs/index.html` and name it `docs/404.html` 
+
+Commit your changes, push and make sure that settings section of github pages is set to `master/docs`
+
+<br>
+
 # DietShoppingHelper
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.2.
