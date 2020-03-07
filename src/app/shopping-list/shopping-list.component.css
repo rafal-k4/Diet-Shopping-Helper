@@ -11,3 +11,25 @@
 .right-spacing {
   margin-right: 1rem;
 }
+
+
+ol {
+  counter-reset: item;
+  list-style-type: none;
+  padding-left: 10px;
+}
+li {
+  display: block;
+  padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+}
+
+li:before {
+  content: counter(item) "  ";
+  counter-increment: item;
+  opacity: 0.8;
+  padding: 5px;
+}
+
+.left-margin {
+  margin-left: 2rem;
+}

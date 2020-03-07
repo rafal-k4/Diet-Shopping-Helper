@@ -16,56 +16,29 @@
 </form>
 
 
-<div *ngFor="let item of shortExpirationDateProducts$ | async">
-  {{ item | productdata }}
-</div>
+<ol class="">
+  <li
+    class=""
+    *ngFor="let item of shortExpirationDateProducts$ | async">
+      {{ item | productdata }}
+  </li>
+
+</ol>
 
 <br>
 
-<div *ngIf="(longLastingProducts$ | async)?.length > 0">
+<div *ngIf="(longLastingProducts$ | async)?.length > 0" class="left-margin">
   Produkty o dłuższym terminie przydatności
 </div>
 
 <br>
 
-<div *ngFor="let item of longLastingProducts$ | async">
-  {{ item | productdata }}
-</div>
+<ol class="">
+  <li
+    class=""
+    *ngFor="let item of longLastingProducts$ | async">
+      {{ item | productdata }}
+ </li>
 
+</ol>
 
-
-<!-- <div style="width: 200px; height: 200px; border-style: solid;" class="containerDiv">
-  <input type="checkbox" id="test" class="myInput">
-  <label for="test" class="myLabel">
-    label
-  </label>
-</div>
-
-
-    <div class="ui four cards doubling stackable centered">
-      <div class="card"  >
-
-        <div class="content myCustomContent">
-          <div class="">
-            <input type="checkbox" id="test2" class="myInput2"/>
-            <label for="test2" class="myLabel2">
-              DAY
-            </label>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="ui four cards doubling stackable centered">
-      <div class="card">
-        <div class="" id="myContener">
-          <label class="" id="mycustomlabel">
-            <div class="divinlabel">
-              <input type="checkbox" class="" id="mycustominput">
-              MY LABEL
-            </div>
-          </label>
-        </div>
-      </div>
-    </div> -->
