@@ -7,7 +7,7 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 const routes: Routes = [
   { path: '', redirectTo: '\home', pathMatch: 'full' },
   { path: '\home', component: HomeComponent },
-  { path: '\shoppinglist', component: ShoppingListComponent }
+  { path: '\shoppinglist', component: ShoppingListComponent },
   { path: '**', redirectTo: '\home' }
 ];
 
