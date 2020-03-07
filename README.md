@@ -11,6 +11,12 @@ Commit your changes, push and make sure that settings section of github pages is
 
 <br>
 
+Another option is to use dedicated helper, guide under this url:
+
+<https://github.com/angular-schule/angular-cli-ghpages>
+
+<br>
+
 # DietShoppingHelper
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.2.
