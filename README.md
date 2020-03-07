@@ -15,7 +15,15 @@ Another option is to use dedicated helper, guide under this url:
 
 <https://github.com/angular-schule/angular-cli-ghpages>
 
-<br>
+# Github Page 404 Fix:
+
+In order to fix ` "404 - page not found" ` in github pages, we need do add automatically redirect to the base href url, using web browser localStorage property.
+
+Guide for this approach is here: <https://shermandigital.com/blog/fix-404-errors-from-angular-projects-hosted-on-github-pages/>
+
+ ## :warning: **WARGNING**
+
+This fix exclude copy of `docs/index.html` into `docs/404.html` because we need to create predefined `404.html` file which is used as a proxy for redirecting to application base href!
 
 # DietShoppingHelper
 
