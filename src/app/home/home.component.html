@@ -1,4 +1,7 @@
 
+<select class="ui fluid search dropdown" multiple="">
+  <option *ngFor="let prod of productDictionary" [value]='prod.Id'> {{prod.ProductName}} </option>
+</select>
 
 
 <div class="ui four cards doubling stackable centered">
