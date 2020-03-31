@@ -1,5 +1,6 @@
 
-<select class="ui fluid search dropdown" multiple="">
+<select class="ui fluid search dropdown" multiple="" appDropdownInit>
+  <option value="">Search For Products</option>
   <option *ngFor="let prod of productDictionary" [value]='prod.Id'> {{prod.ProductName}} </option>
 </select>
 

@@ -8,7 +8,7 @@ declare var $: any;
 export class DropdownInitDirective implements AfterViewInit {
 
   constructor(private element: ElementRef) {
-   }
+  }
 
   ngAfterViewInit(): void {
     $('.ui.dropdown').dropdown();
