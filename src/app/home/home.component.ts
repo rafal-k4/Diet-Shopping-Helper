@@ -18,6 +18,8 @@ export class HomeComponent implements OnInit {
 
   productDictionary: ProductDictionaryModel[];
 
+  filteredProducts: string[];
+
   constructor(
     private dietHarmonogramService: DietHarmonogramService,
     private dietDictionaryService: DictionaryProductService) { }
@@ -35,5 +37,4 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-
 }
