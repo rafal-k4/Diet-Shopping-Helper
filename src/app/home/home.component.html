@@ -1,8 +1,5 @@
 
-<select class="ui fluid search dropdown" multiple="" appDropdownInit [(ngModel)]="filteredProducts">
-  <option value="">Search For Products</option>
-  <option *ngFor="let prod of productDictionary" [value]='prod.ProductName'> {{prod.ProductName}} </option>
-</select>
+<app-product-select-search></app-product-select-search>
 
 <div class="ui four cards doubling stackable centered">
   <div class="card" *ngFor="let item of dietHarmonogram">
