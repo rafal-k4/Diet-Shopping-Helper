@@ -20,6 +20,7 @@ import { DropdownInitDirective } from './infrastructure/dropdown-init.directive'
 import { FooterComponent } from './footer/footer.component';
 import { ProductdataPipe } from './infrastructure/productdata.pipe';
 import { Reflection } from './Infrastructure/Reflection';
+import { ProductSelectSearchComponent } from './product-select-search/product-select-search.component';
 
 
 
@@ -31,7 +32,8 @@ import { Reflection } from './Infrastructure/Reflection';
     ShoppingListComponent,
     DropdownInitDirective,
     FooterComponent,
-    ProductdataPipe
+    ProductdataPipe,
+    ProductSelectSearchComponent
   ],
   imports: [
     BrowserModule,
