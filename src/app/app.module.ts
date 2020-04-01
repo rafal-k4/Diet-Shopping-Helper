@@ -22,7 +22,7 @@ import { ProductdataPipe } from './infrastructure/productdata.pipe';
 import { Reflection } from './Infrastructure/Reflection';
 import { ProductSelectSearchComponent } from './product-select-search/product-select-search.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { MatChipsModule } from '@angular/material/chips';
 
 
 @NgModule({
@@ -41,7 +41,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatChipsModule
   ],
   providers: [
     {
