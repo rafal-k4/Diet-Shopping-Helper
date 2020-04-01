@@ -5,6 +5,8 @@ import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/a
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { ProductDictionaryModel } from '../Models/ProductDictionaryModel';
+import { DictionaryProductService } from '../dictionary-product.service';
 
 
 export interface Fruit {
@@ -25,10 +27,17 @@ export class ProductSelectSearchComponent {
   fruits: string[] = ['Lemon'];
   allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
+  allProducts: ProductDictionaryModel[];
+
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  constructor() {
+  constructor(private dictionaryProductService: DictionaryProductService) {
+
+    dictionaryProductService.getProductDictionaryData().subscribe(x => {
+      this.allProducts = x;
+    });
+
     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
         startWith(null),
         map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
