@@ -21,6 +21,7 @@ import { FooterComponent } from './footer/footer.component';
 import { ProductdataPipe } from './infrastructure/productdata.pipe';
 import { Reflection } from './Infrastructure/Reflection';
 import { ProductSelectSearchComponent } from './product-select-search/product-select-search.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -39,7 +40,8 @@ import { ProductSelectSearchComponent } from './product-select-search/product-se
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {
