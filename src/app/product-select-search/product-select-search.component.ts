@@ -3,8 +3,8 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {map, startWith, switchMap, tap} from 'rxjs/operators';
 import { ProductDictionaryModel } from '../Models/ProductDictionaryModel';
 import { DictionaryProductService } from '../dictionary-product.service';
 
@@ -32,15 +32,15 @@ export class ProductSelectSearchComponent {
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  constructor(private dictionaryProductService: DictionaryProductService) {
+  constructor(dictionaryProductService: DictionaryProductService) {
 
     dictionaryProductService.getProductDictionaryData().subscribe(x => {
       this.allProducts = x;
     });
 
     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-        startWith(null),
-        map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
+      startWith(''), // startWith('') is neccessary for first click on select and displaying all select-option
+      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
   }
 
   add(event: MatChipInputEvent): void {
@@ -76,7 +76,6 @@ export class ProductSelectSearchComponent {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
 
