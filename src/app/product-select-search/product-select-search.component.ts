@@ -19,9 +19,6 @@ export interface Fruit {
 })
 export class ProductSelectSearchComponent {
 
-  visible = true;
-  selectable = true;
-  removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl();
   filteredFruits: Observable<string[]>;
