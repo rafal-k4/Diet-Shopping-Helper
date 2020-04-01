@@ -23,6 +23,8 @@ import { Reflection } from './Infrastructure/Reflection';
 import { ProductSelectSearchComponent } from './product-select-search/product-select-search.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCommonModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -42,7 +44,8 @@ import { MatChipsModule } from '@angular/material/chips';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    MatChipsModule
+    MatChipsModule,
+    MatFormFieldModule
   ],
   providers: [
     {
