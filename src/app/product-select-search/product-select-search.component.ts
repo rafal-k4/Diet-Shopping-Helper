@@ -64,7 +64,7 @@ export class ProductSelectSearchComponent implements OnInit {
 
 
   isStringNotEmpty(inputValue: string): boolean {
-    return !inputValue.trim() ? false : true;
+    return !inputValue ? false : !inputValue.trim() ? false : true;
   }
 
 
