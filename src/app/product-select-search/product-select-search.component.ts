@@ -33,26 +33,42 @@ export class ProductSelectSearchComponent implements OnInit {
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
+  constructor(private dictionaryProductService: DictionaryProductService) {
+
+  }
+
   ngOnInit(): void {
     this.filteredProducts = this.formCtrl.valueChanges.pipe(
       startWith(''),
-      switchMap((inputValue) =>
-        inputValue ?
-          of(this._filter(inputValue))
-          : !this.allProducts ?
-            this.dictionaryProductService.getProductDictionaryData()
-            : of(this.allProducts)
+      switchMap((inputValue: string) =>
+        this.isStringNotEmpty(inputValue)
+          ? of(this._filter(inputValue))
+          : this.doesProductsExists(this.allProducts)
+            ? of(this.allProducts)
+            : this.getProducts()
       )
     );
   }
 
-
-  constructor(private dictionaryProductService: DictionaryProductService) {
-
-    dictionaryProductService.getProductDictionaryData().subscribe(x => {
-      this.allProducts = x;
-    });
+  getProducts(): Observable<ProductDictionaryModel[]> {
+    return this.dictionaryProductService.getProductDictionaryData().pipe(
+      tap( x => {
+        this.allProducts = x;
+      })
+    );
   }
+
+  doesProductsExists(products: ProductDictionaryModel[]): boolean {
+    return !products ? false : true;
+  }
+
+
+  isStringNotEmpty(inputValue: string): boolean {
+    return !inputValue.trim() ? false : true;
+  }
+
+
+
 
 
   add(event: MatChipInputEvent): void {
