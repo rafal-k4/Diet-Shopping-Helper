@@ -30,7 +30,7 @@ export class ProductSelectSearchComponent implements OnInit {
   filteredProducts: Observable<ProductDictionaryModel[]>;
 
 
-  @ViewChild('productInput') fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('productInput') productInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(private dictionaryProductService: DictionaryProductService) {
@@ -83,7 +83,7 @@ export class ProductSelectSearchComponent implements OnInit {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this.productsNames.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
+    this.productInput.nativeElement.value = '';
     this.formCtrl.setValue(null);
   }
 
