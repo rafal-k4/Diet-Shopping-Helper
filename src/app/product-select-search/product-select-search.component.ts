@@ -1,5 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, ViewChild, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
@@ -19,7 +19,7 @@ export interface Fruit {
   templateUrl: './product-select-search.component.html',
   styleUrls: ['./product-select-search.component.css']
 })
-export class ProductSelectSearchComponent {
+export class ProductSelectSearchComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   formCtrl = new FormControl();
@@ -33,17 +33,27 @@ export class ProductSelectSearchComponent {
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  constructor(dictionaryProductService: DictionaryProductService) {
+  ngOnInit(): void {
+    this.filteredProducts = this.formCtrl.valueChanges.pipe(
+      startWith(''),
+      switchMap((inputValue) =>
+        inputValue ?
+          of(this._filter(inputValue))
+          : !this.allProducts ?
+            this.dictionaryProductService.getProductDictionaryData()
+            : of(this.allProducts)
+      )
+    );
+  }
+
+
+  constructor(private dictionaryProductService: DictionaryProductService) {
 
     dictionaryProductService.getProductDictionaryData().subscribe(x => {
       this.allProducts = x;
     });
-
-    this.filteredProducts = this.formCtrl.valueChanges.pipe(
-      startWith(''),
-      map((inputValue) => inputValue ? this._filter(inputValue) : this.allProducts)
-    );
   }
+
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
