@@ -37,4 +37,8 @@ export class HomeComponent implements OnInit {
       }
     );
   }
+
+  receiveSelectedProducts(productsNames: string[]) {
+    console.log(productsNames);
+  }
 }
