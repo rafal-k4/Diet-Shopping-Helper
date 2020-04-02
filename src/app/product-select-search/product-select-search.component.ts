@@ -22,10 +22,12 @@ export interface Fruit {
 export class ProductSelectSearchComponent {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
-  fruits: string[] = ['Lemon'];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  formCtrl = new FormControl();
+  //filteredFruits: Observable<string[]>;
+  //fruits: string[] = ['Lemon'];
+  //allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+  productsNames: string[];
 
   allProducts: ProductDictionaryModel[];
   filteredProducts: Observable<ProductDictionaryModel[]>;
@@ -40,7 +42,7 @@ export class ProductSelectSearchComponent {
       this.allProducts = x;
     });
 
-    this.filteredProducts = this.fruitCtrl.valueChanges.pipe(
+    this.filteredProducts = this.formCtrl.valueChanges.pipe(
       startWith(''),
       map((inputValue) => inputValue ? this._filter(inputValue) : this.allProducts)
     );
@@ -52,7 +54,7 @@ export class ProductSelectSearchComponent {
 
     // Add our fruit
     if ((value || '').trim()) {
-      this.fruits.push(value.trim());
+      this.productsNames.push(value.trim());
     }
 
     // Reset the input value
@@ -60,21 +62,21 @@ export class ProductSelectSearchComponent {
       input.value = '';
     }
 
-    this.fruitCtrl.setValue(null);
+    this.formCtrl.setValue(null);
   }
 
   remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
+    const index = this.productsNames.indexOf(fruit);
 
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.productsNames.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
+    this.productsNames.push(event.option.viewValue);
     this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
+    this.formCtrl.setValue(null);
   }
 
   private _filter(value: string): ProductDictionaryModel[] {
