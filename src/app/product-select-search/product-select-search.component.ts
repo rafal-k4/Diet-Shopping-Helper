@@ -37,8 +37,6 @@ export class ProductSelectSearchComponent implements OnInit {
 
   }
 
-  // TODO: make filter working for contains, not only as startWith
-
   ngOnInit(): void {
     this.filteredProducts = this.formCtrl.valueChanges.pipe(
       startWith(''),
@@ -89,7 +87,7 @@ export class ProductSelectSearchComponent implements OnInit {
 
   private _filter(value: string): ProductDictionaryModel[] {
     const filterValue = value.toLowerCase();
-    return this.allProducts.filter(product => product.ProductName.toLowerCase().indexOf(filterValue) === 0);
+    return this.allProducts.filter(product => product.ProductName.toLowerCase().includes(filterValue));
   }
 
   private getProducts(): Observable<ProductDictionaryModel[]> {
@@ -108,8 +106,5 @@ export class ProductSelectSearchComponent implements OnInit {
   private isStringNotEmpty(inputValue: string): boolean {
     return !inputValue ? false : !inputValue.trim() ? false : true;
   }
-
-
-
 
 }
