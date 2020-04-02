@@ -50,26 +50,6 @@ export class ProductSelectSearchComponent implements OnInit {
     );
   }
 
-  getProducts(): Observable<ProductDictionaryModel[]> {
-    return this.dictionaryProductService.getProductDictionaryData().pipe(
-      tap( x => {
-        this.allProducts = x;
-      })
-    );
-  }
-
-  doesProductsExists(products: ProductDictionaryModel[]): boolean {
-    return !products ? false : true;
-  }
-
-
-  isStringNotEmpty(inputValue: string): boolean {
-    return !inputValue ? false : !inputValue.trim() ? false : true;
-  }
-
-
-
-
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -105,6 +85,23 @@ export class ProductSelectSearchComponent implements OnInit {
   private _filter(value: string): ProductDictionaryModel[] {
     const filterValue = value.toLowerCase();
     return this.allProducts.filter(product => product.ProductName.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  private getProducts(): Observable<ProductDictionaryModel[]> {
+    return this.dictionaryProductService.getProductDictionaryData().pipe(
+      tap( x => {
+        this.allProducts = x;
+      })
+    );
+  }
+
+  private doesProductsExists(products: ProductDictionaryModel[]): boolean {
+    return !products ? false : true;
+  }
+
+
+  private isStringNotEmpty(inputValue: string): boolean {
+    return !inputValue ? false : !inputValue.trim() ? false : true;
   }
 
 }
