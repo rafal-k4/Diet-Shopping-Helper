@@ -23,11 +23,8 @@ export class ProductSelectSearchComponent {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   formCtrl = new FormControl();
-  //filteredFruits: Observable<string[]>;
-  //fruits: string[] = ['Lemon'];
-  //allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
-  productsNames: string[];
+  productsNames: string[] = [];
 
   allProducts: ProductDictionaryModel[];
   filteredProducts: Observable<ProductDictionaryModel[]>;

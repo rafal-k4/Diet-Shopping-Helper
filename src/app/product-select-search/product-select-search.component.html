@@ -19,12 +19,11 @@
       (matChipInputTokenEnd)="add($event)">
   </mat-chip-list>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-    <mat-option *ngFor="let product of filteredProducts | async" [value]="product">
+    <mat-option *ngFor="let product of filteredProducts | async" [value]="product.ProductName">
       {{product.ProductName}}
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
-
 
 
 
