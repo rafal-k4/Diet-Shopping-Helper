@@ -26,6 +26,7 @@ export class ProductSelectSearchComponent implements OnInit {
   formCtrl = new FormControl();
 
   productsNames: string[] = [];
+  productsIds: number[] = [];
 
   allProducts: ProductDictionaryModel[];
   filteredProducts: Observable<ProductDictionaryModel[]>;
@@ -75,8 +76,8 @@ export class ProductSelectSearchComponent implements OnInit {
     this.formCtrl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.productsNames.indexOf(fruit);
+  remove(product: string): void {
+    const index = this.productsNames.indexOf(product);
 
     if (index >= 0) {
       this.productsNames.splice(index, 1);
@@ -85,6 +86,7 @@ export class ProductSelectSearchComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
+
     this.productsNames.push(event.option.viewValue);
     this.productSelected.emit(this.productsNames);
 
