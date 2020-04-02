@@ -30,7 +30,7 @@ export class ProductSelectSearchComponent implements OnInit {
   filteredProducts: Observable<ProductDictionaryModel[]>;
 
 
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('productInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(private dictionaryProductService: DictionaryProductService) {
@@ -38,7 +38,7 @@ export class ProductSelectSearchComponent implements OnInit {
   }
 
   // TODO: make filter working for contains, not only as startWith
-  // TODO: make displaying whole list after enter hit, or selection
+  // TODO: make displaying whole list after click on input!
 
   ngOnInit(): void {
     this.filteredProducts = this.formCtrl.valueChanges.pipe(
@@ -51,8 +51,8 @@ export class ProductSelectSearchComponent implements OnInit {
             : this.getProducts()
       )
     );
-  }
 
+  }
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
