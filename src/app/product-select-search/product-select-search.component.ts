@@ -1,7 +1,7 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {Component, ElementRef, ViewChild, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
+import {MatAutocompleteSelectedEvent, MatAutocomplete, MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Observable, of} from 'rxjs';
 import {map, startWith, switchMap, tap} from 'rxjs/operators';
@@ -38,7 +38,6 @@ export class ProductSelectSearchComponent implements OnInit {
   }
 
   // TODO: make filter working for contains, not only as startWith
-  // TODO: make displaying whole list after click on input!
 
   ngOnInit(): void {
     this.filteredProducts = this.formCtrl.valueChanges.pipe(
@@ -51,7 +50,10 @@ export class ProductSelectSearchComponent implements OnInit {
             : this.getProducts()
       )
     );
+  }
 
+  openPanel(e: MatAutocompleteTrigger) {
+    e.openPanel();
   }
 
   add(event: MatChipInputEvent): void {
@@ -106,5 +108,8 @@ export class ProductSelectSearchComponent implements OnInit {
   private isStringNotEmpty(inputValue: string): boolean {
     return !inputValue ? false : !inputValue.trim() ? false : true;
   }
+
+
+
 
 }
