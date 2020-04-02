@@ -28,6 +28,8 @@ export class ProductSelectSearchComponent {
   allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
   allProducts: ProductDictionaryModel[];
+  filteredProducts: Observable<ProductDictionaryModel[]>;
+
 
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -38,9 +40,10 @@ export class ProductSelectSearchComponent {
       this.allProducts = x;
     });
 
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(''), // startWith('') is neccessary for first click on select and displaying all select-option
-      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
+    this.filteredProducts = this.fruitCtrl.valueChanges.pipe(
+      startWith(''),
+      map((inputValue) => inputValue ? this._filter(inputValue) : this.allProducts)
+    );
   }
 
   add(event: MatChipInputEvent): void {
@@ -74,9 +77,9 @@ export class ProductSelectSearchComponent {
     this.fruitCtrl.setValue(null);
   }
 
-  private _filter(value: string): string[] {
+  private _filter(value: string): ProductDictionaryModel[] {
     const filterValue = value.toLowerCase();
-    return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+    return this.allProducts.filter(product => product.ProductName.toLowerCase().indexOf(filterValue) === 0);
   }
 
 }
