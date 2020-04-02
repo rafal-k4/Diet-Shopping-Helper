@@ -37,6 +37,9 @@ export class ProductSelectSearchComponent implements OnInit {
 
   }
 
+  // TODO: make filter working for contains, not only as startWith
+  // TODO: make displaying whole list after enter hit, or selection
+
   ngOnInit(): void {
     this.filteredProducts = this.formCtrl.valueChanges.pipe(
       startWith(''),
