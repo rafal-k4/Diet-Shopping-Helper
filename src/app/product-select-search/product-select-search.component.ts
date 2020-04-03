@@ -68,7 +68,8 @@ export class ProductSelectSearchComponent implements OnInit {
       const product = this.getProductByName(value);
 
       if (product) {
-        this.productSelected.emit()
+        this.productsIds.push(product.Id);
+        this.productSelected.emit(this.productsIds);
       }
 
       this.productsNames.push(value.trim());
@@ -96,7 +97,9 @@ export class ProductSelectSearchComponent implements OnInit {
   selected(event: MatAutocompleteSelectedEvent): void {
 
     this.productsNames.push(event.option.viewValue);
-    this.productSelected.emit(this.productsNames);
+
+    this.productsIds.push(event.option.value)
+    this.productSelected.emit(this.productsIds);
 
     this.productInput.nativeElement.value = '';
     this.formCtrl.setValue(null);
