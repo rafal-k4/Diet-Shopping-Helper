@@ -45,7 +45,7 @@ export class ProductSelectSearchComponent implements OnInit {
     this.filteredProducts = this.formCtrl.valueChanges.pipe(
       startWith(''),
       switchMap((inputValue: string) =>
-        this.isStringNotEmpty(inputValue)
+        this.isNullOrWhiteSpace(inputValue) === false
           ? of(this._filter(inputValue))
           : this.doesProductsExists(this.allProducts)
             ? of(this.allProducts)
@@ -54,8 +54,8 @@ export class ProductSelectSearchComponent implements OnInit {
     );
   }
 
-  openPanel(e: MatAutocompleteTrigger) {
-    e.openPanel();
+  openPanel(autocompleteTrigger: MatAutocompleteTrigger) {
+    autocompleteTrigger.openPanel();
   }
 
   add(event: MatChipInputEvent): void {
@@ -63,9 +63,14 @@ export class ProductSelectSearchComponent implements OnInit {
     const value = event.value;
 
     // Add our fruit
-    if ((value || '').trim()) {
+    if (this.isNullOrWhiteSpace(value) === false) {
+
+      if(this.isProductFromList(value)){
+        //this.
+      }
+
       this.productsNames.push(value.trim());
-      this.productSelected.emit(this.productsNames);
+
     }
 
     // Reset the input value
@@ -74,6 +79,12 @@ export class ProductSelectSearchComponent implements OnInit {
     }
 
     this.formCtrl.setValue(null);
+  }
+
+
+  isProductFromList(value: string): boolean {
+    const lowerCaseValue = value.trim().toLowerCase();
+    return this.allProducts.filter(x => x.ProductName.trim().toLowerCase() === lowerCaseValue).length > 0;
   }
 
   remove(product: string): void {
@@ -112,8 +123,8 @@ export class ProductSelectSearchComponent implements OnInit {
   }
 
 
-  private isStringNotEmpty(inputValue: string): boolean {
-    return !inputValue ? false : !inputValue.trim() ? false : true;
+  private isNullOrWhiteSpace(inputValue: string): boolean {
+    return !inputValue ? true : !inputValue.trim() ? true : false;
   }
 
 }
