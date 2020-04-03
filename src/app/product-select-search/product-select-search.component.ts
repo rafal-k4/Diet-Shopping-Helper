@@ -115,7 +115,9 @@ export class ProductSelectSearchComponent implements OnInit {
 
   private _filter(value: string): ProductDictionaryModel[] {
     const filterValue = value.toLowerCase();
-    return this.allProducts.filter(product => product.ProductName.toLowerCase().includes(filterValue));
+    return this.allProducts
+              .filter(product => product.ProductName.toLowerCase().includes(filterValue))
+              .filter(product => !this.productsNames.find(prodName => prodName === product.ProductName));
   }
 
   private getProducts(): Observable<ProductDictionaryModel[]> {
