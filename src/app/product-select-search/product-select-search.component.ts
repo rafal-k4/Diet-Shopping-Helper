@@ -8,13 +8,6 @@ import { startWith, switchMap, tap } from 'rxjs/operators';
 import { ProductDictionaryModel } from '../Models/ProductDictionaryModel';
 import { DictionaryProductService } from '../dictionary-product.service';
 
-
-
-export interface Fruit {
-  name: string;
-}
-
-
 @Component({
   selector: 'app-product-select-search',
   templateUrl: './product-select-search.component.html',
@@ -83,22 +76,31 @@ export class ProductSelectSearchComponent implements OnInit {
     this.formCtrl.setValue(null);
   }
 
-
-
   remove(product: string): void {
     const index = this.productsNames.indexOf(product);
 
     if (index >= 0) {
       this.productsNames.splice(index, 1);
-      this.productSelected.emit(this.productsNames);
     }
+
+    const existingProduct = this.getProductByName(product);
+
+    if (existingProduct) {
+      const indexInIdsTable = this.productsIds.indexOf(existingProduct.Id);
+
+      if (indexInIdsTable >= 0) {
+        this.productsIds.splice(indexInIdsTable, 1);
+        this.productSelected.emit(this.productsIds);
+      }
+    }
+
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
 
     this.productsNames.push(event.option.viewValue);
 
-    this.productsIds.push(event.option.value)
+    this.productsIds.push(event.option.value);
     this.productSelected.emit(this.productsIds);
 
     this.productInput.nativeElement.value = '';
@@ -127,7 +129,6 @@ export class ProductSelectSearchComponent implements OnInit {
   private doesProductsExists(products: ProductDictionaryModel[]): boolean {
     return !products ? false : true;
   }
-
 
   private isNullOrWhiteSpace(inputValue: string): boolean {
     return !inputValue ? true : !inputValue.trim() ? true : false;
