@@ -62,15 +62,16 @@ export class ProductSelectSearchComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
+    // Add product to mat-chip
     if (this.isNullOrWhiteSpace(value) === false) {
 
-      if(this.isProductFromList(value)){
-        //this.
+      const product = this.getProductByName(value);
+
+      if (product) {
+        //this.productSelected.emit()
       }
 
       this.productsNames.push(value.trim());
-
     }
 
     // Reset the input value
@@ -82,10 +83,6 @@ export class ProductSelectSearchComponent implements OnInit {
   }
 
 
-  isProductFromList(value: string): boolean {
-    const lowerCaseValue = value.trim().toLowerCase();
-    return this.allProducts.filter(x => x.ProductName.trim().toLowerCase() === lowerCaseValue).length > 0;
-  }
 
   remove(product: string): void {
     const index = this.productsNames.indexOf(product);
@@ -104,6 +101,12 @@ export class ProductSelectSearchComponent implements OnInit {
     this.productInput.nativeElement.value = '';
     this.formCtrl.setValue(null);
   }
+
+  private getProductByName(value: string): ProductDictionaryModel {
+    const lowerCaseValue = value.trim().toLowerCase();
+    return this.allProducts.find(x => x.ProductName.trim().toLowerCase() === lowerCaseValue);
+  }
+
 
   private _filter(value: string): ProductDictionaryModel[] {
     const filterValue = value.toLowerCase();
