@@ -35,7 +35,7 @@ export class ProductSelectSearchComponent implements OnInit {
   @ViewChild('productInput') productInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  @Output() productSelected = new EventEmitter<string[]>();
+  @Output() productSelected = new EventEmitter<number[]>();
 
   constructor(private dictionaryProductService: DictionaryProductService) {
 
@@ -68,7 +68,7 @@ export class ProductSelectSearchComponent implements OnInit {
       const product = this.getProductByName(value);
 
       if (product) {
-        //this.productSelected.emit()
+        this.productSelected.emit()
       }
 
       this.productsNames.push(value.trim());
