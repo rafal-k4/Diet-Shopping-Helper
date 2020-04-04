@@ -45,12 +45,14 @@ export class HomeComponent implements OnInit {
 
   receiveSelectedProducts(productsIds: number[]) {
     this.areProductSelected = productsIds.length > 0;
-
+    console.log("LENGTH", productsIds.length);
     const filteredProducts = this.getFilteredDietDays(productsIds);
     this.filteredListOfProducts.next(filteredProducts);
 
-    console.log(filteredProducts);
-    console.log(productsIds);
+    // this.filteredListOfProducts.subscribe(x => {
+    //   console.log(x);
+    // })
+    // console.log(filteredProducts);
   }
 
   private getFilteredDietDays(productsIds: number[]): DietHarmonogramModel[] {
