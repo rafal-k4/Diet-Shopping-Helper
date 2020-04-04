@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,7 +20,12 @@ import { DropdownInitDirective } from './infrastructure/dropdown-init.directive'
 import { FooterComponent } from './footer/footer.component';
 import { ProductdataPipe } from './infrastructure/productdata.pipe';
 import { Reflection } from './Infrastructure/Reflection';
-
+import { ProductSelectSearchComponent } from './product-select-search/product-select-search.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { DayscardComponent } from './home/dayscard/dayscard.component';
 
 
 @NgModule({
@@ -31,13 +36,21 @@ import { Reflection } from './Infrastructure/Reflection';
     ShoppingListComponent,
     DropdownInitDirective,
     FooterComponent,
-    ProductdataPipe
+    ProductdataPipe,
+    ProductSelectSearchComponent,
+    DayscardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatChipsModule
   ],
   providers: [
     {
