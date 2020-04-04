@@ -7,6 +7,7 @@ import { ProductDictionaryModel } from '../Models/ProductDictionaryModel';
 import { Observable, Subject, of, BehaviorSubject } from 'rxjs';
 import { ProductModel } from '../Models/ProductModel';
 import { Reflection } from '../Infrastructure/Reflection';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +27,7 @@ export class HomeComponent {
   constructor(
     dietHarmonogramService: DietHarmonogramService,
     private reflection: Reflection) {
-      this.allProductsDietHarmonogram = dietHarmonogramService.getDietHarmonogramData({ fillRelatedObjects: true});
+      this.allProductsDietHarmonogram$ = dietHarmonogramService.getDietHarmonogramData({ fillRelatedObjects: true});
     }
 
   receiveSelectedProducts(productsIds: number[]) {
@@ -36,25 +37,29 @@ export class HomeComponent {
     this.filteredListOfProducts$.next(filteredProducts);
   }
 
-  private getFilteredDietDays(productsIds: number[]): DietHarmonogramModel[] {
-    const resultDietDays: DietHarmonogramModel[] = [];
+  private getFilteredDietDays(productsIds: number[]): Observable<DietHarmonogramModel[]> {
 
-    for (const dietDay of this.allProductsDietHarmonogram) {
-      const filteredDietDay = new DietHarmonogramModel();
-      filteredDietDay.Day = dietDay.Day;
-      filteredDietDay.Products = [];
+    return this.allProductsDietHarmonogram$.pipe(
+      map(dietDays => {
+        const resultDietDays: DietHarmonogramModel[] = [];
 
-      for (const productId of productsIds) {
-        if (dietDay.Products.some(x => x.ProductDictionary.Id === productId)) {
-          const selectedProduct = dietDay.Products.find(x => x.ProductDictionary.Id === productId);
+        for (const dietDay of dietDays) {
+          const filteredDietDay = new DietHarmonogramModel();
+          filteredDietDay.Day = dietDay.Day;
+          filteredDietDay.Products = [];
 
-          filteredDietDay.Products.push(this.reflection.deepClone(selectedProduct));
+          for (const productId of productsIds) {
+            if (dietDay.Products.some(x => x.ProductDictionary.Id === productId)) {
+              const selectedProduct = dietDay.Products.find(x => x.ProductDictionary.Id === productId);
+
+              filteredDietDay.Products.push(this.reflection.deepClone(selectedProduct));
+            }
+          }
+
+          resultDietDays.push(filteredDietDay);
         }
-      }
-
-      resultDietDays.push(filteredDietDay);
-    }
-
-    return resultDietDays;
+        return resultDietDays;
+      })
+    );
   }
 }
