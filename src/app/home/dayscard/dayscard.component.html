@@ -1,1 +1,28 @@
 <p>dayscard works!</p>
+
+<div class="ui four cards doubling stackable centered">
+  <div class="card" *ngFor="let item of dietHarmonogram$ | async">
+
+        <div class="content">
+          <div class="center aligned header">{{days[item.Day]}}</div>
+          <div class="center aligned description">
+            <p>Click for details</p>
+          </div>
+        </div>
+        <div class="extra content">
+          <div class="center aligned">
+            <ul>
+              <li *ngFor="let product of item.Products.slice(0,3)">
+
+                {{product | productdata}}
+
+              </li>
+              <li>
+                ...
+              </li>
+            </ul>
+          </div>
+        </div>
+
+  </div>
+</div>

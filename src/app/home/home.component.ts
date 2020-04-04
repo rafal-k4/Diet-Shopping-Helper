@@ -16,8 +16,6 @@ import { map } from 'rxjs/operators';
 })
 export class HomeComponent {
 
-  days = DayOfWeek;
-
   allProductsDietHarmonogram$: Observable<DietHarmonogramModel[]>;
 
   filteredListOfProducts$: Observable<DietHarmonogramModel[]>;
