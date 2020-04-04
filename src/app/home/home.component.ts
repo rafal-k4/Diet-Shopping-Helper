@@ -13,35 +13,21 @@ import { Reflection } from '../Infrastructure/Reflection';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
   days = DayOfWeek;
 
-  allProductsDietHarmonogram: DietHarmonogramModel[];
-  productDictionary: ProductDictionaryModel[];
+  allProductsDietHarmonogram: Observable<DietHarmonogramModel[]>;
 
   filteredListOfProducts$ = new BehaviorSubject<DietHarmonogramModel[]>([]);
 
   areProductSelected: boolean;
 
   constructor(
-    private dietHarmonogramService: DietHarmonogramService,
-    private dietDictionaryService: DictionaryProductService,
-    private reflection: Reflection) { }
-
-  ngOnInit(): void {
-    this.dietHarmonogramService.getDietHarmonogramData({ fillRelatedObjects: true }).subscribe(
-      x => {
-        this.allProductsDietHarmonogram = x;
-      }
-    );
-
-    this.dietDictionaryService.getProductDictionaryData().subscribe(
-      x => {
-        this.productDictionary = x;
-      }
-    );
-  }
+    dietHarmonogramService: DietHarmonogramService,
+    private reflection: Reflection) {
+      this.allProductsDietHarmonogram = dietHarmonogramService.getDietHarmonogramData({ fillRelatedObjects: true});
+    }
 
   receiveSelectedProducts(productsIds: number[]) {
     this.areProductSelected = productsIds.length > 0;
