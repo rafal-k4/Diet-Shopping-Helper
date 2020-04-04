@@ -1,18 +1,15 @@
 
 <app-product-select-search (productSelectedEvent)="receiveSelectedProducts($event)"></app-product-select-search>
 
-<div *ngIf="areProductSelected">
 
-  <div *ngFor="let dietDay of filteredListOfProducts$ | async">
-    <div *ngFor="let product of dietDay.Products">
-      {{product.ProductDictionary.ProductName}}
-    </div>
-  </div>
+<ng-template *ngIf="areProductSelected; else allProducts">
+  <app-dayscard [dietHarmonogram$] = "filteredListOfProducts$"></app-dayscard>
+</ng-template>
 
-</div>
+<ng-template #allProducts>
+  <app-dayscard [dietHarmonogram$] = "allProductsDietHarmonogram$"></app-dayscard>
+</ng-template>
 
-
-<app-dayscard [dietHarmonogram$] = "allProductsDietHarmonogram$"></app-dayscard>
 
 
 
