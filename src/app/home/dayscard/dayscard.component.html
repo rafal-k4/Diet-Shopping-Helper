@@ -1,67 +1,34 @@
 
-<div class="ui four cards doubling stackable centered">
+<div class="ui four cards doubling stackable centered" *ngIf="dietHarmonogram$ | async as dietDays">
 
-  <div class="card" *ngFor="let dietDay of dietHarmonogram$ | async">
+  <ng-container *ngFor="let dietDay of dietDays">
 
-    <div class="content">
-      <div class="center aligned header">{{days[dietDay.Day]}}</div>
-      <div class="center aligned description">
-        <p>Click for details</p>
-      </div>
-    </div>
-    <div class="extra content">
-      <div class="center aligned">
-        <ul>
-          <li *ngFor="let product of dietDay.Products.slice(0,3)">
-
-            {{product | productdata}}
-
-          </li>
-          <li>
-            ...
-          </li>
-        </ul>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
-  <div class="ui four cards doubling stackable centered" *ngIf="dietHarmonogram$ | async as dietDays">
-
-    <ng-container *ngFor="let dietDay of dietDays">
-
-
-        <div class="card" *ngIf="dietDay.Products.length > 0">
-
-          <div class="content">
-            <div class="center aligned header">{{days[dietDay.Day]}}</div>
-            <div class="center aligned description">
-              <p>Click for details</p>
-            </div>
+      <div class="card" *ngIf="dietDay.Products.length > 0">
+        <div class="content">
+          <div class="center aligned header">{{days[dietDay.Day]}}</div>
+          <div class="center aligned description">
+            <p>Click for details</p>
           </div>
-          <div class="extra content">
-            <div class="center aligned">
-              <ul>
-                <li *ngFor="let product of dietDay.Products.slice(0,3)">
-
-                  {{product | productdata}}
-
-                </li>
-                <li>
-                  ...
-                </li>
-              </ul>
-            </div>
-          </div>
-
         </div>
+        <div class="extra content">
+          <div class="center aligned">
+            <ul>
+              <li *ngFor="let product of dietDay.Products.slice(0,3)">
 
-     
-    </ng-container>
+                {{product | productdata}}
 
-  </div>
+              </li>
+              <li>
+                ...
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+  </ng-container>
+
+</div>
 
 
 
