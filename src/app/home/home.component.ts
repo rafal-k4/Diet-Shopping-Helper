@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   allProductsDietHarmonogram: DietHarmonogramModel[];
   productDictionary: ProductDictionaryModel[];
 
-  filteredListOfProducts = new Subject<DietHarmonogramModel[]>();
+  filteredListOfProducts: DietHarmonogramModel[];
 
   areProductSelected: boolean;
 
@@ -45,9 +45,11 @@ export class HomeComponent implements OnInit {
 
   receiveSelectedProducts(productsIds: number[]) {
     this.areProductSelected = productsIds.length > 0;
-    console.log("LENGTH", productsIds.length);
-    const filteredProducts = this.getFilteredDietDays(productsIds);
-    this.filteredListOfProducts.next(filteredProducts);
+
+    this.filteredListOfProducts = this.getFilteredDietDays(productsIds);
+
+    console.log("LENGTH", productsIds.length, this.filteredListOfProducts);
+    //this.filteredListOfProducts.next(filteredProducts);
 
     // this.filteredListOfProducts.subscribe(x => {
     //   console.log(x);
