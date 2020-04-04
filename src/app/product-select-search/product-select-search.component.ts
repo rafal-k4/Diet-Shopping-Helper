@@ -82,6 +82,7 @@ export class ProductSelectSearchComponent implements OnInit {
       input.value = '';
     }
 
+    // trigger filter for populating filteredProducst again
     this.formCtrl.setValue(null);
   }
 
@@ -103,6 +104,8 @@ export class ProductSelectSearchComponent implements OnInit {
       }
     }
 
+    // trigger filter for populating filteredProducst again
+    this.formCtrl.setValue(null);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -113,6 +116,8 @@ export class ProductSelectSearchComponent implements OnInit {
     this.productSelectedEvent.emit(this.productsIds);
 
     this.productInput.nativeElement.value = '';
+
+    // trigger filter for populating filteredProducst again
     this.formCtrl.setValue(null);
   }
 
