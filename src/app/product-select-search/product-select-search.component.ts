@@ -3,8 +3,8 @@ import { Component, ElementRef, ViewChild, OnInit, Output, EventEmitter } from '
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { Observable, of } from 'rxjs';
-import { startWith, switchMap, tap } from 'rxjs/operators';
+import { Observable, of, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
+import { startWith, switchMap, tap, map } from 'rxjs/operators';
 import { ProductDictionaryModel } from '../Models/ProductDictionaryModel';
 import { DictionaryProductService } from '../dictionary-product.service';
 import { ProductdataPipe } from '../infrastructure/productdata.pipe';
@@ -23,7 +23,7 @@ export class ProductSelectSearchComponent implements OnInit {
   productsIds: number[] = [];
 
   allProducts: ProductDictionaryModel[];
-  productsInSelectList: ProductDictionaryModel[];
+  productsInSelectList: Observable<ProductDictionaryModel[]>;
   filteredProducts: Observable<ProductDictionaryModel[]>;
 
 
@@ -32,8 +32,13 @@ export class ProductSelectSearchComponent implements OnInit {
 
   @Output() productSelectedEvent = new EventEmitter<number[]>();
 
-  constructor(private dictionaryProductService: DictionaryProductService) {
-
+  constructor(dictionaryProductService: DictionaryProductService) {
+    dictionaryProductService.getProductDictionaryData().subscribe(x => {
+      this.allProducts = x;
+    });
+    this.productsInSelectList = dictionaryProductService.getProductDictionaryData().pipe(
+      map( x => x.filter(this.getProductsExceptAlreadySelected()))
+    );
   }
 
   ngOnInit(): void {
@@ -41,13 +46,14 @@ export class ProductSelectSearchComponent implements OnInit {
       startWith(''),
       switchMap((inputValue: string) =>
         this.isNullOrWhiteSpace(inputValue) === false
-          ? of(this._filter(inputValue))
-          : this.doesProductsExists(this.allProducts)
-            ? of(this.allProducts)
-            : this.getProducts()
+          ? this._filter(inputValue)
+          : this.productsInSelectList
       )
     );
   }
+
+
+
 
   openPanel(autocompleteTrigger: MatAutocompleteTrigger) {
     autocompleteTrigger.openPanel();
@@ -65,6 +71,7 @@ export class ProductSelectSearchComponent implements OnInit {
       if (product) {
         this.productsIds.push(product.Id);
         this.productSelectedEvent.emit(this.productsIds);
+
       }
 
       this.productsNames.push(value.trim());
@@ -75,6 +82,7 @@ export class ProductSelectSearchComponent implements OnInit {
       input.value = '';
     }
 
+    // trigger filter for populating filteredProducst again
     this.formCtrl.setValue(null);
   }
 
@@ -96,6 +104,8 @@ export class ProductSelectSearchComponent implements OnInit {
       }
     }
 
+    // trigger filter for populating filteredProducst again
+    this.formCtrl.setValue(null);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -106,6 +116,8 @@ export class ProductSelectSearchComponent implements OnInit {
     this.productSelectedEvent.emit(this.productsIds);
 
     this.productInput.nativeElement.value = '';
+
+    // trigger filter for populating filteredProducst again
     this.formCtrl.setValue(null);
   }
 
@@ -115,27 +127,19 @@ export class ProductSelectSearchComponent implements OnInit {
   }
 
 
-  private _filter(value: string): ProductDictionaryModel[] {
+  private _filter(value: string): Observable<ProductDictionaryModel[]> {
     const filterValue = value.toLowerCase();
-    return this.allProducts
-              .filter(product => product.ProductName.toLowerCase().includes(filterValue))
-              .filter(this.getProductsExceptAlreadySelected());
+    return this.productsInSelectList.pipe(
+        map(x => x.filter(product => product.ProductName.toLowerCase().includes(filterValue)))
+      );
+
   }
 
   private getProductsExceptAlreadySelected(): (product: ProductDictionaryModel) => boolean {
-    return (product: ProductDictionaryModel) => !this.productsNames.find(prodName => prodName === product.ProductName);
-  }
-
-  private getProducts(): Observable<ProductDictionaryModel[]> {
-    return this.dictionaryProductService.getProductDictionaryData().pipe(
-      tap( x => {
-        this.allProducts = x;
-      })
-    );
-  }
-
-  private doesProductsExists(products: ProductDictionaryModel[]): boolean {
-    return !products ? false : true;
+    return (product: ProductDictionaryModel) =>
+      !this.productsNames
+        .find(prodName =>
+          prodName.trim().toLowerCase() === product.ProductName.trim().toLowerCase());
   }
 
   private isNullOrWhiteSpace(inputValue: string): boolean {
