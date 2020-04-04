@@ -23,8 +23,8 @@ export class ProductSelectSearchComponent implements OnInit {
   productsIds: number[] = [];
 
   allProducts: ProductDictionaryModel[];
-  productsInSelectList: Observable<ProductDictionaryModel[]>;
-  filteredProducts: Observable<ProductDictionaryModel[]>;
+  productsInSelectList$: Observable<ProductDictionaryModel[]>;
+  filteredProducts$: Observable<ProductDictionaryModel[]>;
 
 
   @ViewChild('productInput') productInput: ElementRef<HTMLInputElement>;
@@ -36,18 +36,18 @@ export class ProductSelectSearchComponent implements OnInit {
     dictionaryProductService.getProductDictionaryData().subscribe(x => {
       this.allProducts = x;
     });
-    this.productsInSelectList = dictionaryProductService.getProductDictionaryData().pipe(
+    this.productsInSelectList$ = dictionaryProductService.getProductDictionaryData().pipe(
       map( x => x.filter(this.getProductsExceptAlreadySelected()))
     );
   }
 
   ngOnInit(): void {
-    this.filteredProducts = this.formCtrl.valueChanges.pipe(
+    this.filteredProducts$ = this.formCtrl.valueChanges.pipe(
       startWith(''),
       switchMap((inputValue: string) =>
         this.isNullOrWhiteSpace(inputValue) === false
           ? this._filter(inputValue)
-          : this.productsInSelectList
+          : this.productsInSelectList$
       )
     );
   }
@@ -133,7 +133,7 @@ export class ProductSelectSearchComponent implements OnInit {
 
   private _filter(value: string): Observable<ProductDictionaryModel[]> {
     const filterValue = value.toLowerCase();
-    return this.productsInSelectList.pipe(
+    return this.productsInSelectList$.pipe(
         map(x => x.filter(product => product.ProductName.toLowerCase().includes(filterValue)))
       );
 

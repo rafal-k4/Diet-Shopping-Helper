@@ -21,7 +21,7 @@
       #matTrigger="matAutocompleteTrigger">
   </mat-chip-list>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-    <mat-option *ngFor="let product of filteredProducts | async" [value]="product.Id">
+    <mat-option *ngFor="let product of filteredProducts$ | async" [value]="product.Id">
       {{product.ProductName}}
     </mat-option>
   </mat-autocomplete>

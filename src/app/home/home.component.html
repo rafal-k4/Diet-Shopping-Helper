@@ -3,7 +3,7 @@
 
 <div *ngIf="areProductSelected">
 
-  <div *ngFor="let dietDay of filteredListOfProducts | async">
+  <div *ngFor="let dietDay of filteredListOfProducts$ | async">
     <div *ngFor="let product of dietDay.Products">
       {{product.ProductDictionary.ProductName}}
     </div>
