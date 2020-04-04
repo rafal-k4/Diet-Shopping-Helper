@@ -33,7 +33,7 @@ export class ProductSelectSearchComponent implements OnInit {
   @Output() productSelectedEvent = new EventEmitter<number[]>();
 
   constructor(private dictionaryProductService: DictionaryProductService) {
-    this.productsInSelectList = of(this.allProducts).pipe(
+    this.productsInSelectList = dictionaryProductService.getProductDictionaryData().pipe(
       map( x => x.filter(this.getProductsExceptAlreadySelected()))
     );
   }
@@ -44,9 +44,7 @@ export class ProductSelectSearchComponent implements OnInit {
       switchMap((inputValue: string) =>
         this.isNullOrWhiteSpace(inputValue) === false
           ? this._filter(inputValue)
-          : this.doesProductsExists(this.allProducts)
-            ? of(this.allProducts)
-            : this.getProducts()
+          : this.productsInSelectList
       )
     );
   }
