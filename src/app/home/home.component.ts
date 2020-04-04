@@ -20,7 +20,7 @@ export class HomeComponent {
 
   allProductsDietHarmonogram$: Observable<DietHarmonogramModel[]>;
 
-  filteredListOfProducts$ = new BehaviorSubject<DietHarmonogramModel[]>([]);
+  filteredListOfProducts$: Observable<DietHarmonogramModel[]>;
 
   areProductSelected: boolean;
 
@@ -33,8 +33,7 @@ export class HomeComponent {
   receiveSelectedProducts(productsIds: number[]) {
     this.areProductSelected = productsIds.length > 0;
 
-    const filteredProducts = this.getFilteredDietDays(productsIds);
-    this.filteredListOfProducts$.next(filteredProducts);
+    this.filteredListOfProducts$ = this.getFilteredDietDays(productsIds);
   }
 
   private getFilteredDietDays(productsIds: number[]): Observable<DietHarmonogramModel[]> {
