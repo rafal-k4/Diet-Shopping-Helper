@@ -68,7 +68,7 @@ export class ProductSelectSearchComponent implements OnInit {
 
       const product = this.getProductByName(value);
 
-      if (product) {
+      if (product && this.isProductAlreadySelected(product.Id) === false) {
         this.productsIds.push(product.Id);
         this.productSelectedEvent.emit(this.productsIds);
 
@@ -119,6 +119,10 @@ export class ProductSelectSearchComponent implements OnInit {
 
     // trigger filter for populating filteredProducst again
     this.formCtrl.setValue(null);
+  }
+
+  private isProductAlreadySelected(id: number): boolean {
+    return this.productsIds.includes(id);
   }
 
   private getProductByName(value: string): ProductDictionaryModel {
