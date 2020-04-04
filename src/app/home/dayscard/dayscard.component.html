@@ -2,26 +2,26 @@
 <div class="ui four cards doubling stackable centered">
   <div class="card" *ngFor="let dietDay of dietHarmonogram$ | async">
 
-        <div class="content">
-          <div class="center aligned header">{{days[dietDay.Day]}}</div>
-          <div class="center aligned description">
-            <p>Click for details</p>
-          </div>
-        </div>
-        <div class="extra content">
-          <div class="center aligned">
-            <ul>
-              <li *ngFor="let product of dietDay.Products.slice(0,3)">
+    <div class="content">
+      <div class="center aligned header">{{days[dietDay.Day]}}</div>
+      <div class="center aligned description">
+        <p>Click for details</p>
+      </div>
+    </div>
+    <div class="extra content">
+      <div class="center aligned">
+        <ul>
+          <li *ngFor="let product of dietDay.Products.slice(0,3)">
 
-                {{product | productdata}}
+            {{product | productdata}}
 
-              </li>
-              <li>
-                ...
-              </li>
-            </ul>
-          </div>
-        </div>
+          </li>
+          <li>
+            ...
+          </li>
+        </ul>
+      </div>
+    </div>
 
   </div>
 </div>
