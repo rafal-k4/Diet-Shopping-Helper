@@ -32,7 +32,10 @@ export class ProductSelectSearchComponent implements OnInit {
 
   @Output() productSelectedEvent = new EventEmitter<number[]>();
 
-  constructor(private dictionaryProductService: DictionaryProductService) {
+  constructor(dictionaryProductService: DictionaryProductService) {
+    dictionaryProductService.getProductDictionaryData().subscribe(x => {
+      this.allProducts = x;
+    });
     this.productsInSelectList = dictionaryProductService.getProductDictionaryData().pipe(
       map( x => x.filter(this.getProductsExceptAlreadySelected()))
     );
@@ -67,7 +70,6 @@ export class ProductSelectSearchComponent implements OnInit {
 
       if (product) {
         this.productsIds.push(product.Id);
-        //this.updateProductsInSelectList(product);
         this.productSelectedEvent.emit(this.productsIds);
 
       }
@@ -123,22 +125,16 @@ export class ProductSelectSearchComponent implements OnInit {
   private _filter(value: string): Observable<ProductDictionaryModel[]> {
     const filterValue = value.toLowerCase();
     return this.productsInSelectList.pipe(
-      map(x => x.filter(product => product.ProductName.toLowerCase().includes(filterValue)))
-    )
+        map(x => x.filter(product => product.ProductName.toLowerCase().includes(filterValue)))
+      );
 
-              //.filter(this.getProductsExceptAlreadySelected());
   }
 
   private getProductsExceptAlreadySelected(): (product: ProductDictionaryModel) => boolean {
-    return (product: ProductDictionaryModel) => !this.productsNames.find(prodName => prodName === product.ProductName);
-  }
-
-  private getProducts(): Observable<ProductDictionaryModel[]> {
-    return this.dictionaryProductService.getProductDictionaryData();
-  }
-
-  private doesProductsExists(products: ProductDictionaryModel[]): boolean {
-    return !products ? false : true;
+    return (product: ProductDictionaryModel) =>
+      !this.productsNames
+        .find(prodName =>
+          prodName.trim().toLowerCase() === product.ProductName.trim().toLowerCase());
   }
 
   private isNullOrWhiteSpace(inputValue: string): boolean {
