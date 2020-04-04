@@ -17,7 +17,7 @@ export class HomeComponent {
 
   days = DayOfWeek;
 
-  allProductsDietHarmonogram: Observable<DietHarmonogramModel[]>;
+  allProductsDietHarmonogram$: Observable<DietHarmonogramModel[]>;
 
   filteredListOfProducts$ = new BehaviorSubject<DietHarmonogramModel[]>([]);
 
