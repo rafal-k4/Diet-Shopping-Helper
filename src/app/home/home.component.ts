@@ -43,12 +43,6 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  test() {
-    this.filteredListOfProducts.subscribe(x => {
-      console.log(x)
-    });
-  }
-
   receiveSelectedProducts(productsIds: number[]) {
     this.areProductSelected = productsIds.length > 0;
 

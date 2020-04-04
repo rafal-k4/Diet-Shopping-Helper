@@ -2,7 +2,7 @@
 <app-product-select-search (productSelectedEvent)="receiveSelectedProducts($event)"></app-product-select-search>
 
 <div *ngIf="areProductSelected">
-  I AM HERE
+
   <div *ngFor="let dietDay of filteredListOfProducts | async">
     <div *ngFor="let product of dietDay.Products">
       {{product.ProductDictionary.ProductName}}
