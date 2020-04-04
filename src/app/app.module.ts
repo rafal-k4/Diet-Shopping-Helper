@@ -25,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { DayscardComponent } from './home/dayscard/dayscard.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     DropdownInitDirective,
     FooterComponent,
     ProductdataPipe,
-    ProductSelectSearchComponent
+    ProductSelectSearchComponent,
+    DayscardComponent
   ],
   imports: [
     BrowserModule,
