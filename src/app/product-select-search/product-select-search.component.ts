@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { startWith, switchMap, tap } from 'rxjs/operators';
 import { ProductDictionaryModel } from '../Models/ProductDictionaryModel';
 import { DictionaryProductService } from '../dictionary-product.service';
+import { ProductdataPipe } from '../infrastructure/productdata.pipe';
 
 @Component({
   selector: 'app-product-select-search',
@@ -117,7 +118,11 @@ export class ProductSelectSearchComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.allProducts
               .filter(product => product.ProductName.toLowerCase().includes(filterValue))
-              .filter(product => !this.productsNames.find(prodName => prodName === product.ProductName));
+              .filter(this.getProductsExceptAlreadySelected());
+  }
+
+  private getProductsExceptAlreadySelected(): (product: ProductDictionaryModel) => boolean {
+    return (product: ProductDictionaryModel) => !this.productsNames.find(prodName => prodName === product.ProductName);
   }
 
   private getProducts(): Observable<ProductDictionaryModel[]> {
