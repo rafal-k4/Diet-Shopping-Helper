@@ -4,7 +4,7 @@ import { DietHarmonogramModel } from '../Models/DietHarmonogramModel';
 import { DayOfWeek } from '../Infrastructure/DayOfWeek';
 import { DictionaryProductService } from '../dictionary-product.service';
 import { ProductDictionaryModel } from '../Models/ProductDictionaryModel';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, of, BehaviorSubject } from 'rxjs';
 import { ProductModel } from '../Models/ProductModel';
 import { Reflection } from '../Infrastructure/Reflection';
 
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   allProductsDietHarmonogram: DietHarmonogramModel[];
   productDictionary: ProductDictionaryModel[];
 
-  filteredListOfProducts: DietHarmonogramModel[];
+  filteredListOfProducts = new BehaviorSubject<DietHarmonogramModel[]>([]);
 
   areProductSelected: boolean;
 
@@ -43,13 +43,19 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  test() {
+    this.filteredListOfProducts.subscribe(x => {
+      console.log(x)
+    });
+  }
+
   receiveSelectedProducts(productsIds: number[]) {
     this.areProductSelected = productsIds.length > 0;
 
-    this.filteredListOfProducts = this.getFilteredDietDays(productsIds);
+    const filteredProducts = this.getFilteredDietDays(productsIds);
 
     console.log("LENGTH", productsIds.length, this.filteredListOfProducts);
-    //this.filteredListOfProducts.next(filteredProducts);
+    this.filteredListOfProducts.next(filteredProducts);
 
     // this.filteredListOfProducts.subscribe(x => {
     //   console.log(x);
