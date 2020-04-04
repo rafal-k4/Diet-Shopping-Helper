@@ -13,6 +13,7 @@ export class DayscardComponent {
   days = DayOfWeek;
 
   @Input() dietHarmonogram$: Observable<DietHarmonogramModel[]>;
+  @Input() areProductsSelected: boolean;
 
   constructor() { }
 

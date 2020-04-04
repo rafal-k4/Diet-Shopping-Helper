@@ -13,14 +13,23 @@
         <div class="extra content">
           <div class="center aligned">
             <ul>
-              <li *ngFor="let product of dietDay.Products.slice(0,3)">
 
-                {{product | productdata}}
+              <ng-container *ngIf="areProductsSelected else showAllProducts">
+                <li *ngFor="let product of dietDay.Products">
+                  {{product | productdata}}
+                </li>
 
-              </li>
-              <li>
-                ...
-              </li>
+              </ng-container>
+
+              <ng-template #showAllProducts>
+                <li *ngFor="let product of dietDay.Products.slice(0,3)">
+                  {{product | productdata}}
+                </li>
+                <li>
+                  ...
+                </li>
+              </ng-template>
+
             </ul>
           </div>
         </div>

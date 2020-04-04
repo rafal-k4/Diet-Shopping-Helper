@@ -3,11 +3,11 @@
 
 
 <div *ngIf="areProductSelected; else allProducts">
-  <app-dayscard [dietHarmonogram$] = "filteredListOfProducts$"></app-dayscard>
+  <app-dayscard [dietHarmonogram$]="filteredListOfProducts$" [areProductsSelected]="areProductSelected"></app-dayscard>
 </div>
 
 <ng-template #allProducts>
-  <app-dayscard [dietHarmonogram$] = "allProductsDietHarmonogram$"></app-dayscard>
+  <app-dayscard [dietHarmonogram$]="allProductsDietHarmonogram$"></app-dayscard>
 </ng-template>
 
 
