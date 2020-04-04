@@ -1,8 +1,17 @@
 
 <app-product-select-search (productSelectedEvent)="receiveSelectedProducts($event)"></app-product-select-search>
 
+<div *ngIf="areProductSelected">
+  <div *ngFor="let dietDay of filteredListOfProducts | async">
+    <div *ngFor="let product of dietDay.Products">
+      {{product.ProductDictionary.ProductName}}
+    </div>
+  </div>
+
+</div>
+
 <div class="ui four cards doubling stackable centered">
-  <div class="card" *ngFor="let item of dietHarmonogram">
+  <div class="card" *ngFor="let item of allProductsDietHarmonogram">
 
         <div class="content">
           <div class="center aligned header">{{days[item.Day]}}</div>
