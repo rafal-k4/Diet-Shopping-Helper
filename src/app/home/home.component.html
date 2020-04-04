@@ -12,7 +12,7 @@
 </div>
 
 <div class="ui four cards doubling stackable centered">
-  <div class="card" *ngFor="let item of allProductsDietHarmonogram">
+  <div class="card" *ngFor="let item of allProductsDietHarmonogram$ | async">
 
         <div class="content">
           <div class="center aligned header">{{days[item.Day]}}</div>
