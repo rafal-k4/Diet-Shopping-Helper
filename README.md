@@ -2,10 +2,12 @@
 
 In order to deploy for github static page, run this command:
 
+````
 > ng build --prod --output-path docs --base-href /Diet-Shopping-Helper/
+````
 
-
-Next, make a copy of `docs/index.html` and name it `docs/404.html` 
+> ##### Step below is deprecated, do not do this (check next section -> Github Page 404 FIX) 
+> Next, make a copy of `docs/index.html` and name it `docs/404.html`
 
 Commit your changes, push and make sure that settings section of github pages is set to `master/docs`
 
