@@ -23,13 +23,14 @@ export class ProductSelectSearchComponent implements OnInit {
   productsIds: number[] = [];
 
   allProducts: ProductDictionaryModel[];
+  productsInSelectList: ProductDictionaryModel[];
   filteredProducts: Observable<ProductDictionaryModel[]>;
 
 
   @ViewChild('productInput') productInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  @Output() productSelected = new EventEmitter<number[]>();
+  @Output() productSelectedEvent = new EventEmitter<number[]>();
 
   constructor(private dictionaryProductService: DictionaryProductService) {
 
@@ -63,7 +64,7 @@ export class ProductSelectSearchComponent implements OnInit {
 
       if (product) {
         this.productsIds.push(product.Id);
-        this.productSelected.emit(this.productsIds);
+        this.productSelectedEvent.emit(this.productsIds);
       }
 
       this.productsNames.push(value.trim());
@@ -91,7 +92,7 @@ export class ProductSelectSearchComponent implements OnInit {
 
       if (indexInIdsTable >= 0) {
         this.productsIds.splice(indexInIdsTable, 1);
-        this.productSelected.emit(this.productsIds);
+        this.productSelectedEvent.emit(this.productsIds);
       }
     }
 
@@ -102,7 +103,7 @@ export class ProductSelectSearchComponent implements OnInit {
     this.productsNames.push(event.option.viewValue);
 
     this.productsIds.push(event.option.value);
-    this.productSelected.emit(this.productsIds);
+    this.productSelectedEvent.emit(this.productsIds);
 
     this.productInput.nativeElement.value = '';
     this.formCtrl.setValue(null);

@@ -1,5 +1,5 @@
 
-<app-product-select-search (productSelected)="receiveSelectedProducts($event)"></app-product-select-search>
+<app-product-select-search (productSelectedEvent)="receiveSelectedProducts($event)"></app-product-select-search>
 
 <div class="ui four cards doubling stackable centered">
   <div class="card" *ngFor="let item of dietHarmonogram">
