@@ -69,13 +69,7 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
   }
 
   private SortLogicCompareFunction(a: ProductModel, b: ProductModel): number {
-    if (a.ProductDictionary.ProductName > b.ProductDictionary.ProductName) {
-      return 1;
-    } else if (a.ProductDictionary.ProductName < b.ProductDictionary.ProductName) {
-      return -1;
-    } else {
-      return 0;
-    }
+    return a.ProductDictionary.ProductName.localeCompare(b.ProductDictionary.ProductName);
   }
 
   private MergeAllProductIntoOneList(input: DietHarmonogramModel[]): ProductModel[] {
