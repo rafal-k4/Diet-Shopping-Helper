@@ -51,15 +51,31 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
     this.longLastingProducts$ = combinedProducts$.pipe(
       map(x => {
         return x.filter(y => y.ProductDictionary.IsLongLastingProduct === true);
+      }),
+      map(x => {
+        return x.sort(this.SortLogicCompareFunction);
       })
     );
 
     this.shortExpirationDateProducts$ = combinedProducts$.pipe(
       map(x => {
         return x.filter(y => y.ProductDictionary.IsLongLastingProduct === false);
+      }),
+      map(x => {
+        return x.sort(this.SortLogicCompareFunction);
       })
     );
 
+  }
+
+  private SortLogicCompareFunction(a: ProductModel, b: ProductModel): number {
+    if (a.ProductDictionary.ProductName > b.ProductDictionary.ProductName) {
+      return 1;
+    } else if (a.ProductDictionary.ProductName < b.ProductDictionary.ProductName) {
+      return -1;
+    } else {
+      return 0;
+    }
   }
 
   private MergeAllProductIntoOneList(input: DietHarmonogramModel[]): ProductModel[] {
