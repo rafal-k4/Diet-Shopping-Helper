@@ -1,11 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { SelectedDietCookieName } from './Infrastructure/Consts';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { DietsSheetNames } from './Models/DietsSheetNames';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Mapper } from './Infrastructure/Mapper';
 import { AVAILABLE_DIETS_MAPPER_TOKEN } from './Infrastructure/InjectionTokens';
 import { SpreadsheetApiModel } from './Models/SpreadsheetApiModel';
@@ -21,17 +21,28 @@ export class AvailableDietsService {
     private config: ConfigService,
     @Inject(AVAILABLE_DIETS_MAPPER_TOKEN) private mapper: Mapper<DietsSheetNames>) { }
 
-  getSelectedDiet(): string {
+  getSelectedDietId(): Observable<string> {
 
     if(this.cookieService.check(SelectedDietCookieName)){
-      return this.cookieService.get(SelectedDietCookieName);
+      return of(this.cookieService.get(SelectedDietCookieName));
     }
     
-    let asd$ = this.getAvailableDietList();
+    this.getAvailableDietList()
+      .pipe(
+        map(x => {
+          let latestDiet = this.getLastElementInArr(x);
+          this.setDefaultCookieValue(latestDiet);
+          return latestDiet.Id
+        })
+      );
+  }
+  
+  setDefaultCookieValue(x: DietsSheetNames) {
+    this.cookieService.set(SelectedDietCookieName, x.Id);
+  }
 
-    asd$.subscribe(
-      res => console.log('FROM SUBSCRITION', res),
-      error => console.log('This is error', error));
+  private getLastElementInArr(x: DietsSheetNames[]): DietsSheetNames {
+    return x[x.length - 1];
   }
 
   private getAvailableDietList(): Observable<DietsSheetNames[]> {
