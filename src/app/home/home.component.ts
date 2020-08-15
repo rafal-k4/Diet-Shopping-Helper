@@ -4,10 +4,11 @@ import { DietHarmonogramModel } from '../Models/DietHarmonogramModel';
 import { DayOfWeek } from '../Infrastructure/DayOfWeek';
 import { DictionaryProductService } from '../dictionary-product.service';
 import { ProductDictionaryModel } from '../Models/ProductDictionaryModel';
-import { Observable, Subject, of, BehaviorSubject } from 'rxjs';
+import { Observable, Subject, of, BehaviorSubject, forkJoin } from 'rxjs';
 import { ProductModel } from '../Models/ProductModel';
 import { Reflection } from '../Infrastructure/Reflection';
-import { map } from 'rxjs/operators';
+import { map, flatMap } from 'rxjs/operators';
+import { AvailableDietsService } from '../available-diets.service';
 
 @Component({
   selector: 'app-home',
@@ -24,8 +25,19 @@ export class HomeComponent {
 
   constructor(
     dietHarmonogramService: DietHarmonogramService,
+    availableDiets: AvailableDietsService,
     private reflection: Reflection) {
-      this.allProductsDietHarmonogram$ = dietHarmonogramService.getDietHarmonogramData({ fillRelatedObjects: true});
+
+      this.allProductsDietHarmonogram$ = availableDiets.getSelectedDietName()
+        .pipe(
+          flatMap(dietName => 
+            dietHarmonogramService.getDietHarmonogramData(
+              { fillRelatedObjects: true}, 
+              dietName
+            )
+          )
+        )
+        
     }
 
   receiveSelectedProducts(productsIds: number[]) {

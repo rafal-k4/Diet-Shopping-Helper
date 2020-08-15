@@ -36,13 +36,13 @@ export class DietHarmonogramService {
 
      }
 
-  getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects): Observable<DietHarmonogramModel[]> {
-    this.availableDiets.getSelectedDietId();
+  getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects, dietSheetName: string): Observable<DietHarmonogramModel[]> {
+
     if (!this.cache$) {
       const first$ = this.client.get(
         `${this.config.baseSpreadsheetUrl}`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
-      + `${this.config.appConfig.SpreadSheets.DietHarmonogram.SheetsNames[0]}`
+      + `${dietSheetName}`
       + `?key=${this.config.appConfig.sheetId}`
       + `${this.config.appConfig.dictionaryId}`)
       .pipe(

@@ -1,7 +1,7 @@
 <form #dietDaysForm="ngForm">
 
   <div class="ui four cards doubling centered">
-    <div class="card" *ngFor="let item of dietDays">
+    <div class="card" *ngFor="let item of dietDays$ | async">
 
       <label class="large-text">
         <div class="custom-checkbox">

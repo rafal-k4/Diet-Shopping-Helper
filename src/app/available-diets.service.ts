@@ -21,13 +21,13 @@ export class AvailableDietsService {
     private config: ConfigService,
     @Inject(AVAILABLE_DIETS_MAPPER_TOKEN) private mapper: Mapper<DietsSheetNames>) { }
 
-  getSelectedDietId(): Observable<string> {
+  getSelectedDietName(): Observable<string> {
 
     if(this.cookieService.check(SelectedDietCookieName)){
       return of(this.cookieService.get(SelectedDietCookieName));
     }
     
-    this.getAvailableDietList()
+    return this.getAvailableDietList()
       .pipe(
         map(x => {
           let latestDiet = this.getLastElementInArr(x);
@@ -37,7 +37,7 @@ export class AvailableDietsService {
       );
   }
   
-  setDefaultCookieValue(x: DietsSheetNames) {
+  private setDefaultCookieValue(x: DietsSheetNames) {
     this.cookieService.set(SelectedDietCookieName, x.Id);
   }
 
