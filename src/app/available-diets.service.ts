@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { SelectedDietCookieName } from './Infrastructure/Consts';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class AvailableDietsService {
       return this.cookieService.get(SelectedDietCookieName);
     }
     
-    
+
   }
+
+  getAvailableDietList(): Observable<
 }
