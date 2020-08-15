@@ -5,4 +5,9 @@ export class DietsSheetNames {
     Id: string;
     @columnName('SheetDisplayName')
     DisplayName: string;
+
+    constructor(Id: string = '', DisplayName: string = ''){
+        this.Id = Id;
+        this.DisplayName = DisplayName;
+    }
 }

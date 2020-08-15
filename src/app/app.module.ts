@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import {
   DICTIONARY_PRODUCT_MAPPER_TOKEN,
   DIET_HARMONOGRAM_MAPPER_TOKEN,
+  AVAILABLE_DIETS_MAPPER_TOKEN,
+  AVAILABLE_DIETS_MAPPER_FACTORY,
   DICTIONARY_PRODUCT_MAPPER_FACTORY,
   DIET_HARMONOGRAM_MAPPER_FACTORY,
   CONFIG_SERVICE_VALUE
@@ -63,6 +65,11 @@ import { CookieService } from 'ngx-cookie-service';
     {
       provide: DIET_HARMONOGRAM_MAPPER_TOKEN,
       useFactory: DIET_HARMONOGRAM_MAPPER_FACTORY,
+      deps: [Reflection]
+    },
+    {
+      provide: AVAILABLE_DIETS_MAPPER_TOKEN,
+      useFactory: AVAILABLE_DIETS_MAPPER_FACTORY,
       deps: [Reflection]
     },
     {
