@@ -5,6 +5,8 @@ export const SpreadsheetBaseUrl = 'https://sheets.googleapis.com/v4/spreadsheets
 
 export const MobileScreenSize = 700;
 
+export const SelectedDietCookieName = 'Selected-Diet-Name';
+
 export const APP_CONFIG: AppSettingsModel = {
 
   sheetId: 'AIzaSyCEfV9fj_hT',
