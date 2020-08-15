@@ -12,6 +12,7 @@ import { DayOfWeek } from './Infrastructure/DayOfWeek';
 import { DietHarmonogramModel } from './Models/DietHarmonogramModel';
 import { DictionaryProductService } from './dictionary-product.service';
 import { ProductDictionaryModel } from './Models/ProductDictionaryModel';
+import { AvailableDietsService } from './available-diets.service';
 
 interface FillRelatedObjects {
   fillRelatedObjects: boolean;
@@ -30,12 +31,13 @@ export class DietHarmonogramService {
     private config: ConfigService,
     @Inject(DIET_HARMONOGRAM_MAPPER_TOKEN) private mapper: Mapper<ProductModel>,
     private reflection: Reflection,
-    private dicionaryProductService: DictionaryProductService) {
+    private dicionaryProductService: DictionaryProductService,
+    private availableDiets: AvailableDietsService) {
 
      }
 
   getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects): Observable<DietHarmonogramModel[]> {
-
+    this.availableDiets.setCookie();
     if (!this.cache$) {
       const first$ = this.client.get(
         `${this.config.baseSpreadsheetUrl}`
