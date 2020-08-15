@@ -37,7 +37,7 @@ export class DietHarmonogramService {
      }
 
   getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects): Observable<DietHarmonogramModel[]> {
-
+    this.availableDiets.getSelectedDiet();
     if (!this.cache$) {
       const first$ = this.client.get(
         `${this.config.baseSpreadsheetUrl}`
