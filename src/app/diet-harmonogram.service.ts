@@ -49,7 +49,7 @@ export class DietHarmonogramService {
         map(x => {
           const rows = (x as SpreadsheetApiModel).values;
 
-          return this.getChoppedModelByWeekDays(rows, relatedObjectsSetting.fillRelatedObjects);
+          return this.getChoppedModelByWeekDays(rows);
         }),
         shareReplay(1)
       );
@@ -68,7 +68,7 @@ export class DietHarmonogramService {
 
   }
 
-  private getChoppedModelByWeekDays(rows: string[][], fillRelatedObjects: boolean): DietHarmonogramModel[] {
+  private getChoppedModelByWeekDays(rows: string[][]): DietHarmonogramModel[] {
 
     const result: DietHarmonogramModel[] = [];
     const chopSize = this.reflection.getPropertyCount(ProductModel);
