@@ -29,7 +29,9 @@ export class AvailableDietsService {
     
     let asd$ = this.getAvailableDietList();
 
-    asd$.subscribe(x => console.log('FROM SUBSCRITION', x));
+    asd$.subscribe(
+      res => console.log('FROM SUBSCRITION', res),
+      error => console.log('This is error', error));
   }
 
   private getAvailableDietList(): Observable<DietsSheetNames[]> {
