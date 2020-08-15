@@ -26,6 +26,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DayscardComponent } from './home/dayscard/dayscard.component';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { DayscardComponent } from './home/dayscard/dayscard.component';
     MatChipsModule
   ],
   providers: [
+    CookieService,
     {
       provide: DICTIONARY_PRODUCT_MAPPER_TOKEN,
       useFactory: DICTIONARY_PRODUCT_MAPPER_FACTORY,
