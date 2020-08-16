@@ -23,6 +23,12 @@
       // We need to redirect to the URL the user was trying to access.
       history.replaceState(null, null, redirect);
     }
+
+    sessionStorage.testForSelectedDiet = "Session Storage value from INDEX.html";
+    sessionStorage.setItem('another-key-in-session-storage', 'value from setItem in Index.html');
+
+    console.log('Index.html #1 way', sessionStorage.testForSelectedDiet);
+    console.log('Index.html #2 way', sessionStorage.getItem('another-key-in-session-storage'));
   })();
 </script>
 <!-- /Github Pages hack. -->
@@ -31,5 +37,5 @@
 
   <app-root></app-root>
 
-<script src="runtime-es2015.0811dcefd377500b5b1a.js" type="module"></script><script src="runtime-es5.0811dcefd377500b5b1a.js" nomodule defer></script><script src="polyfills-es5.88dfae6535f57c394175.js" nomodule defer></script><script src="polyfills-es2015.1f913f16a2d346cc8bdc.js" type="module"></script><script src="scripts.989218b6b5bd2b140fc9.js" defer></script><script src="main-es2015.ca3e356c372d0c2f4c12.js" type="module"></script><script src="main-es5.ca3e356c372d0c2f4c12.js" nomodule defer></script></body>
+<script src="runtime-es2015.0811dcefd377500b5b1a.js" type="module"></script><script src="runtime-es5.0811dcefd377500b5b1a.js" nomodule defer></script><script src="polyfills-es5.88dfae6535f57c394175.js" nomodule defer></script><script src="polyfills-es2015.1f913f16a2d346cc8bdc.js" type="module"></script><script src="scripts.989218b6b5bd2b140fc9.js" defer></script><script src="main-es2015.24e157ef584a17c2c1b8.js" type="module"></script><script src="main-es5.24e157ef584a17c2c1b8.js" nomodule defer></script></body>
 </html>
