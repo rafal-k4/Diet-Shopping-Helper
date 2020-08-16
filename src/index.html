@@ -25,6 +25,10 @@
     }
 
     sessionStorage.testForSelectedDiet = "Session Storage value from INDEX.html";
+    sessionStorage.setItem('another-key-in-session-storage', 'value from setItem in Index.html');
+
+    console.log('Index.html #1 way', sessionStorage.testForSelectedDiet);
+    console.log('Index.html #2 way', sessionStorage.getItem('another-key-in-session-storage'));
   })();
 </script>
 <!-- /Github Pages hack. -->
