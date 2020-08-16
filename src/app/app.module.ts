@@ -30,6 +30,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DayscardComponent } from './home/dayscard/dayscard.component';
 import { CookieService } from 'ngx-cookie-service';
 import { SelectDietComponent } from './select-diet/select-diet.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -55,7 +57,9 @@ import { SelectDietComponent } from './select-diet/select-diet.component';
     MatFormFieldModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSelectModule,
+    MatInputModule
   ],
   providers: [
     CookieService,
