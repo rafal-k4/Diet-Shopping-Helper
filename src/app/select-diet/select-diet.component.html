@@ -1,1 +1,15 @@
-<p>select-diet works!</p>
+
+<div class="center-flexbox">
+    <span id="selectDietLabel"> Select Diet: </span>
+    <mat-form-field appearance="fill">
+        <mat-label>Choose Diet</mat-label>
+        <mat-select [(ngModel)]="selectedDiet">
+            <mat-option *ngFor="let diet of availableDiets$ | async" [value]="diet.Id"> 
+                {{diet.DisplayName}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>    
+</div>
+
+<h1> {{selectedDiet}} </h1>
+

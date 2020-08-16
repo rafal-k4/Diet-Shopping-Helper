@@ -12,6 +12,8 @@ export class SelectDietComponent implements OnInit {
 
   availableDiets$: Observable<DietsSheetNames[]>
 
+  selectedDiet: DietsSheetNames;
+
   constructor(
     private availableDiets: AvailableDietsService
   ) { 
