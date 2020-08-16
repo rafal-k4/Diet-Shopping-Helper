@@ -1,34 +1,8 @@
 
 <div class="center-flexbox">
     <span id="selectDietLabel"> Select Diet: </span>
-    <!-- <mat-form-field appearance="fill">
-        <div *ngIf="(availableDiets$ | async) as allDietsNames; else loading">
-            <mat-label>Diets</mat-label>
-            <mat-select [(value)]="selectedDietId" (selectionChange)="resetCookieValue($event)">
-                <mat-option *ngFor="let diet of allDietsNames" [value]="diet.Id"> 
-                    {{diet.DisplayName}}
-                </mat-option>
-            </mat-select>
 
-
-        </div>
-
-
-        <ng-template #loading>
-            <mat-label>
-                <div class="select-placeholder-container">
-                    <span>Loading...</span>
-                    <mat-spinner diameter="20"></mat-spinner>
-                </div>
-            </mat-label>
-            <mat-select>
-                empty select required for mat-form-field (mat-form-field must contain a MatFormFieldControl.)
-            </mat-select>
-        </ng-template>
-
-      </mat-form-field>  -->
-
-      <div *ngIf="(availableDiets$ |async ) as allDietsNames; else loading">
+      <ng-container *ngIf="(availableDiets$ |async) as allDietsNames; else loading">
         <mat-form-field>
             <mat-label>Diets</mat-label>
             <mat-select [(value)]="selectedDietId" (selectionChange)="resetCookieValue($event)">
@@ -37,7 +11,7 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>   
-      </div>
+      </ng-container>
 
       <ng-template #loading>
           <mat-form-field>
