@@ -30,17 +30,17 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
     private reflectionHelper: Reflection) { }
 
   ngOnInit(): void {
-    
+
     this.dietDays$ = this.availableDiets.getSelectedDietName()
     .pipe(
-      flatMap(dietName => 
+      flatMap(dietName =>
         this.dietHarmonogramService.getDietHarmonogramData(
-          { fillRelatedObjects: true}, 
+          { fillRelatedObjects: true},
           dietName
         )
       )
-    )
-    
+    );
+
   }
 
   ngAfterViewInit(): void {
