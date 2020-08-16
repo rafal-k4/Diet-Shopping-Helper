@@ -17,7 +17,7 @@ export class SelectDietComponent implements OnInit {
 
   constructor(
     private availableDietsService: AvailableDietsService
-  ) { 
+  ) {
     this.availableDiets$ = availableDietsService.getAvailableDietList();
 
     availableDietsService.getSelectedDietName()
@@ -30,7 +30,8 @@ export class SelectDietComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  resetCookieValue(event: MatSelectChange){
+  changeSelectedDiet(event: MatSelectChange) {
+    console.log(`from changeSelectedDiet function: ${event.value}`);
     this.availableDietsService.setCookie(event.value);
   }
 }
