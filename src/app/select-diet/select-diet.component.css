@@ -4,3 +4,9 @@
    font-size: large;
    padding-right: 1.5rem; 
 }
+
+.center-flexbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
