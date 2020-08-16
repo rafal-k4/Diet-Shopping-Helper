@@ -1,10 +1,11 @@
 {
   "name": "diet-shopping-helper",
-  "version": "0.0.0",
+  "version": "1.2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "prebuild": "npm --no-git-tag-version version patch",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -35,7 +36,7 @@
     "@angular/language-service": "~9.0.1",
     "@types/jasmine": "^3.5.4",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.11.1",
+    "@types/node": "^12.12.54",
     "codelyzer": "^5.1.2",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
