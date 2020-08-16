@@ -32,7 +32,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { SelectDietComponent } from './select-diet/select-diet.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 @NgModule({
   declarations: [
@@ -59,7 +59,8 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatChipsModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     CookieService,
