@@ -29,6 +29,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DayscardComponent } from './home/dayscard/dayscard.component';
 import { CookieService } from 'ngx-cookie-service';
+import { SelectDietComponent } from './select-diet/select-diet.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { CookieService } from 'ngx-cookie-service';
     FooterComponent,
     ProductdataPipe,
     ProductSelectSearchComponent,
-    DayscardComponent
+    DayscardComponent,
+    SelectDietComponent
   ],
   imports: [
     BrowserModule,
