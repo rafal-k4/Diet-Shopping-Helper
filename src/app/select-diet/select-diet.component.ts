@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AvailableDietsService } from '../available-diets.service';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { DietsSheetNames } from '../Models/DietsSheetNames';
 import { MatSelectChange } from '@angular/material/select';
 
@@ -13,12 +13,18 @@ export class SelectDietComponent implements OnInit {
 
   availableDiets$: Observable<DietsSheetNames[]>
 
-  selectedDiet: DietsSheetNames;
+  selectedDietId: string;
 
   constructor(
     private availableDietsService: AvailableDietsService
   ) { 
     this.availableDiets$ = availableDietsService.getAvailableDietList();
+
+    availableDietsService.getSelectedDietName()
+      .subscribe(x => {
+        this.selectedDietId = x;
+      });
+
   }
 
   ngOnInit(): void {
