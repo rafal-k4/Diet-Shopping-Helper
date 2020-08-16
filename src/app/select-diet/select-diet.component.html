@@ -2,7 +2,7 @@
 <div class="center-flexbox">
     <span id="selectDietLabel"> Select Diet: </span>
     <mat-form-field appearance="fill">
-        <mat-label>Choose Diet</mat-label>
+        <mat-label>Diets</mat-label>
         <mat-select [(ngModel)]="selectedDiet">
             <mat-option *ngFor="let diet of availableDiets$ | async" [value]="diet.Id"> 
                 {{diet.DisplayName}}
