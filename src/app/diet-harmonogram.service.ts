@@ -12,6 +12,7 @@ import { DayOfWeek } from './Infrastructure/DayOfWeek';
 import { DietHarmonogramModel } from './Models/DietHarmonogramModel';
 import { DictionaryProductService } from './dictionary-product.service';
 import { ProductDictionaryModel } from './Models/ProductDictionaryModel';
+import { AvailableDietsService } from './available-diets.service';
 
 interface FillRelatedObjects {
   fillRelatedObjects: boolean;
@@ -30,24 +31,25 @@ export class DietHarmonogramService {
     private config: ConfigService,
     @Inject(DIET_HARMONOGRAM_MAPPER_TOKEN) private mapper: Mapper<ProductModel>,
     private reflection: Reflection,
-    private dicionaryProductService: DictionaryProductService) {
+    private dicionaryProductService: DictionaryProductService,
+    private availableDiets: AvailableDietsService) {
 
      }
 
-  getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects): Observable<DietHarmonogramModel[]> {
+  getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects, dietSheetName: string): Observable<DietHarmonogramModel[]> {
 
     if (!this.cache$) {
       const first$ = this.client.get(
         `${this.config.baseSpreadsheetUrl}`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
-      + `${this.config.appConfig.SpreadSheets.DietHarmonogram.SheetsNames[0]}`
+      + `${dietSheetName}`
       + `?key=${this.config.appConfig.sheetId}`
       + `${this.config.appConfig.dictionaryId}`)
       .pipe(
         map(x => {
           const rows = (x as SpreadsheetApiModel).values;
 
-          return this.getChoppedModelByWeekDays(rows, relatedObjectsSetting.fillRelatedObjects);
+          return this.getChoppedModelByWeekDays(rows);
         }),
         shareReplay(1)
       );
@@ -66,7 +68,7 @@ export class DietHarmonogramService {
 
   }
 
-  private getChoppedModelByWeekDays(rows: string[][], fillRelatedObjects: boolean): DietHarmonogramModel[] {
+  private getChoppedModelByWeekDays(rows: string[][]): DietHarmonogramModel[] {
 
     const result: DietHarmonogramModel[] = [];
     const chopSize = this.reflection.getPropertyCount(ProductModel);

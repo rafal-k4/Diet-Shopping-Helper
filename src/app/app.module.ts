@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import {
   DICTIONARY_PRODUCT_MAPPER_TOKEN,
   DIET_HARMONOGRAM_MAPPER_TOKEN,
+  AVAILABLE_DIETS_MAPPER_TOKEN,
+  AVAILABLE_DIETS_MAPPER_FACTORY,
   DICTIONARY_PRODUCT_MAPPER_FACTORY,
   DIET_HARMONOGRAM_MAPPER_FACTORY,
   CONFIG_SERVICE_VALUE
@@ -26,7 +28,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DayscardComponent } from './home/dayscard/dayscard.component';
-
+import { CookieService } from 'ngx-cookie-service';
+import { SelectDietComponent } from './select-diet/select-diet.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 @NgModule({
   declarations: [
@@ -38,7 +44,8 @@ import { DayscardComponent } from './home/dayscard/dayscard.component';
     FooterComponent,
     ProductdataPipe,
     ProductSelectSearchComponent,
-    DayscardComponent
+    DayscardComponent,
+    SelectDietComponent
   ],
   imports: [
     BrowserModule,
@@ -50,9 +57,13 @@ import { DayscardComponent } from './home/dayscard/dayscard.component';
     MatFormFieldModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSelectModule,
+    MatInputModule,
+    MatProgressSpinnerModule
   ],
   providers: [
+    CookieService,
     {
       provide: DICTIONARY_PRODUCT_MAPPER_TOKEN,
       useFactory: DICTIONARY_PRODUCT_MAPPER_FACTORY,
@@ -61,6 +72,11 @@ import { DayscardComponent } from './home/dayscard/dayscard.component';
     {
       provide: DIET_HARMONOGRAM_MAPPER_TOKEN,
       useFactory: DIET_HARMONOGRAM_MAPPER_FACTORY,
+      deps: [Reflection]
+    },
+    {
+      provide: AVAILABLE_DIETS_MAPPER_TOKEN,
+      useFactory: AVAILABLE_DIETS_MAPPER_FACTORY,
       deps: [Reflection]
     },
     {

@@ -1,0 +1,22 @@
+#selectDietLabel {
+   letter-spacing: 0.1rem;
+   font-weight: bold;
+   font-size: large;
+   padding-right: 1.5rem; 
+}
+
+.center-flexbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.select-placeholder-container {
+    display: flex;
+    align-items: center;
+}
+
+.select-placeholder-container > span {
+  flex: 1;
+  /* this option moves loading spinner to the end of the flexbox container */
+}

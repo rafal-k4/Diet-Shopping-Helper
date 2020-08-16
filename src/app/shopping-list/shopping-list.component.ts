@@ -3,10 +3,11 @@ import { DietHarmonogramService } from '../diet-harmonogram.service';
 import { DietHarmonogramModel } from '../Models/DietHarmonogramModel';
 import { DayOfWeek } from '../Infrastructure/DayOfWeek';
 import { NgForm } from '@angular/forms';
-import { map, delay, switchMap, flatMap, filter } from 'rxjs/operators';
+import { map, delay, flatMap } from 'rxjs/operators';
 import { Observable, of, from } from 'rxjs';
 import { ProductModel } from '../Models/ProductModel';
 import { Reflection } from '../Infrastructure/Reflection';
+import { AvailableDietsService } from '../available-diets.service';
 
 @Component({
   selector: 'app-shopping-list',
@@ -19,19 +20,27 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
   public shortExpirationDateProducts$: Observable<ProductModel[]>;
 
   public days = DayOfWeek;
-  public dietDays: DietHarmonogramModel[];
+  public dietDays$: Observable<DietHarmonogramModel[]>;
   @ViewChild('dietDaysForm') form: NgForm;
 
 
   constructor(
     private dietHarmonogramService: DietHarmonogramService,
+    private availableDiets: AvailableDietsService,
     private reflectionHelper: Reflection) { }
 
   ngOnInit(): void {
-    this.dietHarmonogramService.getDietHarmonogramData({ fillRelatedObjects: true }).subscribe(x => {
-      this.dietDays = x;
-    });
-
+    
+    this.dietDays$ = this.availableDiets.getSelectedDietName()
+    .pipe(
+      flatMap(dietName => 
+        this.dietHarmonogramService.getDietHarmonogramData(
+          { fillRelatedObjects: true}, 
+          dietName
+        )
+      )
+    )
+    
   }
 
   ngAfterViewInit(): void {
@@ -40,7 +49,7 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
       delay(1), // delay(1) is neccessary because The valueChanges event fires
                 // immediately after the new value is updated but before the change is bubbled up to its parent
                 // without delay(1), dietDays is holding previous value
-      map(x => this.dietDays),
+      flatMap(x => this.dietDays$),
       map(x => x.filter(y => y.isSelected))
     );
 

@@ -7,6 +7,7 @@ export interface AppSettingsModel {
 export interface SpreadSheet {
   Dictionary: Sheet;
   DietHarmonogram: Sheet;
+  AvailableDiets: Sheet;
 }
 
 interface Sheet {
