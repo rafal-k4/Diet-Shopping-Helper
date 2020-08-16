@@ -3,13 +3,11 @@
     <span id="selectDietLabel"> Select Diet: </span>
     <mat-form-field appearance="fill">
         <mat-label>Diets</mat-label>
-        <mat-select [(ngModel)]="selectedDiet">
+        <mat-select [(ngModel)]="selectedDiet" (selectionChange)="resetCookieValue($event)">
             <mat-option *ngFor="let diet of availableDiets$ | async" [value]="diet.Id"> 
                 {{diet.DisplayName}}
             </mat-option>
         </mat-select>
       </mat-form-field>    
 </div>
-
-<h1> {{selectedDiet}} </h1>
 

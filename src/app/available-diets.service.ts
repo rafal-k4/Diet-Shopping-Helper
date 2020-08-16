@@ -54,6 +54,12 @@ export class AvailableDietsService {
       })
     )
   }
+
+  setCookie(value: any) {
+    if(value) { //is not empty
+      this.cookieService.set(SelectedDietCookieName, value);
+    }
+  }
   
   private setDefaultCookieValue(x: DietsSheetNames) {
     this.cookieService.set(SelectedDietCookieName, x.Id);
@@ -62,5 +68,5 @@ export class AvailableDietsService {
   private getLastElementInArr(x: DietsSheetNames[]): DietsSheetNames {
     return x[x.length - 1];
   }
-  
+
 }
