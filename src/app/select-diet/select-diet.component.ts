@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AvailableDietsService } from '../available-diets.service';
+import { Observable } from 'rxjs';
+import { DietsSheetNames } from '../Models/DietsSheetNames';
 
 @Component({
   selector: 'app-select-diet',
@@ -7,7 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelectDietComponent implements OnInit {
 
-  constructor() { }
+  availableDiets$: Observable<DietsSheetNames[]>
+
+  constructor(
+    private availableDiets: AvailableDietsService
+  ) { 
+    this.availableDiets$ = availableDiets.getAvailableDietList();
+  }
 
   ngOnInit(): void {
   }

@@ -36,16 +36,8 @@ export class AvailableDietsService {
         })
       );
   }
-  
-  private setDefaultCookieValue(x: DietsSheetNames) {
-    this.cookieService.set(SelectedDietCookieName, x.Id);
-  }
 
-  private getLastElementInArr(x: DietsSheetNames[]): DietsSheetNames {
-    return x[x.length - 1];
-  }
-
-  private getAvailableDietList(): Observable<DietsSheetNames[]> {
+  getAvailableDietList(): Observable<DietsSheetNames[]> {
     
     return this.client.get(
       `${this.config.baseSpreadsheetUrl}`
@@ -62,4 +54,13 @@ export class AvailableDietsService {
       })
     )
   }
+  
+  private setDefaultCookieValue(x: DietsSheetNames) {
+    this.cookieService.set(SelectedDietCookieName, x.Id);
+  }
+
+  private getLastElementInArr(x: DietsSheetNames[]): DietsSheetNames {
+    return x[x.length - 1];
+  }
+  
 }
