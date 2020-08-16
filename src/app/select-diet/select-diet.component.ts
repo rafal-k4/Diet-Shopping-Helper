@@ -31,7 +31,12 @@ export class SelectDietComponent implements OnInit {
   }
 
   changeSelectedDiet(event: MatSelectChange) {
-    console.log(`from changeSelectedDiet function: ${event.value}`);
-    this.availableDietsService.setCookie(event.value);
+    console.log(`#1 from changeSelectedDiet function: ${event.value}`);
+
+  }
+
+  selected(value: string): void {
+    console.log(`#2 from selected function: ${value}`);
+    this.availableDietsService.setCookie(value);
   }
 }
