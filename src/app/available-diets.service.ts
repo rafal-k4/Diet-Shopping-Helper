@@ -9,6 +9,7 @@ import { Mapper } from './Infrastructure/Mapper';
 import { AVAILABLE_DIETS_MAPPER_TOKEN } from './Infrastructure/InjectionTokens';
 import { SpreadsheetApiModel } from './Models/SpreadsheetApiModel';
 import { LocalStorageService } from './local-storage.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ import { LocalStorageService } from './local-storage.service';
 export class AvailableDietsService {
 
   constructor(
+    private cookieService: CookieService,
     private localStorageService: LocalStorageService,
     private client: HttpClient,
     private config: ConfigService,
@@ -23,7 +25,7 @@ export class AvailableDietsService {
 
   getSelectedDietName(): Observable<string> {
 
-    const selectedDiet = this.localStorageService.get(SelectedDietCookieName);
+    const selectedDiet = this.cookieService.get(SelectedDietCookieName);
 
     if (selectedDiet) {
       return of(selectedDiet);
@@ -62,7 +64,7 @@ export class AvailableDietsService {
 
   setCookie(value: any) {
     if (value) { // is not empty
-      this.localStorageService.set(SelectedDietCookieName, value);
+      this.cookieService.set(SelectedDietCookieName, value);
     }
   }
 
