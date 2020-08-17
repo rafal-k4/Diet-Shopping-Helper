@@ -8,10 +8,10 @@ export class LocalStorageService {
   constructor() { }
 
   set(key: string, value): void {
-    sessionStorage.setItem(key, value);
+    localStorage.setItem(key, value);
   }
 
   get(key: string): string {
-    return sessionStorage.getItem(key);
+    return localStorage.getItem(key);
   }
 }
