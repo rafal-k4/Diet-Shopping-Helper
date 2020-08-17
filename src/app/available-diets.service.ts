@@ -35,7 +35,7 @@ export class AvailableDietsService {
           const latestDiet = this.getLastElementInArr(x);
           console.log("SECOND MAP, latest diet: ", latestDiet, "all diets:", x );
           this.setDefaultCookieValue(latestDiet);
-          return latestDiet.idName;
+          return latestDiet.id;
         })
       );
   }
@@ -69,8 +69,8 @@ export class AvailableDietsService {
   }
 
   private setDefaultCookieValue(x: DietsSheetNames) {
-    console.log("set default cookie", x.idName);
-    this.setCookie(x.idName);
+    console.log("set default cookie", x.id);
+    this.setCookie(x.id);
   }
 
   private getLastElementInArr(x: DietsSheetNames[]): DietsSheetNames {
