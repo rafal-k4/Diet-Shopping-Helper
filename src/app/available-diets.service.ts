@@ -57,11 +57,11 @@ export class AvailableDietsService {
 
         return result;
       })
-    )
+    );
   }
 
   setCookie(value: any) {
-    if (value) { //is not empty
+    if (value) { // is not empty
       this.localStorageService.set(SelectedDietCookieName, value);
     }
   }

@@ -11,7 +11,7 @@ import { MatSelectChange } from '@angular/material/select';
 })
 export class SelectDietComponent implements OnInit {
 
-  availableDiets$: Observable<DietsSheetNames[]>
+  availableDiets$: Observable<DietsSheetNames[]>;
 
   selectedDietId: string;
 
