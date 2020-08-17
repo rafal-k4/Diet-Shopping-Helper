@@ -42,7 +42,7 @@ export class DietHarmonogramService {
       const first$ = this.client.get(
         `${this.config.baseSpreadsheetUrl}`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
-      + `variant_1`
+      + `${dietSheetName}`
       + `?key=${this.config.appConfig.sheetId}`
       + `${this.config.appConfig.dictionaryId}`)
       .pipe(
