@@ -15,7 +15,6 @@ export class Mapper<TResult> {
   }
 
   toModel(headers: string[], inputValues: string[][]): Array<TResult> {
-
     const resultTable: Array<TResult> = [];
 
     for (const row of inputValues) {
