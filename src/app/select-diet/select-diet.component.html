@@ -2,18 +2,18 @@
 <div class="center-flexbox">
     <span id="selectDietLabel"> Select Diet: </span>
 
-
+      <ng-container *ngIf="(availableDiets$ |async) as allDietsNames; else loading">
         <mat-form-field>
             <mat-label>Diets</mat-label>
-            <mat-select [(value)]="selectedDietId" (selectionChange)="changeSelectedDiet($event)" (valueChange)="selected($event)">
-                <mat-option *ngFor="let diet of availableDiets$ | async" [value]="diet.id">
+            <mat-select [(value)]="selectedDietId" (selectionChange)="changeSelectedDiet($event)">
+                <mat-option *ngFor="let diet of allDietsNames" [value]="diet.id">
                     {{diet.displayName}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
+      </ng-container>
 
-
-      <!-- <ng-template #loading>
+      <ng-template #loading>
           <mat-form-field>
             <mat-label>
                 <div class="select-placeholder-container">
@@ -22,9 +22,9 @@
                 </div>
             </mat-label>
             <mat-select>
-                empty select required for mat-form-field (mat-form-field must contain a MatFormFieldControl.)
+                <!-- empty select required for mat-form-field (mat-form-field must contain a MatFormFieldControl.) -->
             </mat-select>
           </mat-form-field>
-      </ng-template> -->
+      </ng-template>
 
 </div>
