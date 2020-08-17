@@ -1,10 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
 import { SelectedDietCookieName } from './Infrastructure/Consts';
-import { Observable, of } from 'rxjs';
+import { Observable, of, interval } from 'rxjs';
 import { DietsSheetNames } from './Models/DietsSheetNames';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { Mapper } from './Infrastructure/Mapper';
 import { AVAILABLE_DIETS_MAPPER_TOKEN } from './Infrastructure/InjectionTokens';
 import { SpreadsheetApiModel } from './Models/SpreadsheetApiModel';
@@ -15,6 +15,8 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class AvailableDietsService {
+
+  private cache$: Observable<DietsSheetNames[]>;
 
   constructor(
     private cookieService: CookieService,
@@ -44,22 +46,27 @@ export class AvailableDietsService {
 
   getAvailableDietList(): Observable<DietsSheetNames[]> {
 
-    return this.client.get<SpreadsheetApiModel>(
-      `${this.config.baseSpreadsheetUrl}`
-      + `${this.config.appConfig.SpreadSheets.AvailableDiets.Id}/values/`
-      + `${this.config.appConfig.SpreadSheets.AvailableDiets.SheetsNames[0]}`
-      + `?key=${this.config.appConfig.sheetId}`
-      + `${this.config.appConfig.dictionaryId}`
-    ).pipe(
-      map(x => {
-        const rows = x.values;
-        const headers = rows.shift();
+    if (!this.cache$) {
+      this.cache$ = this.client.get<SpreadsheetApiModel>(
+        `${this.config.baseSpreadsheetUrl}`
+        + `${this.config.appConfig.SpreadSheets.AvailableDiets.Id}/values/`
+        + `${this.config.appConfig.SpreadSheets.AvailableDiets.SheetsNames[0]}`
+        + `?key=${this.config.appConfig.sheetId}`
+        + `${this.config.appConfig.dictionaryId}`
+      ).pipe(
+        map(x => {
+          const rows = x.values;
+          const headers = rows.shift();
 
-        const result = this.mapper.toModel(headers, rows);
+          const result = this.mapper.toModel(headers, rows);
 
-        return result;
-      })
-    );
+          return result;
+        }),
+        shareReplay() // this prevents repeating of http request
+      );
+    }
+
+    return this.cache$;
   }
 
   setCookie(value: any) {

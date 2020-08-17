@@ -51,7 +51,7 @@ export class DietHarmonogramService {
 
           return this.getChoppedModelByWeekDays(rows);
         }),
-        shareReplay(1)
+        shareReplay() // this prevents repeating of http request
       );
 
       this.cache$ = relatedObjectsSetting.fillRelatedObjects === false

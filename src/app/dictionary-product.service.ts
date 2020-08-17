@@ -37,7 +37,7 @@ export class DictionaryProductService {
 
             return this.mapper.toModel(headers, rows);
           }),
-          shareReplay(1)
+          shareReplay() // this prevents repeating of http request
       );
     }
 
