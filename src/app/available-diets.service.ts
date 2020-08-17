@@ -33,8 +33,9 @@ export class AvailableDietsService {
       .pipe(
         map(x => {
           const latestDiet = this.getLastElementInArr(x);
+          console.log("SECOND MAP, latest diet: ", latestDiet, "all diets:", x );
           this.setDefaultCookieValue(latestDiet);
-          return latestDiet.Id;
+          return latestDiet.idName;
         })
       );
   }
@@ -51,8 +52,12 @@ export class AvailableDietsService {
       map(x => {
         const rows = x.values;
         const headers = rows.shift();
+        console.log("Inside getAvailableDietList all diets:", x, headers);
 
-        return this.mapper.toModel(headers, rows);
+        const result = this.mapper.toModel(headers, rows);
+
+        console.log("MAPPER RESULT: ", result);
+        return result;
       })
     )
   }
@@ -64,7 +69,8 @@ export class AvailableDietsService {
   }
 
   private setDefaultCookieValue(x: DietsSheetNames) {
-    this.setCookie(x.Id);
+    console.log("set default cookie", x.idName);
+    this.setCookie(x.idName);
   }
 
   private getLastElementInArr(x: DietsSheetNames[]): DietsSheetNames {

@@ -2,12 +2,12 @@ import { columnName } from '../Infrastructure/Decorators';
 
 export class DietsSheetNames {
     @columnName('SheetNameId')
-    Id: string;
+    idName: string;
     @columnName('SheetDisplayName')
     DisplayName: string;
 
-    constructor(Id: string = '', DisplayName: string = ''){
-        this.Id = Id;
-        this.DisplayName = DisplayName;
+    constructor(idName: string = '', displayName: string = '') {
+        this.idName = idName;
+        this.DisplayName = displayName;
     }
 }
