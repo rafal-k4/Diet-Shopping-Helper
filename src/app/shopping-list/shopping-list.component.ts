@@ -4,10 +4,11 @@ import { DietHarmonogramModel } from '../Models/DietHarmonogramModel';
 import { DayOfWeek } from '../Infrastructure/DayOfWeek';
 import { NgForm } from '@angular/forms';
 import { map, delay, flatMap, shareReplay } from 'rxjs/operators';
-import { Observable, of, from } from 'rxjs';
+import { Observable, of, from, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { ProductModel } from '../Models/ProductModel';
 import { Reflection } from '../Infrastructure/Reflection';
 import { AvailableDietsService } from '../available-diets.service';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-shopping-list',
@@ -31,12 +32,76 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.dietDays$ = this.availableDiets.getSelectedDietName()
-    .pipe(
-      flatMap(dietName => this.dietHarmonogramService.getDietHarmonogramData(dietName)),
-      shareReplay()
+    const testSubj = new Subject<string>();
+    const testBehaviorSubj = new BehaviorSubject<string>('Initial BEHAVIOR value');
+
+    const testBehSubj = new BehaviorSubject<string>(null);
+
+
+    const obs = testBehSubj.pipe(
+      flatMap(x => {
+        if (x) {
+          return of(x);
+        } else {
+          return this.getAnotherObservable();
+        }
+        console.log(x, 'Inside testSubj flatMAP');
+        return x;
+      })
     );
 
+    // testSubj.subscribe(x => {
+    //   console.log(x, 'Inside testSubj SUBSCRIBE')
+    // });
+
+    obs.subscribe(x => {
+      console.log(x, 'Inside obs SUBSCRIBE')
+    })
+
+    testBehSubj.next('BBBB')
+
+    // const observable$ = testSubj.pipe(
+    //   flatMap(x => this.getAnotherObservable())
+    // );
+    // const observable2$ = testSubj.asObservable();
+    // const observable3$ = testBehaviorSubj.asObservable();
+
+    testSubj.next('111');
+    testBehaviorSubj.next('111')
+
+    // observable3$.subscribe(x => {
+    //   console.log(`obs3$ ${x}`);
+    // })
+
+    // observable2$.subscribe(x => {
+    //   console.log(`obs2$ ${x}`);
+    // })
+
+    // observable$.subscribe(x => {
+    //   console.log(`obs1$ ${x}`);
+    // });
+
+    testSubj.next('222');
+    testSubj.next('333');
+    testBehaviorSubj.next('222')
+    testBehaviorSubj.next('333')
+
+    // this.dietDays$ = this.availableDiets.getSelectedDietName()
+    // .pipe(
+    //   flatMap(dietName => this.dietHarmonogramService.getDietHarmonogramData(dietName)),
+    //   shareReplay()
+    // );
+
+    // this.dietDays$.subscribe(x => {
+    //   //console.log(`inside ShoppingListComponent:ngOnInit:dietDays$ value:`, x);
+    // });
+
+    // this.availableDiets.getSelectedDietName().subscribe(x => {
+    //   //console.log(`inside ShoppingListComponent:ngOnInit:availableDiets.getSelectedDietName() value:`, x);
+    // });
+  }
+  getAnotherObservable(): Observable<string> {
+    return of('Initial VALUE');
   }
 
   ngAfterViewInit(): void {
