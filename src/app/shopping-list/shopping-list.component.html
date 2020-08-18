@@ -2,6 +2,11 @@
 
 <app-select-diet></app-select-diet>
 
+
+<button class="button" (click)="changeFirstUrl()">First Url</button>
+<button class="button" (click)="changeSecondUrl()">Second Url</button>
+<div>{{URL}}</div>
+<div>value from Hot Observable {{dietsNameHotObservable | async}}</div>
 <form #dietDaysForm="ngForm">
 
   <div class="ui four cards doubling centered">

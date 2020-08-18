@@ -3,8 +3,8 @@ import { DietHarmonogramService } from '../diet-harmonogram.service';
 import { DietHarmonogramModel } from '../Models/DietHarmonogramModel';
 import { DayOfWeek } from '../Infrastructure/DayOfWeek';
 import { NgForm } from '@angular/forms';
-import { map, delay, flatMap } from 'rxjs/operators';
-import { Observable, of, from } from 'rxjs';
+import { map, delay, flatMap, tap, shareReplay } from 'rxjs/operators';
+import { Observable, of, from, Subject } from 'rxjs';
 import { ProductModel } from '../Models/ProductModel';
 import { Reflection } from '../Infrastructure/Reflection';
 import { AvailableDietsService } from '../available-diets.service';
@@ -21,31 +21,57 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
 
   public days = DayOfWeek;
   public dietDays$: Observable<DietHarmonogramModel[]>;
+
+  URL: string;
+  dietsNameHotObservable: Observable<string>;
+  subj: Subject<string>;
+
   @ViewChild('dietDaysForm') form: NgForm;
 
 
   constructor(
     private dietHarmonogramService: DietHarmonogramService,
     private availableDiets: AvailableDietsService,
-    private reflectionHelper: Reflection) { }
+    private reflectionHelper: Reflection) {
+      this.subj = new Subject<string>();
+      this.dietsNameHotObservable = this.subj.asObservable();
+
+    }
 
   ngOnInit(): void {
 
-    this.dietDays$ = this.availableDiets.getSelectedDietName()
+    this.URL = this.secondUrl;
+
+    this.dietDays$ = this.dietsNameHotObservable
     .pipe(
       flatMap(dietName =>
         this.dietHarmonogramService.getDietHarmonogramData(
           { fillRelatedObjects: true},
           dietName
         )
-      )
+      ),
+      shareReplay()
     );
 
   }
 
+  changeFirstUrl(): void {
+    this.subj.next(this.firstUrl);
+    this.URL = this.firstUrl;
+  }
+
+  changeSecondUrl(): void {
+    this.subj.next(this.secondUrl);
+    this.URL = this.secondUrl;
+  }
+
+  firstUrl = 'Variant2(03.2020)';
+  secondUrl = 'Variant_1';
+
   ngAfterViewInit(): void {
 
     const selectedDays$ = this.form.valueChanges.pipe(
+      tap(x => console.log(x)),
       delay(1), // delay(1) is neccessary because The valueChanges event fires
                 // immediately after the new value is updated but before the change is bubbled up to its parent
                 // without delay(1), dietDays is holding previous value
@@ -54,7 +80,7 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
     );
 
     const combinedProducts$ = selectedDays$.pipe(
-      flatMap(x => of(this.MergeAllProductIntoOneList(x)))
+      map(x => this.MergeAllProductIntoOneList(x))
     );
 
     this.longLastingProducts$ = combinedProducts$.pipe(
