@@ -12,13 +12,6 @@ import { DayOfWeek } from './Infrastructure/DayOfWeek';
 import { DietHarmonogramModel } from './Models/DietHarmonogramModel';
 import { DictionaryProductService } from './dictionary-product.service';
 import { ProductDictionaryModel } from './Models/ProductDictionaryModel';
-import { AvailableDietsService } from './available-diets.service';
-
-interface DownloadSettings {
-  refillCache: boolean;
-  sheetName: string;
-}
-
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +27,7 @@ export class DietHarmonogramService {
     private config: ConfigService,
     @Inject(DIET_HARMONOGRAM_MAPPER_TOKEN) private mapper: Mapper<ProductModel>,
     private reflection: Reflection,
-    private dicionaryProductService: DictionaryProductService,
-    private availableDiets: AvailableDietsService) {
+    private dicionaryProductService: DictionaryProductService) {
 
      }
 
