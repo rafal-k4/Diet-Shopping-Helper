@@ -72,7 +72,7 @@ export class AvailableDietsService {
         map(x => {
           const rows = x.values;
           const headers = rows.shift();
-
+          console.log('DietsSheetTable INVOKED')
           return this.mapper.toModel(headers, rows);
         }),
         shareReplay() // this prevents repeating of http request

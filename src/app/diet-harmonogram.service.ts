@@ -42,6 +42,7 @@ export class DietHarmonogramService {
       + `${this.config.appConfig.dictionaryId}`)
       .pipe(
         map(x => this.getChoppedModelByWeekDays(x.values)),
+        tap(() => console.log('DietHarmonogram INVOKED')),
       map(x => this.aggregateRepeatingProducts(x)),
       shareReplay(), // this prevents repeating of http request
         switchMap(dietHarmonograms => {
