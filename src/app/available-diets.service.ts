@@ -4,7 +4,7 @@ import { Observable, of, interval, Subject } from 'rxjs';
 import { DietsSheetNames } from './Models/DietsSheetNames';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
-import { map, shareReplay, subscribeOn } from 'rxjs/operators';
+import { map, shareReplay, subscribeOn, flatMap } from 'rxjs/operators';
 import { Mapper } from './Infrastructure/Mapper';
 import { AVAILABLE_DIETS_MAPPER_TOKEN } from './Infrastructure/InjectionTokens';
 import { SpreadsheetApiModel } from './Models/SpreadsheetApiModel';
@@ -30,28 +30,51 @@ export class AvailableDietsService {
     @Inject(AVAILABLE_DIETS_MAPPER_TOKEN) private mapper: Mapper<DietsSheetNames>,
     private dietHarmonogramService: DietHarmonogramService) {
       this.selectDietNameSubject$ = new Subject();
-      this.selectedDietName$ = this.selectDietNameSubject$.asObservable();
+      // this.selectDietNameSubject$.pipe(
+      //   map(x => this.getSelectedDietName())
+      // );
+      this.selectedDietName$ = this.selectDietNameSubject$.pipe(
+        flatMap(x => this.getSelectedDietName())
+      );
     }
 
   getSelectedDietName(): Observable<string> {
 
     const selectedDiet = this.cookieService.get(SelectedDietCookieName);
-
+    console.log(`START getSelectedDietName diet from Cookie: ${selectedDiet}`);
     if (selectedDiet) {
-      this.selectDietNameSubject$.next(selectedDiet);
-      return this.selectedDietName$;
-      //return of(selectedDiet);
+      return of(selectedDiet);
     }
 
-    this.getAvailableDietList()
-      .subscribe(x => {
+    return this.getAvailableDietList().pipe(
+      map(x => {
         const latestDiet = this.getLastElementInArr(x);
         this.setDefaultCookieValue(latestDiet);
+        console.log(`START getSelectedDietName diet from Cookie: ${selectedDiet}`);
+        return latestDiet.id;
+      })
+    );
+    // return this.selectedDietName$
+    //   .pipe(
+    //     flatMap(x => this.getAvailableDietList()),
+    //     map(x => {
+    //       const latestDiet = this.getLastElementInArr(x);
+    //       this.setDefaultCookieValue(latestDiet);
 
-        this.selectDietNameSubject$.next(latestDiet.id);
-      });
+    //       return latestDiet.id;
+    //     })
+    //   );
 
-    return this.selectedDietName$;
+    // this.getAvailableDietList()
+    //   .subscribe(x => {
+    //     const latestDiet = this.getLastElementInArr(x);
+    //     this.setDefaultCookieValue(latestDiet);
+
+    //     this.selectDietNameSubject$.next(latestDiet.id);
+    //   });
+    // return this.selectedDietName$;
+
+    // return this.selectedDietName$;
       // .pipe(
       //   map(x => {
       //     const latestDiet = this.getLastElementInArr(x);
@@ -60,6 +83,44 @@ export class AvailableDietsService {
       //     return latestDiet.id;
       //   })
       // );
+
+
+    // const selectedDiet = this.cookieService.get(SelectedDietCookieName);
+    // console.log(`START getSelectedDietName diet from Cookie: ${selectedDiet}`);
+    // if (selectedDiet) {
+    //   this.selectDietNameSubject$.next(selectedDiet);
+    //   return this.selectedDietName$;
+    // }
+
+    // // return this.selectedDietName$
+    // //   .pipe(
+    // //     flatMap(x => this.getAvailableDietList()),
+    // //     map(x => {
+    // //       const latestDiet = this.getLastElementInArr(x);
+    // //       this.setDefaultCookieValue(latestDiet);
+
+    // //       return latestDiet.id;
+    // //     })
+    // //   );
+
+    // this.getAvailableDietList()
+    //   .subscribe(x => {
+    //     const latestDiet = this.getLastElementInArr(x);
+    //     this.setDefaultCookieValue(latestDiet);
+
+    //     this.selectDietNameSubject$.next(latestDiet.id);
+    //   });
+    // return this.selectedDietName$;
+
+    // // return this.selectedDietName$;
+    //   // .pipe(
+    //   //   map(x => {
+    //   //     const latestDiet = this.getLastElementInArr(x);
+    //   //     this.setDefaultCookieValue(latestDiet);
+
+    //   //     return latestDiet.id;
+    //   //   })
+    //   // );
   }
 
   getAvailableDietList(): Observable<DietsSheetNames[]> {
