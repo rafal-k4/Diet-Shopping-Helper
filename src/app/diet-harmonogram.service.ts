@@ -40,18 +40,14 @@ export class DietHarmonogramService {
   getDietHarmonogramData(downloadSettings: DownloadSettings): Observable<DietHarmonogramModel[]> {
 
     if (!this.cache$ || downloadSettings) {
-      this.cache$ = this.client.get(
+      this.cache$ = this.client.get<SpreadsheetApiModel>(
         `${this.config.baseSpreadsheetUrl}`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
       + `${downloadSettings.sheetName}`
       + `?key=${this.config.appConfig.sheetId}`
       + `${this.config.appConfig.dictionaryId}`)
       .pipe(
-        map(x => {
-          const rows = (x as SpreadsheetApiModel).values;
-
-          return this.getChoppedModelByWeekDays(rows);
-        }),
+        map(x => this.getChoppedModelByWeekDays(x.values)),
       map(x => this.aggregateRepeatingProducts(x)),
       shareReplay(), // this prevents repeating of http request
         switchMap(dietHarmonograms => {
