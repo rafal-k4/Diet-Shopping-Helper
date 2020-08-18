@@ -30,14 +30,13 @@ export class HomeComponent {
 
       this.allProductsDietHarmonogram$ = availableDiets.getSelectedDietName()
         .pipe(
-          flatMap(dietName => 
+          flatMap(dietName =>
             dietHarmonogramService.getDietHarmonogramData(
-              { fillRelatedObjects: true}, 
+              { fillRelatedObjects: true},
               dietName
             )
           )
-        )
-        
+        );
     }
 
   receiveSelectedProducts(productsIds: number[]) {
