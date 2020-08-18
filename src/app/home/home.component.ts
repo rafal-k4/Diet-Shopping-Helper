@@ -7,7 +7,7 @@ import { ProductDictionaryModel } from '../Models/ProductDictionaryModel';
 import { Observable, Subject, of, BehaviorSubject, forkJoin } from 'rxjs';
 import { ProductModel } from '../Models/ProductModel';
 import { Reflection } from '../Infrastructure/Reflection';
-import { map, flatMap } from 'rxjs/operators';
+import { map, flatMap, shareReplay } from 'rxjs/operators';
 import { AvailableDietsService } from '../available-diets.service';
 
 @Component({
@@ -30,12 +30,8 @@ export class HomeComponent {
 
       this.allProductsDietHarmonogram$ = availableDiets.getSelectedDietName()
         .pipe(
-          flatMap(dietName =>
-            dietHarmonogramService.getDietHarmonogramData(
-              { fillRelatedObjects: true},
-              dietName
-            )
-          )
+          flatMap(dietName => dietHarmonogramService.getDietHarmonogramData(dietName)),
+          shareReplay()
         );
     }
 
