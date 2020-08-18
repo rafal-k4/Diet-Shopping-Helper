@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { SelectedDietCookieName } from './Infrastructure/Consts';
-import { Observable, of, interval, Subject } from 'rxjs';
+import { Observable, of, interval, Subject, BehaviorSubject } from 'rxjs';
 import { DietsSheetNames } from './Models/DietsSheetNames';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
@@ -11,6 +11,7 @@ import { SpreadsheetApiModel } from './Models/SpreadsheetApiModel';
 import { LocalStorageService } from './local-storage.service';
 import { CookieService } from 'ngx-cookie-service';
 import { DietHarmonogramService } from './diet-harmonogram.service';
+import { StringHelper } from './Infrastructure/HelperMethods';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class AvailableDietsService {
 
   public selectedDietName$: Observable<string>;
 
-  private selectDietNameSubject$: Subject<string>;
+  private selectDietNameBehaviorSubject$: BehaviorSubject<string>;
   private cache$: Observable<DietsSheetNames[]>;
 
   constructor(
@@ -29,12 +30,14 @@ export class AvailableDietsService {
     private config: ConfigService,
     @Inject(AVAILABLE_DIETS_MAPPER_TOKEN) private mapper: Mapper<DietsSheetNames>,
     private dietHarmonogramService: DietHarmonogramService) {
-      this.selectDietNameSubject$ = new Subject();
-      // this.selectDietNameSubject$.pipe(
-      //   map(x => this.getSelectedDietName())
-      // );
-      this.selectedDietName$ = this.selectDietNameSubject$.pipe(
-        flatMap(x => this.getSelectedDietName())
+      this.selectDietNameBehaviorSubject$ = new BehaviorSubject(null);
+
+      this.selectedDietName$ = this.selectDietNameBehaviorSubject$.pipe(
+        flatMap(x => {
+          return StringHelper.isNullOrEmpty(x)
+            ? this.getSelectedDietName()
+            : of(x);
+        })
       );
     }
 
@@ -50,82 +53,15 @@ export class AvailableDietsService {
       map(x => {
         const latestDiet = this.getLastElementInArr(x);
         this.setDefaultCookieValue(latestDiet);
-        console.log(`START getSelectedDietName diet from Cookie: ${selectedDiet}`);
+        console.log(`START getSelectedDietName diet from httpGET: ${latestDiet.id}`);
         return latestDiet.id;
       })
     );
-    // return this.selectedDietName$
-    //   .pipe(
-    //     flatMap(x => this.getAvailableDietList()),
-    //     map(x => {
-    //       const latestDiet = this.getLastElementInArr(x);
-    //       this.setDefaultCookieValue(latestDiet);
-
-    //       return latestDiet.id;
-    //     })
-    //   );
-
-    // this.getAvailableDietList()
-    //   .subscribe(x => {
-    //     const latestDiet = this.getLastElementInArr(x);
-    //     this.setDefaultCookieValue(latestDiet);
-
-    //     this.selectDietNameSubject$.next(latestDiet.id);
-    //   });
-    // return this.selectedDietName$;
-
-    // return this.selectedDietName$;
-      // .pipe(
-      //   map(x => {
-      //     const latestDiet = this.getLastElementInArr(x);
-      //     this.setDefaultCookieValue(latestDiet);
-
-      //     return latestDiet.id;
-      //   })
-      // );
-
-
-    // const selectedDiet = this.cookieService.get(SelectedDietCookieName);
-    // console.log(`START getSelectedDietName diet from Cookie: ${selectedDiet}`);
-    // if (selectedDiet) {
-    //   this.selectDietNameSubject$.next(selectedDiet);
-    //   return this.selectedDietName$;
-    // }
-
-    // // return this.selectedDietName$
-    // //   .pipe(
-    // //     flatMap(x => this.getAvailableDietList()),
-    // //     map(x => {
-    // //       const latestDiet = this.getLastElementInArr(x);
-    // //       this.setDefaultCookieValue(latestDiet);
-
-    // //       return latestDiet.id;
-    // //     })
-    // //   );
-
-    // this.getAvailableDietList()
-    //   .subscribe(x => {
-    //     const latestDiet = this.getLastElementInArr(x);
-    //     this.setDefaultCookieValue(latestDiet);
-
-    //     this.selectDietNameSubject$.next(latestDiet.id);
-    //   });
-    // return this.selectedDietName$;
-
-    // // return this.selectedDietName$;
-    //   // .pipe(
-    //   //   map(x => {
-    //   //     const latestDiet = this.getLastElementInArr(x);
-    //   //     this.setDefaultCookieValue(latestDiet);
-
-    //   //     return latestDiet.id;
-    //   //   })
-    //   // );
   }
 
   getAvailableDietList(): Observable<DietsSheetNames[]> {
 
-    if (!this.cache$) {
+    if (this.cache$ == null) { // double equality marks check for null and undefined as well
       this.cache$ = this.client.get<SpreadsheetApiModel>(
         `${this.config.baseSpreadsheetUrl}`
         + `${this.config.appConfig.SpreadSheets.AvailableDiets.Id}/values/`
@@ -149,7 +85,7 @@ export class AvailableDietsService {
   setCookie(value: any) {
     if (value) { // is not empty
       this.dietHarmonogramService.refillCache = true;
-      this.selectDietNameSubject$.next(value);
+      this.selectDietNameBehaviorSubject$.next(value);
       this.cookieService.set(SelectedDietCookieName, value);
     }
   }
