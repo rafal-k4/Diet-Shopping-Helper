@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
-import { map, shareReplay, timestamp, tap, share } from 'rxjs/operators';
-import { Observable, from, forkJoin, Subject } from 'rxjs';
+import { map, shareReplay, timestamp, tap, switchMap } from 'rxjs/operators';
+import { Observable, from, forkJoin, of } from 'rxjs';
 import { ProductModel } from './Models/ProductModel';
 import { Mapper } from './Infrastructure/Mapper';
 import { DIET_HARMONOGRAM_MAPPER_TOKEN } from './Infrastructure/InjectionTokens';
@@ -12,9 +12,11 @@ import { DayOfWeek } from './Infrastructure/DayOfWeek';
 import { DietHarmonogramModel } from './Models/DietHarmonogramModel';
 import { DictionaryProductService } from './dictionary-product.service';
 import { ProductDictionaryModel } from './Models/ProductDictionaryModel';
+import { AvailableDietsService } from './available-diets.service';
 
-interface FillRelatedObjects {
-  fillRelatedObjects: boolean;
+interface DownloadSettings {
+  refillCache: boolean;
+  sheetName: string;
 }
 
 
@@ -31,61 +33,39 @@ export class DietHarmonogramService {
     @Inject(DIET_HARMONOGRAM_MAPPER_TOKEN) private mapper: Mapper<ProductModel>,
     private reflection: Reflection,
     private dicionaryProductService: DictionaryProductService,
-    ) {
+    private availableDiets: AvailableDietsService) {
+
+     }
+
+  getDietHarmonogramData(downloadSettings: DownloadSettings): Observable<DietHarmonogramModel[]> {
+
+    if (!this.cache$ || downloadSettings) {
+      this.cache$ = this.client.get(
+        `${this.config.baseSpreadsheetUrl}`
+      + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
+      + `${downloadSettings.sheetName}`
+      + `?key=${this.config.appConfig.sheetId}`
+      + `${this.config.appConfig.dictionaryId}`)
+      .pipe(
+        map(x => {
+          const rows = (x as SpreadsheetApiModel).values;
+
+          return this.getChoppedModelByWeekDays(rows);
+        }),
+      map(x => this.aggregateRepeatingProducts(x)),
+      shareReplay(), // this prevents repeating of http request
+        switchMap(dietHarmonograms => {
+          return forkJoin([of(dietHarmonograms), this.dicionaryProductService.getProductDictionaryData()]).pipe(
+            map(combinedObservables => {
+              return this.mapProductDictionary(combinedObservables[0], combinedObservables[1]);
+            })
+          );
+        }),
+        shareReplay() // this prevents repeating of http request
+      );
     }
 
-  getDietHarmonogramData(relatedObjectsSetting: FillRelatedObjects, dietSheetName: string): Observable<DietHarmonogramModel[]> {
-
-    const first$ = this.client.get(
-      `${this.config.baseSpreadsheetUrl}`
-    + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
-    + `${dietSheetName}`
-    + `?key=${this.config.appConfig.sheetId}`
-    + `${this.config.appConfig.dictionaryId}`)
-    .pipe(
-      map(x => {
-        const rows = (x as SpreadsheetApiModel).values;
-
-        return this.getChoppedModelByWeekDays(rows);
-      }),
-      map(x => this.aggregateRepeatingProducts(x)),
-      shareReplay() // this prevents repeating of http request
-    );
-
-    return relatedObjectsSetting.fillRelatedObjects === false
-      ? first$
-      : forkJoin([first$, this.dicionaryProductService.getProductDictionaryData()]).pipe(
-        map(x => {
-
-          return this.mapProductDictionary(x[0], x[1]);
-        })
-      );
-
-    // if (!this.cache$) {
-    //   this.refillCache(relatedObjectsSetting, dietSheetName);
-    // }
-
-    // return this.cache$;
-  }
-
-  refillCache(relatedObjectsSetting: FillRelatedObjects, dietSheetName: string): void {
-
-    const first$ = this.client.get(
-      `${this.config.baseSpreadsheetUrl}`
-    + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
-    + `${dietSheetName}`
-    + `?key=${this.config.appConfig.sheetId}`
-    + `${this.config.appConfig.dictionaryId}`)
-    .pipe(
-      map(x => {
-        const rows = (x as SpreadsheetApiModel).values;
-
-        return this.getChoppedModelByWeekDays(rows);
-      }),
-      shareReplay() // this prevents repeating of http request
-    );
-
-  }
+    return this.cache$;
 
   private aggregateRepeatingProducts(dietDays: DietHarmonogramModel[]): DietHarmonogramModel[] {
 
