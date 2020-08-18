@@ -60,9 +60,7 @@ export class AvailableDietsService {
           const rows = x.values;
           const headers = rows.shift();
 
-          const result = this.mapper.toModel(headers, rows);
-
-          return result;
+          return this.mapper.toModel(headers, rows);
         }),
         shareReplay() // this prevents repeating of http request
       );
@@ -73,8 +71,8 @@ export class AvailableDietsService {
 
   setCookie(value: any) {
     if (value) { // is not empty
+      this.dietHarmonogramService.refillCache = true;
       this.cookieService.set(SelectedDietCookieName, value);
-      this.dietHarmonogramService.refillCache({ fillRelatedObjects: true }, value);
     }
   }
 

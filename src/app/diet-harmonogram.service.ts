@@ -25,6 +25,8 @@ interface DownloadSettings {
 })
 export class DietHarmonogramService {
 
+  public refillCache: boolean;
+
   private cache$: Observable<DietHarmonogramModel[]>;
 
   constructor(
@@ -37,13 +39,13 @@ export class DietHarmonogramService {
 
      }
 
-  getDietHarmonogramData(downloadSettings: DownloadSettings): Observable<DietHarmonogramModel[]> {
+  getDietHarmonogramData(dietSheetName: string): Observable<DietHarmonogramModel[]> {
 
-    if (!this.cache$ || downloadSettings) {
+    if (!this.cache$ || this.refillCache) {
       this.cache$ = this.client.get<SpreadsheetApiModel>(
         `${this.config.baseSpreadsheetUrl}`
       + `${this.config.appConfig.SpreadSheets.DietHarmonogram.Id}/values/`
-      + `${downloadSettings.sheetName}`
+      + `${dietSheetName}`
       + `?key=${this.config.appConfig.sheetId}`
       + `${this.config.appConfig.dictionaryId}`)
       .pipe(
