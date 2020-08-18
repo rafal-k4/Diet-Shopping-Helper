@@ -51,11 +51,10 @@ export class DietHarmonogramService {
       map(x => this.aggregateRepeatingProducts(x)),
       shareReplay(), // this prevents repeating of http request
         switchMap(dietHarmonograms => {
-          return forkJoin([of(dietHarmonograms), this.dicionaryProductService.getProductDictionaryData()]).pipe(
-            map(combinedObservables => {
-              return this.mapProductDictionary(combinedObservables[0], combinedObservables[1]);
-            })
-          );
+          return forkJoin([of(dietHarmonograms), this.dicionaryProductService.getProductDictionaryData()])
+            .pipe(
+              map(combinedObservables => this.mapProductDictionary(combinedObservables[0], combinedObservables[1]))
+            );
         }),
         shareReplay() // this prevents repeating of http request
       );
