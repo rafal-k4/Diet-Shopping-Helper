@@ -28,7 +28,7 @@ export class HomeComponent {
     availableDiets: AvailableDietsService,
     private reflection: Reflection) {
 
-      this.allProductsDietHarmonogram$ = availableDiets.getSelectedDietName()
+      this.allProductsDietHarmonogram$ = availableDiets.selectedDietName$
         .pipe(
           flatMap(dietName => dietHarmonogramService.getDietHarmonogramData(dietName)),
           shareReplay()
