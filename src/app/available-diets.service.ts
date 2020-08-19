@@ -34,30 +34,13 @@ export class AvailableDietsService {
 
       this.selectedDietName$ = this.selectDietNameBehaviorSubject$.pipe(
         flatMap(x => {
+          console.log(`value in beh subject ${x}`);
           return StringHelper.isNullOrEmpty(x)
             ? this.getSelectedDietName()
             : of(x);
         })
       );
     }
-
-  getSelectedDietName(): Observable<string> {
-
-    const selectedDiet = this.cookieService.get(SelectedDietCookieName);
-    console.log(`START getSelectedDietName diet from Cookie: ${selectedDiet}`);
-    if (selectedDiet) {
-      return of(selectedDiet);
-    }
-
-    return this.getAvailableDietList().pipe(
-      map(x => {
-        const latestDiet = this.getLastElementInArr(x);
-        this.setDefaultCookieValue(latestDiet);
-        console.log(`START getSelectedDietName diet from httpGET: ${latestDiet.id}`);
-        return latestDiet.id;
-      })
-    );
-  }
 
   getAvailableDietList(): Observable<DietsSheetNames[]> {
 
@@ -85,13 +68,35 @@ export class AvailableDietsService {
   setCookie(value: any) {
     if (value) { // is not empty
       this.dietHarmonogramService.refillCache = true;
+      console.log(`adding value to subject: ${value}`)
       this.selectDietNameBehaviorSubject$.next(value);
       this.cookieService.set(SelectedDietCookieName, value);
     }
   }
 
+  private getSelectedDietName(): Observable<string> {
+    const selectedDiet = this.cookieService.get(SelectedDietCookieName);
+    console.log(`START getSelectedDietName diet from Cookie: ${selectedDiet}`);
+    if (selectedDiet) {
+      return of(selectedDiet);
+    }
+
+    return this.getAvailableDietList().pipe(
+      map(x => {
+        const latestDiet = this.getLastElementInArr(x);
+        this.setDefaultCookieValue(latestDiet);
+        console.log(`START getSelectedDietName diet from httpGET: ${latestDiet.id}`);
+        return latestDiet.id;
+      })
+    );
+  }
+
   private setDefaultCookieValue(x: DietsSheetNames) {
-    this.setCookie(x.id);
+    //this.setCookie(x.id);
+    console.log('setDefaultCookieValue invoked')
+    //this.dietHarmonogramService.refillCache = true;
+    //this.selectDietNameBehaviorSubject$.next(x.id);
+    this.cookieService.set(SelectedDietCookieName, x.id);
   }
 
   private getLastElementInArr(x: DietsSheetNames[]): DietsSheetNames {
