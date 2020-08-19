@@ -20,7 +20,7 @@ export class SelectDietComponent implements OnInit {
   ) {
     this.availableDiets$ = availableDietsService.getAvailableDietList();
 
-    availableDietsService.getSelectedDietName()
+    availableDietsService.selectedDietName$
       .subscribe(x => {
         this.selectedDietId = x;
       });
