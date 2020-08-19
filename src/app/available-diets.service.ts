@@ -32,6 +32,20 @@ export class AvailableDietsService {
     }
 
   getDietname(): Observable<string> {
+
+    // reassinging selectDietNameBehaviorSubject$ to a new BehaviorSubject(null) is made because of singleton nature of Service's
+    // (service is made singleton by providedIn: 'root' parameter)
+    // every change of navigation where this observable from BehaviorSubject is used
+    // were making a new subscription to this BehaviorSubject and when new subscription appears, cumulative calls where made.
+    // for example:
+    // const behSubj = new BehaviorSubject('init');
+    // for (let x = 0; x < 10; x++) {
+    //     behSubj.subscribe(y => console.log(y));
+    //   }
+    // this code will write into console ten times: init
+    // same happens when navigation occurs, as service is singleton, BehaviorSubject was initialized only once per appplication run
+    // and every route change was causing a new subscription in different components which lead to multi calling same observable
+
     this.selectDietNameBehaviorSubject$ = new BehaviorSubject(null);
 
     return  this.selectDietNameBehaviorSubject$.pipe(
