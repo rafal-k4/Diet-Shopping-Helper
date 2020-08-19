@@ -53,6 +53,8 @@ export class DietHarmonogramService {
         }),
         shareReplay() // this prevents repeating of http request
       );
+
+      this.refillCache = false;
     }
 
     return this.cache$;
