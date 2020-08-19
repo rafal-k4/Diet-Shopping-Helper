@@ -31,7 +31,7 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.dietDays$ = this.availableDiets.selectedDietName$
+    this.dietDays$ = this.availableDiets.getDietname()
     .pipe(
       flatMap(dietName => this.dietHarmonogramService.getDietHarmonogramData(dietName)),
       shareReplay()
