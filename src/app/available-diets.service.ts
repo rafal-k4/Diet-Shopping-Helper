@@ -18,8 +18,6 @@ import { StringHelper } from './Infrastructure/HelperMethods';
 })
 export class AvailableDietsService {
 
-  public selectedDietName$: Observable<string>;
-
   private selectDietNameBehaviorSubject$: BehaviorSubject<string>;
   private cache$: Observable<DietsSheetNames[]>;
 
@@ -31,16 +29,21 @@ export class AvailableDietsService {
     @Inject(AVAILABLE_DIETS_MAPPER_TOKEN) private mapper: Mapper<DietsSheetNames>,
     private dietHarmonogramService: DietHarmonogramService) {
       this.selectDietNameBehaviorSubject$ = new BehaviorSubject(null);
-
-      this.selectedDietName$ = this.selectDietNameBehaviorSubject$.pipe(
-        flatMap(x => {
-          console.log(`value in beh subject ${x}`);
-          return StringHelper.isNullOrEmpty(x)
-            ? this.getSelectedDietName()
-            : of(x);
-        })
-      );
     }
+
+  getDietname(): Observable<string> {
+    this.selectDietNameBehaviorSubject$ = new BehaviorSubject(null);
+
+    return  this.selectDietNameBehaviorSubject$.pipe(
+      flatMap(x => {
+        console.log(`value in beh subject ${x}`);
+        return StringHelper.isNullOrEmpty(x)
+          ? this.getInitValueDietName()
+          : of(x);
+      })
+    );
+  }
+
 
   getAvailableDietList(): Observable<DietsSheetNames[]> {
 
@@ -74,7 +77,7 @@ export class AvailableDietsService {
     }
   }
 
-  private getSelectedDietName(): Observable<string> {
+  private getInitValueDietName(): Observable<string> {
     const selectedDiet = this.cookieService.get(SelectedDietCookieName);
     console.log(`START getSelectedDietName diet from Cookie: ${selectedDiet}`);
     if (selectedDiet) {
