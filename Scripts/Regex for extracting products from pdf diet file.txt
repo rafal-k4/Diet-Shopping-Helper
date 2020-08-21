@@ -1,0 +1,14 @@
+
+1. Remove lines which are not product (meal name, kalories in meal etc)
+^((?!\(.+\)).)*$
+
+2. Remove all blank lines:
+^(?:[\t ]*(?:\r?\n|\r))+
+
+3. Remove round brackets and its content:
+g\s\(.+\)
+
+4. Change dash into a \t for excel auto assingin to two columns
+\s-\s
+change to:
+\t
