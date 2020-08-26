@@ -2,8 +2,8 @@
 
 In order to deploy for github static page, run this command:
 
-````
-> ng build --prod --output-path docs --base-href /Diet-Shopping-Helper/
+````ng build --prod --output-path docs --base-href /Diet-Shopping-Helper/
+> 
 ````
 
 > ##### Step below is deprecated, do not do this (check next section -> Github Page 404 FIX) 
