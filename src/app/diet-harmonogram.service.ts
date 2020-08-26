@@ -42,9 +42,8 @@ export class DietHarmonogramService {
       + `${this.config.appConfig.dictionaryId}`)
       .pipe(
         map(x => this.getChoppedModelByWeekDays(x.values)),
+        map(x => this.aggregateRepeatingProducts(x)),
         tap(() => console.log('DietHarmonogram INVOKED')),
-      map(x => this.aggregateRepeatingProducts(x)),
-      shareReplay(), // this prevents repeating of http request
         switchMap(dietHarmonograms => {
           return forkJoin([of(dietHarmonograms), this.dicionaryProductService.getProductDictionaryData()])
             .pipe(
@@ -58,6 +57,7 @@ export class DietHarmonogramService {
     }
 
     return this.cache$;
+  }
 
   private aggregateRepeatingProducts(dietDays: DietHarmonogramModel[]): DietHarmonogramModel[] {
 

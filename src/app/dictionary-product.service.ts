@@ -34,7 +34,7 @@ export class DictionaryProductService {
           map(x => {
             const rows = (x as SpreadsheetApiModel).values;
             const headers = rows.shift();
-            console.log('Dictionary INVOKED')
+            console.log('Dictionary INVOKED');
             return this.mapper.toModel(headers, rows);
           }),
           shareReplay() // this prevents repeating of http request
