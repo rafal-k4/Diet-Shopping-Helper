@@ -51,7 +51,6 @@ export class DietHarmonogramService {
 
           return this.getChoppedModelByWeekDays(rows);
         }),
-        tap(x => console.log('INSIDE DIET HARMONOGRAM')),
         map(x => this.aggregateRepeatingProducts(x)),
         shareReplay() // this prevents repeating of http request
       );
