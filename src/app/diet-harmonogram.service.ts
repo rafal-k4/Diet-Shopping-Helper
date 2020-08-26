@@ -51,6 +51,8 @@ export class DietHarmonogramService {
 
           return this.getChoppedModelByWeekDays(rows);
         }),
+        tap(x => console.log('INSIDE DIET HARMONOGRAM')),
+        map(x => this.aggregateRepeatingProducts(x)),
         shareReplay() // this prevents repeating of http request
       );
 
@@ -66,6 +68,27 @@ export class DietHarmonogramService {
 
     return this.cache$;
 
+  }
+
+  private aggregateRepeatingProducts(dietDays: DietHarmonogramModel[]): DietHarmonogramModel[] {
+
+    for (const dietDay of dietDays) {
+      const uniqueDictionaryIds = new Set(dietDay.Products.map((product) => product.ProductDictionaryId));
+
+      const grouppedProducts: ProductModel[] = [];
+      for (const id of uniqueDictionaryIds) {
+        const filteredByIdProducts = dietDay.Products.filter(x => x.ProductDictionaryId === id);
+
+        grouppedProducts.push(new ProductModel(
+          filteredByIdProducts[0].Item,
+          filteredByIdProducts.reduce((prevValue, currValue) => prevValue + Number(currValue.Weight), 0),
+          filteredByIdProducts[0].ProductDictionaryId
+        ));
+      }
+      dietDay.Products = grouppedProducts;
+    }
+
+    return dietDays;
   }
 
   private getChoppedModelByWeekDays(rows: string[][]): DietHarmonogramModel[] {
