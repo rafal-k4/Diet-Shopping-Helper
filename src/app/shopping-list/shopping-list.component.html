@@ -17,6 +17,19 @@
 </form>
 
 
+<div class="ui four cards doubling centered">
+  <div class="card" *ngFor="let item of selectedDays">
+
+    <label class="large-text">
+      <div class="custom-checkbox">
+        <input type="checkbox" [name]="item.day" [(ngModel)]="item.isSelected" class="right-spacing"/>
+        {{ item.day }}
+      </div>
+    </label>
+
+  </div>
+</div>
+
 <ol>
   <li
     *ngFor="let item of shortExpirationDateProducts$ | async">

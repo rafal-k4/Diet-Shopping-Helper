@@ -8,7 +8,8 @@ import { Observable, of, from, Subject, BehaviorSubject, ReplaySubject } from 'r
 import { ProductModel } from '../Models/ProductModel';
 import { Reflection } from '../Infrastructure/Reflection';
 import { AvailableDietsService } from '../available-diets.service';
-import { stringify } from 'querystring';
+import { SelectedDayIndicator } from '../Models/SelectedDayIndicator';
+import { DaySelectorService } from '../day-selector.service';
 
 @Component({
   selector: 'app-shopping-list',
@@ -22,12 +23,18 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
 
   public days = DayOfWeek;
   public dietDays$: Observable<DietHarmonogramModel[]>;
+
+  public selectedDays: SelectedDayIndicator[];
+
   @ViewChild('dietDaysForm') form: NgForm;
 
   constructor(
     private dietHarmonogramService: DietHarmonogramService,
     private availableDiets: AvailableDietsService,
-    private reflectionHelper: Reflection) { }
+    private reflectionHelper: Reflection,
+    private daySelectorService: DaySelectorService) { 
+      this.selectedDays = daySelectorService.GetSelectedDays();
+    }
 
   ngOnInit(): void {
 
