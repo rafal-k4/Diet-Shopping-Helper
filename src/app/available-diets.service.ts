@@ -8,7 +8,6 @@ import { map, shareReplay, subscribeOn, flatMap } from 'rxjs/operators';
 import { Mapper } from './Infrastructure/Mapper';
 import { AVAILABLE_DIETS_MAPPER_TOKEN } from './Infrastructure/InjectionTokens';
 import { SpreadsheetApiModel } from './Models/SpreadsheetApiModel';
-import { LocalStorageService } from './local-storage.service';
 import { CookieService } from 'ngx-cookie-service';
 import { DietHarmonogramService } from './diet-harmonogram.service';
 import { StringHelper } from './Infrastructure/HelperMethods';
@@ -23,7 +22,6 @@ export class AvailableDietsService {
 
   constructor(
     private cookieService: CookieService,
-    private localStorageService: LocalStorageService,
     private client: HttpClient,
     private config: ConfigService,
     @Inject(AVAILABLE_DIETS_MAPPER_TOKEN) private mapper: Mapper<DietsSheetNames>,
