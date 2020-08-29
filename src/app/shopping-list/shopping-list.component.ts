@@ -24,7 +24,7 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
   public days = DayOfWeek;
   public dietDays$: Observable<DietHarmonogramModel[]>;
 
-  public selectedDays: SelectedDayIndicator[];
+  public selectableDays: SelectedDayIndicator[];
 
   @ViewChild('dietDaysForm') form: NgForm;
 
@@ -33,7 +33,7 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
     private availableDiets: AvailableDietsService,
     private reflectionHelper: Reflection,
     private daySelectorService: DaySelectorService) { 
-      this.selectedDays = daySelectorService.GetSelectedDays();
+      this.selectableDays = daySelectorService.GetSelectedDays();
     }
 
   ngOnInit(): void {
@@ -52,7 +52,12 @@ export class ShoppingListComponent implements OnInit, AfterViewInit {
                 // immediately after the new value is updated but before the change is bubbled up to its parent
                 // without delay(1), dietDays is holding previous value
       flatMap(x => this.dietDays$),
-      map(x => x.filter(y => y.isSelected))
+      map(x => {
+        const selectedDays = this.selectableDays.filter(x => x.isSelected);
+        const filteredDietDay = 
+                  x.filter(y => selectedDays.some(z => z.day === this.days[y.Day]))
+        return filteredDietDay;
+      })
     );
 
     const combinedProducts$ = selectedDays$.pipe(
