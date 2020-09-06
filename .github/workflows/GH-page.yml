@@ -35,7 +35,7 @@ jobs:
         run: npm --no-git-tag-version version patch
 
       - name: Build
-        run: npm run build:ci
+        run: npm run build:ci && ls
 
       # - name: Test
       #   run: npm run test:ci
