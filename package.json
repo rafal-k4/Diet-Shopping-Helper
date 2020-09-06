@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "prebuild": "npm --no-git-tag-version version patch",
-    "build:ci": "ng build --prod --base-href /LotteryNumberGenerator/",
+    "build:ci": "ng build --prod --base-href /Diet-Shopping-Helper/",
     "test:ci": "ng test --watch=false --code-coverage --source-map true --browsers=ChromeHeadless",
     "test": "ng test",
     "lint": "ng lint",
