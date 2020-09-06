@@ -129,5 +129,8 @@
       }
     }
   },
-  "defaultProject": "diet-shopping-helper"
+  "defaultProject": "diet-shopping-helper",
+  "cli": {
+    "analytics": "6359bc00-4c92-40ec-ad69-4323958490ef"
+  }
 }
