@@ -1,21 +1,37 @@
 # Github Page Deploy:
 
+This repository uses workflow and actions to deploy to Github Pages.
+For more information check [this tutorial](https://focisolutions.com/2020/04/github-actions-deploying-an-angular-app/) 
+
+
+
+<details><summary>Details for previous approach are under this snippet</summary>
+<p>
+
 In order to deploy for github static page, run this command:
 
-````ng build --prod --output-path docs --base-href /Diet-Shopping-Helper/
-> 
+````
+> ng build --prod --output-path docs --base-href /Diet-Shopping-Helper/
 ````
 
-> ##### Step below is deprecated, do not do this (check next section -> Github Page 404 FIX) 
-> Next, make a copy of `docs/index.html` and name it `docs/404.html`
 
 Commit your changes, push and make sure that settings section of github pages is set to `master/docs`
 
 <br>
 
-Another option is to use dedicated helper, guide under this url:
+
+Another option is to use dedicated helper guide under this url:
 
 <https://github.com/angular-schule/angular-cli-ghpages>
+
+</p>
+</details>
+
+<br>
+
+
+
+
 
 # Github Page 404 Fix:
 

@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: GH Static Page Deployment
+name: Build, Test, Raise Version and GH Static Page Deployment
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -37,8 +37,6 @@ jobs:
       - name: Build
         run: npm run build:ci
 
-      - name: list all files
-        run: ls -R
       # - name: Test
       #   run: npm run test:ci
       
@@ -55,16 +53,12 @@ jobs:
     needs: build
     steps:
         - name: Checkout
-          uses: actions/checkout@v1
+          uses: actions/checkout@v2
         - name: Download build
           uses: actions/download-artifact@v1
           with:
             name: deploy_dist
-        - name: list all files
-          run: ls -R
-        - name: Install rsync 📚
-          run: |
-            sudo apt-get update && sudo apt-get install -y rsync
+
         # more on Deploying to Github Pages in documentation: https://github.com/JamesIves/github-pages-deploy-action
         - name: Deploy to GitHub Pages
           uses: JamesIves/github-pages-deploy-action@releases/v3
